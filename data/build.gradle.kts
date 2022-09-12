@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     kotlin("android")
     kotlin("kapt")
 }
@@ -8,17 +8,15 @@ android {
     compileSdk = Versions.TARGET_ANDROID_SDK
 
     defaultConfig {
-        applicationId = "id.hizari.soundtweet"
         minSdk = Versions.MIN_ANDROID_SDK
         targetSdk = Versions.TARGET_ANDROID_SDK
-        versionCode = Versions.VERSION_CODE
-        versionName = Versions.VERSION_NAME
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -38,17 +36,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":common"))
-    implementation(project(":data"))
-    implementation(project(":domain"))
-
     implementation(Dependencies.CORE_KTX)
-    implementation(Dependencies.MATERIAL)
-    implementation(Dependencies.CONSTRAINT_LAYOUT)
-    implementation(Dependencies.RECYCLER_VIEW)
     unitTest()
-    androidTest()
 
     hilt()
-    glide()
+    retrofit()
 }
