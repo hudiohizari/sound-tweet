@@ -24,6 +24,9 @@ android {
             )
         }
     }
+    buildFeatures {
+        dataBinding = true
+    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -37,6 +40,8 @@ android {
 
 dependencies {
     implementation(Dependencies.CORE_KTX)
+    implementation(Dependencies.MATERIAL)
+    implementation(Dependencies.CONSTRAINT_LAYOUT)
     unitTest()
 
     hilt()
