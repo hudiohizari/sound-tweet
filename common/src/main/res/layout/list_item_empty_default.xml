@@ -3,12 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="label"
             type="String" />
+
         <variable
             name="caption"
             type="String" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,24 +19,24 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatTextView
-            style="@style/TextLargeBold"
             android:id="@+id/tvLabel"
+            style="@style/TextPrimaryLargeBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:layout_marginTop="24dp"
-            android:text="@{label ?? @string/default_empty_list_label,default=@string/default_empty_list_label}"
+            android:layout_marginBottom="16dp"
+            android:text="@{label ?? @string/default_empty_list_label, default=@string/default_empty_list_label}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            style="@style/TextRegular"
             android:id="@+id/tvCaption"
+            style="@style/TextSecondaryRegular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="24dp"
-            android:layout_marginTop="12dp"
             android:text="@{caption ?? @string/default_empty_list_caption, default=@string/default_empty_list_caption}"
             android:textSize="16sp"
             app:fontFamily="@font/sf_pro_text_regular"
