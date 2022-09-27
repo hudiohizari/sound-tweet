@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Extention-->
+    <string name="empty_text">Empty Text</string>
+
+    <!--List-->
     <string name="default_empty_list_label">Oops</string>
     <string name="default_empty_list_caption">Seems like this list is empty.</string>
 </resources>

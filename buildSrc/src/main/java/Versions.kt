@@ -21,6 +21,8 @@ object Versions {
 
     const val HILT = "2.40.5"
 
+    const val NAVIGATION = "2.6.0-alpha01"
+
     const val RETROFIT = "2.9.0"
     const val OKHTTP3 = "5.0.0-alpha.7"
     const val CHUCK = "3.5.2"

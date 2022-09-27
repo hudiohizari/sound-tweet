@@ -20,19 +20,18 @@ object Dependencies {
     const val ESPRESSO = "androidx.test.espresso:espresso-core:${Versions.ESPRESSO}"
 
     const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
-    const val RETROFIT_CONVERTER_MOSHI =
-        "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT}"
+    const val RETROFIT_CONVERTER_MOSHI = "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT}"
 
     const val OKHTTP_LOGGER = "com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP3}"
 
-    const val CHUCK_LOGGER_DEBUG =
-        "com.github.chuckerteam.chucker:library:${Versions.CHUCK}"
-    const val CHUCK_LOGGER_RELEASE =
-        "com.github.chuckerteam.chucker:library-no-op:${Versions.CHUCK}"
+    const val CHUCK_LOGGER_DEBUG = "com.github.chuckerteam.chucker:library:${Versions.CHUCK}"
+    const val CHUCK_LOGGER_RELEASE = "com.github.chuckerteam.chucker:library-no-op:${Versions.CHUCK}"
 
     const val HILT = "com.google.dagger:hilt-android:${Versions.HILT}"
-    const val HILT_COMPILER =
-        "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
+    const val HILT_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
+
+    const val NAVIGATION_FRAGMENT = "androidx.navigation:navigation-fragment-ktx:${Versions.NAVIGATION}"
+    const val NAVIGATION_UI = "androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION}"
 
     const val FAST_ADAPTER = "com.mikepenz:fastadapter:${Versions.FAST_ADAPTER}"
     const val FAST_ADAPTER_BINDING = "com.mikepenz:fastadapter-extensions-binding:${Versions.FAST_ADAPTER}"
@@ -55,6 +54,11 @@ fun DependencyHandler.androidTest() {
 fun DependencyHandler.hilt() {
     implementation(Dependencies.HILT)
     kapt(Dependencies.HILT_COMPILER)
+}
+
+fun DependencyHandler.navigation() {
+    implementation(Dependencies.NAVIGATION_FRAGMENT)
+    implementation(Dependencies.NAVIGATION_UI)
 }
 
 fun DependencyHandler.retrofit() {

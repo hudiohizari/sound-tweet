@@ -54,5 +54,6 @@ dependencies {
     androidTest()
 
     hilt()
+    navigation()
     glide()
 }

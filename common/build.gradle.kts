@@ -45,5 +45,6 @@ dependencies {
     unitTest()
 
     hilt()
+    navigation()
     fastAdapter()
 }

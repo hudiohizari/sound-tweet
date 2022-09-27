@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Sound Tweet</string>
+
+    <!--Navigation-->
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="notification">Notification</string>
+    <string name="profile">Profile</string>
+    <string name="press_once_more_to_exit">Press once more to exit</string>
 </resources>
