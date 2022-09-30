@@ -1,17 +1,11 @@
 package id.hizari.soundtweet.ui.tweet
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
 import id.hizari.common.extension.loadingAnimation
-import id.hizari.common.extension.setupHighlightedText
 import id.hizari.common.list.DiffableListItemType
-import id.hizari.domain.model.Tweet
-import id.hizari.soundtweet.R
 import id.hizari.soundtweet.databinding.ListItemLoadingTweetBinding
-import id.hizari.soundtweet.databinding.ListItemTweetBinding
 
 /**
  * Sound Tweet - id.hizari.soundtweet.ui.tweet

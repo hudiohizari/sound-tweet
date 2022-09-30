@@ -12,6 +12,7 @@ import id.hizari.domain.model.User
 
 interface UserRepository {
 
+    suspend fun postLogin(username: String?, password: String?): User?
     suspend fun searchUser(query: String?): MutableList<User>
 
 }

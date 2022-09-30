@@ -5,11 +5,21 @@
     <string name="cancel">Cancel</string>
 
     <!--Navigation-->
+    <string name="login">Login</string>
     <string name="home">Home</string>
     <string name="search">Search</string>
     <string name="notification">Notification</string>
     <string name="profile">Profile</string>
     <string name="press_once_more_to_exit">Press once more to exit</string>
+
+    <!--Auth-->
+    <string name="welcome_back_please_enter_your_credential">Welcome back! Please enter your credential</string>
+    <string name="username">Username</string>
+    <string name="username_error">Username can\'t be empty</string>
+    <string name="password">Password</string>
+    <string name="password_error">Password can\'t be empty</string>
+    <string name="do_not_have_an_account_yet">Don\'t have an account yet? Register now</string>
+    <string name="do_not_have_an_account_yet_highlighted">Register now</string>
 
     <!--Tweet-->
     <string name="empty_tweet">Home is empty</string>

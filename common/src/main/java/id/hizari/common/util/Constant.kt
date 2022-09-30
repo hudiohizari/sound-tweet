@@ -1,5 +1,7 @@
 package id.hizari.common.util
 
+import id.hizari.common.BuildConfig
+
 /**
  * Sound Tweet - id.hizari.common.util
  *
@@ -9,6 +11,8 @@ package id.hizari.common.util
  */
 
 object Constant {
+
+    const val BASE_URL = BuildConfig.BASE_URL
 
     const val IMAGE_INVALID = "https://via.placeholder.com/150?text=No+Image"
 

@@ -110,7 +110,7 @@ class SearchFragment : BaseFragment() {
                         requireContext().toast("Click user = ${item.name}")
                     }
                     override fun onClickFollow(item: User) {
-                        requireContext().toast("${if (item.isFollowed == true) "Unfollow" else "Follow"} = ${item.name}")
+                        requireContext().toast("${if (item.isFollowed()) "Unfollow" else "Follow"} = ${item.name}")
                     }
                 }))
             }

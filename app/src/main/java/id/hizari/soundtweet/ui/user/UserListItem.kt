@@ -24,10 +24,9 @@ class UserListItem(
     override fun itemIdentifier(): Any = model.id ?: model.hashCode()
 
     override fun comparableContents(): List<Any> = listOf(
-        model.imgUrl ?: model.hashCode(),
         model.name ?: model.hashCode(),
         model.userName ?: model.hashCode(),
-        model.isFollowed ?: model.hashCode()
+        model.userFollower ?: model.hashCode()
     )
 
     override fun createBinding(

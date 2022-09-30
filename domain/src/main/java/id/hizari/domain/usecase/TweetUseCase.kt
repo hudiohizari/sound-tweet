@@ -1,4 +1,4 @@
-package id.hizari.domain.usecase.tweet
+package id.hizari.domain.usecase
 
 import id.hizari.common.util.Resources
 import id.hizari.domain.model.Tweet
@@ -9,18 +9,18 @@ import kotlinx.coroutines.flow.flow
 import kotlin.random.Random
 
 /**
- * Sound Tweet - id.hizari.domain.usecase.tweet
+ * Sound Tweet - id.hizari.domain.usecase
  *
  * Created by Hudio Hizari on 30/09/2022.
  * https://github.com/hudiohizari
  *
  */
 
-class GetTweetsUseCase(
+class TweetUseCase(
     private val tweetRepository: TweetRepository
 ) {
 
-    operator fun invoke(): Flow<Resources<MutableList<Tweet>>> = flow {
+    fun getTweets(): Flow<Resources<MutableList<Tweet>>> = flow {
         emit(Resources.Loading())
         try {
             delay(Random.nextLong(500, 5000))

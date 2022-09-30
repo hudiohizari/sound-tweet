@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":common"))
     implementation(project(":domain"))
 
     implementation(Dependencies.CORE_KTX)

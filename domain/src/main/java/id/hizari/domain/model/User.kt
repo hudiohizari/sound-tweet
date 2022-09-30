@@ -10,8 +10,14 @@ package id.hizari.domain.model
 
 class User(
     val id: Int?,
-    val imgUrl: String?,
     val name: String?,
     val userName: String?,
-    val isFollowed: Boolean?
-)
+    val bio: String?,
+    val userFollower: MutableList<User?>?
+) {
+
+    fun isFollowed(): Boolean {
+        return userFollower?.find { it?.id == id } != null
+    }
+
+}

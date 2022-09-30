@@ -5,6 +5,9 @@
     tools:context=".ui.navigation.NavigationActivity">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="id.hizari.soundtweet.ui.navigation.NavigationViewModel" />
@@ -24,12 +27,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navGraph="@navigation/main_menu" />
+            app:navGraph="@navigation/main" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bnvMain"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:visibility="@{viewModel.login ? View.VISIBLE : View.GONE}"
             app:itemIconTint="@color/selector_main_menu_nav"
             app:itemTextColor="@color/selector_main_menu_nav"
             app:labelVisibilityMode="unlabeled"
@@ -39,18 +43,19 @@
             app:menu="@menu/main_menu_bottom_nav" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:onClick="@{viewModel::onClickPostTweet}"
             android:id="@+id/fabPostTweet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="80dp"
-            android:src="@drawable/ic_sound_wave"
             android:contentDescription="@string/post_tweet"
+            android:onClick="@{viewModel::onClickPostTweet}"
+            android:src="@drawable/ic_sound_wave"
+            android:visibility="@{viewModel.login ? View.VISIBLE : View.GONE}"
             app:backgroundTint="@color/cornflower_blue"
-            app:maxImageSize="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:maxImageSize="32dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

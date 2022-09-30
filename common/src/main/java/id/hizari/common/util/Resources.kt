@@ -26,11 +26,11 @@ sealed class Resources<T>(val data: T?= null, val throwable: Throwable?= null) {
     class Error<T>(throwable: Throwable): Resources<T>(throwable = throwable)
 
     fun isLoading(): Boolean {
-        return data is Loading<*>
+        return this is Loading<*>
     }
 
     fun isFailed(): Boolean {
-        return data is Error<*>
+        return this is Error<*>
     }
 
 }

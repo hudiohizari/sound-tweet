@@ -1,9 +1,12 @@
 package id.hizari.data.repository
 
+import id.hizari.data.mapper.toDomain
+import id.hizari.data.network.model.request.LoginRequest
+import id.hizari.data.network.service.SoundTweetService
 import id.hizari.data.network.util.SafeApiRequest
 import id.hizari.domain.model.User
 import id.hizari.domain.repository.UserRepository
-import kotlin.random.Random
+import javax.inject.Inject
 
 /**
  * Sound Tweet - id.hizari.data.repository
@@ -13,37 +16,45 @@ import kotlin.random.Random
  *
  */
 
-class UserRepositoryImpl: UserRepository, SafeApiRequest() {
+class UserRepositoryImpl @Inject constructor(
+    private val soundTweetService: SoundTweetService
+): UserRepository, SafeApiRequest() {
+
+    override suspend fun postLogin(username: String?, password: String?): User? {
+        val body = LoginRequest(username, password)
+        val response = apiRequest { soundTweetService.postLogin(body) }
+        return response?.toDomain()
+    }
 
     override suspend fun searchUser(query: String?): MutableList<User> {
         return mutableListOf(
             User(
                 0,
-                "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&w=1000&q=80",
                 "Martha Craig",
                 "@craig_love",
-                Random.nextBoolean()
+                "Random",
+                mutableListOf()
             ),
             User(
                 1,
-                "https://divineyouwellness.com/blog/wp-content/uploads/2021/03/shutterstock_563564683-scaled.jpg",
                 "Joshua Brown",
                 "@jbrown",
-                Random.nextBoolean()
+                "Random",
+                mutableListOf()
             ),
             User(
                 2,
-                "https://vocasia.id/blog/wp-content/uploads/2021/09/pemimpin-otoriter-2.webp",
                 "Komol Kuchkarov",
                 "@kkuchkarov",
-                Random.nextBoolean()
+                "Random",
+                mutableListOf()
             ),
             User(
                 3,
-                "https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg",
                 "Adam West",
                 "@awest",
-                Random.nextBoolean()
+                "Random",
+                mutableListOf()
             )
         ).filter { it.name?.lowercase()?.contains(query?.lowercase() ?: "") == true }.toMutableList()
     }

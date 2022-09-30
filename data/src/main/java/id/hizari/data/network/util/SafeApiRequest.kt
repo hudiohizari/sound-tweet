@@ -26,20 +26,20 @@ abstract class SafeApiRequest {
             return response.body()
         } else {
             @Suppress("BlockingMethodInNonBlockingContext")
-            val error = response.errorBody()?.string()
-            val code = response.code()
-            var apiCode = -1
+            val body = response.errorBody()?.string()
+            val code = response.code().toString()
+            var apiCode = ""
             var message = ""
 
-            if (code >= 500) {
+            if (code.toInt() >= 500) {
                 message = context.getString(R.string.server_down)
             } else {
-                error?.let {
+                body?.let {
                     try {
-                        apiCode = JSONObject(it)
-                            .getInt("code")
-                        message = JSONObject(it)
-                            .getString("message")
+                        val errors = JSONObject(it).getJSONArray("errors")
+                        val error = errors.getJSONObject(0)
+                        apiCode = error.getString("code")
+                        message = error.getString("message")
                     } catch (e: JSONException) {
                         message = try {
                             it
@@ -51,7 +51,7 @@ abstract class SafeApiRequest {
             }
 
             throw ApiException(
-                if (apiCode != -1) apiCode else code,
+                if (apiCode != "") apiCode else code,
                 message
             )
         }

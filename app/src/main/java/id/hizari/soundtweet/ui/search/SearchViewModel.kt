@@ -2,13 +2,12 @@ package id.hizari.soundtweet.ui.search
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.hizari.common.extension.toast
 import id.hizari.common.util.Resources
 import id.hizari.domain.model.User
-import id.hizari.domain.usecase.user.SearchUserUseCase
+import id.hizari.domain.usecase.UserUseCase
+import id.hizari.soundtweet.base.BaseViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -23,8 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val searchUserUseCase: SearchUserUseCase
-) : ViewModel() {
+    private val userUseCase: UserUseCase
+) : BaseViewModel() {
 
     var lastSearch: String? = null
 
@@ -35,7 +34,7 @@ class SearchViewModel @Inject constructor(
 
     fun searchUser() {
         lastSearch = query.value
-        searchUserUseCase(query.value).onEach {
+        userUseCase.searchUser(query.value).onEach {
             users.postValue(it)
         }.launchIn(viewModelScope)
     }

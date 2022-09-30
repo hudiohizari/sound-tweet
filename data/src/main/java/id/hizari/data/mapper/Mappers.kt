@@ -1,5 +1,8 @@
 package id.hizari.data.mapper
 
+import id.hizari.data.network.model.dto.UserDTO
+import id.hizari.domain.model.User
+
 /**
  * Sound Tweet - id.hizari.data.mapper
  *
@@ -8,3 +11,14 @@ package id.hizari.data.mapper
  *
  */
 
+fun UserDTO.toDomain(): User {
+    return User(
+        id,
+        nickname,
+        username,
+        bio,
+        userFollower?.map {
+            it?.toDomain()
+        }?.toMutableList()
+    )
+}

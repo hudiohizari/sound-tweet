@@ -1,10 +1,11 @@
 package id.hizari.soundtweet.ui.navigation
 
 import android.view.View
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.hizari.common.extension.toast
 import id.hizari.common.util.STLog
+import id.hizari.soundtweet.base.BaseViewModel
 import javax.inject.Inject
 
 /**
@@ -16,7 +17,9 @@ import javax.inject.Inject
  */
 
 @HiltViewModel
-class NavigationViewModel @Inject constructor(): ViewModel() {
+class NavigationViewModel @Inject constructor(): BaseViewModel() {
+
+    val login = MutableLiveData(false)
 
     @Suppress("unused")
     fun View.onClickPostTweet() {
