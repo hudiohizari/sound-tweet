@@ -3,8 +3,7 @@
     <style name="TextPrimaryExtraLargeBold">
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">@color/cinder</item>
-        <item name="android:fontFamily">@font/sf_pro_text_regular</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/sf_pro_text_bold</item>
     </style>
 
     <style name="TextSecondaryLargeRegular">

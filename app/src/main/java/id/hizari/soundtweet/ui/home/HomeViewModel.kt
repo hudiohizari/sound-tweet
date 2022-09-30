@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.hizari.common.extension.set
 import id.hizari.common.util.Resources
 import id.hizari.domain.model.Tweet
 import id.hizari.domain.usecase.tweet.GetTweetsUseCase
@@ -25,12 +24,16 @@ class HomeViewModel @Inject constructor(
     private val getTweetsUseCase: GetTweetsUseCase
 ): ViewModel() {
 
-    val tweets = MutableLiveData<Resources<MutableList<Tweet>>>()
     val isRefreshing = MutableLiveData<Boolean>()
+    val tweets = MutableLiveData<Resources<MutableList<Tweet>>>()
+
+    init {
+        getTweets()
+    }
 
     fun getTweets() {
         getTweetsUseCase().onEach {
-            tweets.set(it)
+            tweets.postValue(it)
         }.launchIn(viewModelScope)
     }
 

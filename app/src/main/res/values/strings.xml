@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Sound Tweet</string>
 
+    <!--Common-->
+    <string name="cancel">Cancel</string>
+
     <!--Navigation-->
     <string name="home">Home</string>
     <string name="search">Search</string>
@@ -12,4 +15,14 @@
     <string name="empty_tweet">Home is empty</string>
     <string name="empty_tweet_caption">Please start follow another user then see their post here!</string>
     <string name="post_tweet">Post Tweet</string>
+
+    <!--User-->
+    <string name="empty_user">No User Found</string>
+    <string name="empty_user_caption">It seems like there’s the user your searched is not in our system</string>
+    <string name="following">Following</string>
+    <string name="follow">Follow</string>
+    <string name="search_user">Search user</string>
+    <string name="empty_search_query">Search query is empty</string>
+    <string name="empty_search_query_caption">Please enter text on the input above to show user, minimum search character is 3</string>
+
 </resources>

@@ -14,14 +14,14 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="TextPrimaryExtraLargeBold">
+    <style name="TextPrimaryExtraLargeSemiBold">
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">@color/cinder</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextPrimaryLargeBold">
+    <style name="TextPrimaryLargeSemiBold">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/cinder</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
@@ -34,7 +34,7 @@
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
     </style>
 
-    <style name="TextPrimaryBold">
+    <style name="TextPrimarySemiBold">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/cinder</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
@@ -53,21 +53,21 @@
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
     </style>
 
-    <style name="TextSecondaryExtraLargeBold">
+    <style name="TextSecondaryExtraLargeSemiBold">
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">@color/pale_sky</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextSecondaryLargeBold">
+    <style name="TextSecondaryLargeSemiBold">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/pale_sky</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextSecondaryBold">
+    <style name="TextSecondarySemiBold">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/pale_sky</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>

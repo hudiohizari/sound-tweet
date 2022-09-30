@@ -41,5 +41,4 @@ class TweetListItemLoading : AbstractBindingItem<ListItemLoadingTweetBinding>(),
         binding.container.loadingAnimation()
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

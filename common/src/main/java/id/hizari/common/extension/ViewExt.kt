@@ -1,8 +1,10 @@
 package id.hizari.common.extension
 
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.databinding.BindingAdapter
 import com.google.android.material.snackbar.Snackbar
 import id.hizari.common.R
@@ -62,4 +64,12 @@ fun View.stopLoadingAnimation() {
 @BindingAdapter(value = ["isAnimateLoading"])
 fun View.animateLoading(isAnimateLoading: Boolean?) {
     isAnimateLoading?.let { if (it) loadingAnimation() else stopLoadingAnimation() }
+}
+
+fun View?.hideKeyboard() {
+    if (this != null) {
+        clearFocus()
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
 }

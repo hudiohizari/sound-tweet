@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import id.hizari.common.extension.addDividerItem
 import id.hizari.common.extension.isNotNullOrEmpty
 import id.hizari.common.extension.toast
 import id.hizari.common.list.UnspecifiedTypeItem
@@ -57,7 +58,6 @@ class HomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getTweets()
         initObserver()
     }
 
@@ -74,7 +74,7 @@ class HomeFragment : BaseFragment() {
 
     private fun processLoadingGetTweet() {
         val items: MutableList<UnspecifiedTypeItem> = mutableListOf()
-        for (i in 0..5) {
+        for (i in 1..5) {
             items.add(TweetListItemLoading())
         }
         getTweetAdapter().performUpdates(items)
@@ -84,7 +84,7 @@ class HomeFragment : BaseFragment() {
         val items: MutableList<UnspecifiedTypeItem> = mutableListOf()
         if (list.isNotNullOrEmpty()) {
             list?.forEach {
-                items.add(TweetListItem(it, object: TweetListItem.Listener {
+                items.add(TweetListItem(it, object : TweetListItem.Listener {
                     override fun onClick(item: Tweet) {
                         requireContext().toast("Goto detail: ${item.name}")
                     }
@@ -99,10 +99,12 @@ class HomeFragment : BaseFragment() {
                 }))
             }
         } else {
-            items.add(DefaultEmptyListItem(
-                getString(R.string.empty_tweet),
-                getString(R.string.empty_tweet_caption)
-            ))
+            items.add(
+                DefaultEmptyListItem(
+                    getString(R.string.empty_tweet),
+                    getString(R.string.empty_tweet_caption)
+                )
+            )
         }
         getTweetAdapter().performUpdates(items)
     }
@@ -110,7 +112,9 @@ class HomeFragment : BaseFragment() {
     private fun processFailedGetTweet() {
         val items: MutableList<UnspecifiedTypeItem> = mutableListOf()
         items.add(DefaultReloadListItem(object : DefaultReloadListItem.Listener {
-            override fun reload() { viewModel.getTweets() }
+            override fun reload() {
+                viewModel.getTweets()
+            }
         }))
         getTweetAdapter().performUpdates(items)
     }
@@ -118,6 +122,7 @@ class HomeFragment : BaseFragment() {
     private fun getTweetAdapter(): FastItemAdapter<UnspecifiedTypeItem> {
         if (binding.adapter == null) {
             binding.adapter = FastItemAdapter()
+            binding.rvTweet.addDividerItem()
         }
 
         return binding.adapter as FastItemAdapter
