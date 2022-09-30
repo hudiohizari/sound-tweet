@@ -1,4 +1,4 @@
-package id.hizari.soundtweet.ui.tweet.list
+package id.hizari.soundtweet.ui.tweet
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,7 @@ import id.hizari.domain.model.Tweet
 import id.hizari.soundtweet.databinding.ListItemTweetBinding
 
 /**
- * Sound Tweet - id.hizari.soundtweet.ui.tweet.list
+ * Sound Tweet - id.hizari.soundtweet.ui.tweet
  *
  * Created by Hudio Hizari on 29/09/2022.
  * https://github.com/hudiohizari

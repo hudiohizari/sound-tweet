@@ -6,25 +6,25 @@
 
     <fragment
         android:id="@+id/homeNavigation"
-        android:name="id.hizari.soundtweet.ui.home.fragment.HomeFragment"
+        android:name="id.hizari.soundtweet.ui.home.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/searchNavigation"
-        android:name="id.hizari.soundtweet.ui.search.fragment.SearchFragment"
+        android:name="id.hizari.soundtweet.ui.search.SearchFragment"
         android:label="@string/search"
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/notificationNavigation"
-        android:name="id.hizari.soundtweet.ui.notification.fragment.NotificationFragment"
+        android:name="id.hizari.soundtweet.ui.notification.NotificationFragment"
         android:label="@string/notification"
         tools:layout="@layout/fragment_notification" />
 
     <fragment
         android:id="@+id/profileNavigation"
-        android:name="id.hizari.soundtweet.ui.profile.fragment.ProfileFragment"
+        android:name="id.hizari.soundtweet.ui.profile.ProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile" />
 
