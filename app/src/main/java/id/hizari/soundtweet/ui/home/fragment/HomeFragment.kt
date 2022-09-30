@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import id.hizari.common.base.BaseFragment
+import id.hizari.soundtweet.base.BaseFragment
 import id.hizari.soundtweet.R
 
 /**

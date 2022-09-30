@@ -36,6 +36,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":common"))
+
     implementation(Dependencies.CORE_KTX)
     unitTest()
 

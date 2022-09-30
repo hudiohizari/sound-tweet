@@ -1,0 +1,3 @@
+<resources>
+    <string name="server_down">Sorry, server is unreachable, please try again later</string>
+</resources>

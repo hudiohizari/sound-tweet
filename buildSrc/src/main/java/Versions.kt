@@ -15,11 +15,12 @@ object Versions {
     const val GRADLE_TOOLS = "7.2.2"
     const val CORE_KTX = "1.9.0"
     const val KOTLIN = "1.6.21"
+    const val KOTLINX = "1.6.21"
     const val MATERIAL = "1.2.0-alpha04"
     const val RECYCLER_VIEW = "1.2.0-alpha04"
     const val CONSTRAINT_LAYOUT = "2.1.4"
 
-    const val HILT = "2.40.5"
+    const val HILT = "2.43.2"
 
     const val NAVIGATION = "2.6.0-alpha01"
 

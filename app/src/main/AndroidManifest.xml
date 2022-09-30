@@ -4,6 +4,7 @@
     package="id.hizari.soundtweet">
 
     <application
+        android:name=".base.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"

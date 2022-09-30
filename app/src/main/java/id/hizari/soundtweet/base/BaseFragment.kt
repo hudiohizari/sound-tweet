@@ -1,10 +1,10 @@
-package id.hizari.common.base
+package id.hizari.soundtweet.base
 
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import id.hizari.common.extension.popBackStackAllInstances
+import id.hizari.soundtweet.extention.popBackStackAllInstances
 
 /**
  * Sound Tweet - id.hizari.common.base
