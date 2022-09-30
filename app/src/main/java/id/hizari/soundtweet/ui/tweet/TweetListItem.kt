@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
+import id.hizari.common.extension.setupHighlightedText
 import id.hizari.common.list.DiffableListItemType
 import id.hizari.domain.model.Tweet
+import id.hizari.soundtweet.R
 import id.hizari.soundtweet.databinding.ListItemTweetBinding
 
 /**
@@ -32,6 +34,7 @@ class TweetListItem(
         model.mediaUrl ?: model.hashCode(),
         model.mediaDuration ?: model.hashCode(),
         model.likes ?: model.hashCode(),
+        model.likes ?: model.hashCode(),
         model.comments ?: model.hashCode(),
         model.plays ?: model.hashCode(),
         model.friendsLike ?: model.hashCode(),
@@ -48,11 +51,25 @@ class TweetListItem(
 
     override fun bindView(binding: ListItemTweetBinding, payloads: List<Any>) {
         binding.item = model
+
+        binding.tvName.apply {
+            val originText = "${model.name} ${model.userName} ·${model.getPostedTimeAgo(context)}"
+            val highlightedTexts = arrayOf(model.name)
+            val highlightedColors = arrayOf(R.color.cinder as Int?)
+            setupHighlightedText(
+                originText, highlightedTexts, highlightedColors, isBold = true
+            )
+        }
+
         binding.onClick = View.OnClickListener { listener.onClick(model) }
+        binding.onClickMedia = View.OnClickListener { listener.onClickMedia(model) }
+        binding.onClickLike = View.OnClickListener { listener.onClickLike(model) }
     }
 
     interface Listener {
         fun onClick(item: Tweet)
+        fun onClickMedia(item: Tweet)
+        fun onClickLike(item: Tweet)
     }
 
 }

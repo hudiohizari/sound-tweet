@@ -51,11 +51,11 @@ dependencies {
     implementation(Dependencies.MATERIAL)
     implementation(Dependencies.CONSTRAINT_LAYOUT)
     implementation(Dependencies.RECYCLER_VIEW)
+    implementation(Dependencies.SWIPE_REFRESH_LAYOUT)
     unitTest()
     androidTest()
 
     hilt()
     navigation()
-    glide()
     fastAdapter()
 }

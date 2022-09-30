@@ -1,3 +1,5 @@
 <resources>
-    <string name="and">And</string>
+    <string name="friend_liked">%1$s liked</string>
+    <string name="friends_liked">%1$s and %2$s liked</string>
+    <string name="many_friends_liked">%1$s, %2$s and %3$d others liked</string>
 </resources>

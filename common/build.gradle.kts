@@ -46,5 +46,6 @@ dependencies {
 
     hilt()
     navigation()
+    glide()
     fastAdapter()
 }

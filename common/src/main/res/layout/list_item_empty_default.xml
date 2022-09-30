@@ -20,7 +20,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvLabel"
-            style="@style/TextPrimaryLargeBold"
+            style="@style/TextPrimaryExtraLargeBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -32,7 +32,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCaption"
-            style="@style/TextSecondaryRegular"
+            style="@style/TextSecondaryLargeRegular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

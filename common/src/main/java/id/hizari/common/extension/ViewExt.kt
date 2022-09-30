@@ -1,6 +1,9 @@
 package id.hizari.common.extension
 
+import android.animation.ObjectAnimator
+import android.util.Log
 import android.view.View
+import androidx.databinding.BindingAdapter
 import com.google.android.material.snackbar.Snackbar
 import id.hizari.common.R
 import id.hizari.common.util.STLog
@@ -32,4 +35,31 @@ fun View.snackbar(
     } catch (e: Exception) {
         STLog.e("Error = ${e.message}")
     }
+}
+
+fun View.loadingAnimation() {
+    val fadeAnim = ObjectAnimator.ofFloat(this, "alpha", 1f, 0.15f)
+    fadeAnim.duration = 500
+    fadeAnim.repeatCount = ObjectAnimator.INFINITE
+    fadeAnim.repeatMode = ObjectAnimator.REVERSE
+    fadeAnim.start()
+    tag = fadeAnim
+}
+
+/*
+* Need to improve later
+* Cancelling animation immediately will cause animation stopping midway, where the view's alpha still applied
+*/
+fun View.stopLoadingAnimation() {
+    try {
+        (tag as ObjectAnimator).cancel()
+        alpha = 1f
+    } catch (e: Exception) {
+        STLog.e("Animator might not set yet, message: ${e.message}")
+    }
+}
+
+@BindingAdapter(value = ["isAnimateLoading"])
+fun View.animateLoading(isAnimateLoading: Boolean?) {
+    isAnimateLoading?.let { if (it) loadingAnimation() else stopLoadingAnimation() }
 }

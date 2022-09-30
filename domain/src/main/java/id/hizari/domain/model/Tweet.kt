@@ -1,6 +1,8 @@
 package id.hizari.domain.model
 
 import android.content.Context
+import id.hizari.common.extension.toCompactFormat
+import id.hizari.common.util.DateUtil
 import id.hizari.domain.R
 
 /**
@@ -20,22 +22,54 @@ class Tweet(
     val caption: String?,
     val mediaUrl: String?,
     val mediaDuration: Int?,
+    val isLiked: Boolean?,
     val likes: Long?,
     val comments: Long?,
     val plays: Long?,
     val friendsLike: MutableList<String?>?
 ) {
 
+    fun isShowLikedByFriend(): Boolean {
+        return friendsLike?.isEmpty() == false
+    }
+
     fun getLikedByFriends(context: Context): String {
-        var liked = ""
-        friendsLike?.forEachIndexed { index, s ->
-            liked += when (index) {
-                0 -> s
-                friendsLike.lastIndex -> ", ${context.getString(R.string.and)} $s"
-                else -> ", $s"
-            }
-        }
-        return liked
+        val size = friendsLike?.size ?: 0
+        return if (size == 1) {
+            context.getString(
+                R.string.friend_liked,
+                friendsLike?.get(0)
+            )
+        } else if (size == 2) {
+            context.getString(
+                R.string.friends_liked,
+                friendsLike?.get(0),
+                friendsLike?.get(1)
+            )
+        } else if (size > 2) {
+            context.getString(
+                R.string.many_friends_liked,
+                friendsLike?.get(0),
+                friendsLike?.get(1),
+                (size - 2)
+            )
+        } else ""
+    }
+
+    fun getFormattedLikes(): String {
+        return likes?.toCompactFormat() ?: ""
+    }
+
+    fun getFormattedComments(): String {
+        return comments?.toCompactFormat() ?: ""
+    }
+
+    fun getFormattedPlays(): String {
+        return plays?.toCompactFormat() ?: ""
+    }
+
+    fun getPostedTimeAgo(context: Context): String {
+        return DateUtil.getTimeAgo(context, postedTime)
     }
 
 }

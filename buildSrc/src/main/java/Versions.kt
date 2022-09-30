@@ -19,6 +19,7 @@ object Versions {
     const val MATERIAL = "1.2.0-alpha04"
     const val RECYCLER_VIEW = "1.2.0-alpha04"
     const val CONSTRAINT_LAYOUT = "2.1.4"
+    const val SWIPE_REFRESH_LAYOUT = "1.1.0"
 
     const val HILT = "2.43.2"
 

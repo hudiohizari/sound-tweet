@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:clipToPadding="false">
+        
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvProfilePicture"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvName">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/dawn_pink" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <View
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/dawn_pink"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cvProfilePicture"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            style="@style/TextPrimaryLargeRegular"
+            android:id="@+id/tvCaption"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/dawn_pink"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cvProfilePicture"
+            app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvMedia"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            app:cardBackgroundColor="@color/dawn_pink"
+            app:cardCornerRadius="4dp"
+            app:layout_constraintDimensionRatio="H,2:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cvProfilePicture"
+            app:layout_constraintTop_toBottomOf="@id/tvCaption" />
+
+        <View
+            android:id="@+id/tvComments"
+            android:layout_width="32dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/dawn_pink"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintEnd_toStartOf="@id/tvLikes"
+            app:layout_constraintStart_toEndOf="@id/cvProfilePicture"
+            app:layout_constraintTop_toBottomOf="@id/cvMedia" />
+
+        <View
+            android:id="@+id/tvLikes"
+            android:layout_width="32dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/dawn_pink"
+            app:layout_constraintEnd_toStartOf="@id/tvPlays"
+            app:layout_constraintStart_toEndOf="@id/tvComments"
+            app:layout_constraintTop_toBottomOf="@id/cvMedia" />
+
+        <View
+            android:id="@+id/tvPlays"
+            android:layout_width="32dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/dawn_pink"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvLikes"
+            app:layout_constraintTop_toBottomOf="@id/cvMedia" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -5,7 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.hizari.domain.repository.TweetRepository
-import id.hizari.domain.usecase.tweet.GetTweetUseCase
+import id.hizari.domain.usecase.tweet.GetTweetsUseCase
 
 /**
  * Sound Tweet - id.hizari.domain.di
@@ -20,8 +20,8 @@ import id.hizari.domain.usecase.tweet.GetTweetUseCase
 object DomainModule {
 
     @Provides
-    fun provideTweetUseCase(tweetRepository: TweetRepository): GetTweetUseCase {
-        return GetTweetUseCase(tweetRepository)
+    fun provideTweetUseCase(tweetRepository: TweetRepository): GetTweetsUseCase {
+        return GetTweetsUseCase(tweetRepository)
     }
 
 }

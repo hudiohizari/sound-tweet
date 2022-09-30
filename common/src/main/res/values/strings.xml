@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Sound Tweet</string>
+
     <!--Extention-->
     <string name="empty_text">Empty Text</string>
+    <string name="user_agent">User-Agent</string>
+    <string name="invalid">Invalid</string>
+    <string name="wrong_format">Wrong format</string>
+    <string name="second_ago">%1ds</string>
+    <string name="minute_ago">%1dm</string>
+    <string name="hour_ago">%1dh</string>
 
     <!--List-->
     <string name="default_empty_list_label">Oops</string>
     <string name="default_empty_list_caption">Seems like this list is empty.</string>
+    <string name="reload">Reload</string>
 </resources>

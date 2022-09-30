@@ -13,6 +13,7 @@ object Dependencies {
     const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
     const val RECYCLER_VIEW = "androidx.recyclerview:recyclerview:${Versions.MATERIAL}"
     const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:${Versions.CONSTRAINT_LAYOUT}"
+    const val SWIPE_REFRESH_LAYOUT = "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.SWIPE_REFRESH_LAYOUT}"
 
     const val J_UNIT = "junit:junit:${Versions.J_UNIT}"
 
