@@ -14,7 +14,7 @@ import id.hizari.common.util.Resources
 import id.hizari.common.util.STLog
 import id.hizari.soundtweet.R
 import id.hizari.soundtweet.base.BaseFragment
-import id.hizari.soundtweet.databinding.FragmentLoginBinding
+import id.hizari.soundtweet.databinding.FragmentRegisterBinding
 import id.hizari.soundtweet.extention.handleGeneralError
 
 /**
@@ -26,10 +26,10 @@ import id.hizari.soundtweet.extention.handleGeneralError
  */
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment() {
-    private lateinit var binding: FragmentLoginBinding
+class RegisterFragment : BaseFragment() {
+    private lateinit var binding: FragmentRegisterBinding
 
-    private val viewModel: LoginViewModel by viewModels()
+    private val viewModel: RegisterViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +37,7 @@ class LoginFragment : BaseFragment() {
     ): View {
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_login,
+            R.layout.fragment_register,
             container,
             false
         )
@@ -56,9 +56,11 @@ class LoginFragment : BaseFragment() {
 
     private fun initObserver() {
         viewModel.apply {
+            email.observeDebounce(viewLifecycleOwner) { checkButton() }
+            name.observeDebounce(viewLifecycleOwner) { checkButton() }
             username.observeDebounce(viewLifecycleOwner) { checkButton() }
             password.observeDebounce(viewLifecycleOwner) { checkButton() }
-            login.observe(viewLifecycleOwner) {
+            register.observe(viewLifecycleOwner) {
                 when (it) {
                     is Resources.Loading -> STLog.d("Loading")
                     is Resources.Success -> {
@@ -79,7 +81,7 @@ class LoginFragment : BaseFragment() {
             )
             val onClicks = arrayOf({
                 navigateWithAction(
-                    LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
+                    RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
                 )
             })
             setupClickableText(originText, clickableTexts, onClicks, isBold = true)

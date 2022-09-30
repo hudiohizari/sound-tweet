@@ -5,6 +5,7 @@
     <string name="cancel">Cancel</string>
 
     <!--Navigation-->
+    <string name="register">Register</string>
     <string name="login">Login</string>
     <string name="home">Home</string>
     <string name="search">Search</string>
@@ -13,7 +14,14 @@
     <string name="press_once_more_to_exit">Press once more to exit</string>
 
     <!--Auth-->
+    <string name="fill_this_data_to_get_started">Fill this data to get started.</string>
+    <string name="already_have_an_account">Already have an account? Click here to login</string>
+    <string name="already_have_an_account_highlighted">Click here to login</string>
     <string name="welcome_back_please_enter_your_credential">Welcome back! Please enter your credential</string>
+    <string name="email">Email</string>
+    <string name="email_error">Wrong email format</string>
+    <string name="name">Name</string>
+    <string name="name_error">Username must be more than 4 character</string>
     <string name="username">Username</string>
     <string name="username_error">Username can\'t be empty</string>
     <string name="password">Password</string>

@@ -20,11 +20,15 @@ class UserUseCase(
     private val userRepository: UserRepository
 ) {
 
-    fun searchUser(query: String?): Flow<Resources<MutableList<User>>> = flow {
+    fun postRegister(
+        email: String?,
+        name: String?,
+        username: String?,
+        password: String?
+    ): Flow<Resources<User?>> = flow {
         emit(Resources.Loading())
         try {
-            delay(Random.nextLong(500, 5000))
-            val response = userRepository.searchUser(query)
+            val response = userRepository.postRegister(email, name, username, password)
             emit(Resources.Success(response))
         } catch (e: Exception) {
             emit(Resources.Error(e))
@@ -35,6 +39,17 @@ class UserUseCase(
         emit(Resources.Loading())
         try {
             val response = userRepository.postLogin(username, password)
+            emit(Resources.Success(response))
+        } catch (e: Exception) {
+            emit(Resources.Error(e))
+        }
+    }
+
+    fun searchUser(query: String?): Flow<Resources<MutableList<User>>> = flow {
+        emit(Resources.Loading())
+        try {
+            delay(Random.nextLong(500, 5000))
+            val response = userRepository.searchUser(query)
             emit(Resources.Success(response))
         } catch (e: Exception) {
             emit(Resources.Error(e))

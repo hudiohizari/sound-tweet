@@ -2,6 +2,7 @@ package id.hizari.data.repository
 
 import id.hizari.data.mapper.toDomain
 import id.hizari.data.network.model.request.LoginRequest
+import id.hizari.data.network.model.request.RegisterRequest
 import id.hizari.data.network.service.SoundTweetService
 import id.hizari.data.network.util.SafeApiRequest
 import id.hizari.domain.model.User
@@ -18,7 +19,18 @@ import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
     private val soundTweetService: SoundTweetService
-): UserRepository, SafeApiRequest() {
+) : UserRepository, SafeApiRequest() {
+
+    override suspend fun postRegister(
+        email: String?,
+        name: String?,
+        username: String?,
+        password: String?
+    ): User? {
+        val body = RegisterRequest(email, name, username, password)
+        val response = apiRequest { soundTweetService.postRegister(body) }
+        return response?.toDomain()
+    }
 
     override suspend fun postLogin(username: String?, password: String?): User? {
         val body = LoginRequest(username, password)
@@ -56,7 +68,8 @@ class UserRepositoryImpl @Inject constructor(
                 "Random",
                 mutableListOf()
             )
-        ).filter { it.name?.lowercase()?.contains(query?.lowercase() ?: "") == true }.toMutableList()
+        ).filter { it.name?.lowercase()?.contains(query?.lowercase() ?: "") == true }
+            .toMutableList()
     }
 
 }

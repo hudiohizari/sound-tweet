@@ -6,7 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.hizari.common.util.InputValidator
+import id.hizari.common.util.InputValidator.INPUT_NAME_MIN
 import id.hizari.common.util.Resources
+import id.hizari.common.util.STLog
 import id.hizari.domain.model.User
 import id.hizari.domain.usecase.UserUseCase
 import id.hizari.soundtweet.R
@@ -24,20 +26,35 @@ import javax.inject.Inject
  */
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
+class RegisterViewModel @Inject constructor(
     app: Application,
     private val userUseCase: UserUseCase
 ) : BaseContextViewModel(app) {
 
+    val email = MutableLiveData<String?>()
+    val emailError = MutableLiveData<String>()
+    val name = MutableLiveData<String?>()
+    val nameError = MutableLiveData<String>()
     val username = MutableLiveData<String?>()
     val usernameError = MutableLiveData<String>()
     val password = MutableLiveData<String?>()
     val passwordError = MutableLiveData<String>()
     val isButtonEnabled = MutableLiveData(false)
 
-    val login = MutableLiveData<Resources<User?>>()
+    val register = MutableLiveData<Resources<User?>>()
 
     fun checkButton() {
+        val emailOk = InputValidator.checkEmail(
+            context.getString(R.string.email_error),
+            email,
+            emailError
+        )
+        val nameOk = InputValidator.checkMinimumLengthError(
+            context.getString(R.string.name_error),
+            name,
+            nameError,
+            INPUT_NAME_MIN
+        )
         val usernameOk = InputValidator.checkNotEmpty(
             context.getString(R.string.username_error),
             username,
@@ -48,14 +65,28 @@ class LoginViewModel @Inject constructor(
             password,
             passwordError
         )
-        val enabled = usernameOk && passwordOk
+        val enabled = emailOk && nameOk && usernameOk && passwordOk
         isButtonEnabled.postValue(enabled)
     }
 
     @Suppress("unused")
-    fun View.onClickLogin() {
-        userUseCase.postLogin(username.value, password.value).onEach {
-            login.postValue(it)
+    fun View.onClickRegister() {
+        userUseCase.postRegister(
+            email.value,
+            name.value,
+            username.value,
+            password.value
+        ).onEach {
+            when (it) {
+                is Resources.Success -> {
+                    email.postValue(null)
+                    name.postValue(null)
+                    username.postValue(null)
+                    password.postValue(null)
+                }
+                else -> STLog.e("Unhandled resource type")
+            }
+            register.postValue(it)
         }.launchIn(viewModelScope)
     }
 

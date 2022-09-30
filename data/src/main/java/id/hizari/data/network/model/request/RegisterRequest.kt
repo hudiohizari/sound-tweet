@@ -8,7 +8,9 @@ package id.hizari.data.network.model.request
  *
  */
 
-data class LoginRequest(
+data class RegisterRequest(
+    var email: String?,
+    var name: String?,
     var username: String?,
     var password: String?
 )
