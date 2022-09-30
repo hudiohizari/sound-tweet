@@ -18,28 +18,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/tvLabel"
             style="@style/TextPrimaryExtraLargeBold"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="16dp"
+            android:gravity="center_horizontal"
             android:text="@{label ?? @string/default_empty_list_label, default=@string/default_empty_list_label}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/tvCaption"
             style="@style/TextSecondaryLargeRegular"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="24dp"
+            android:gravity="center_horizontal"
             android:text="@{caption ?? @string/default_empty_list_caption, default=@string/default_empty_list_caption}"
             android:textSize="16sp"
-            app:fontFamily="@font/sf_pro_text_regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

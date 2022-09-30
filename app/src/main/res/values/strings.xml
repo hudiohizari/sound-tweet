@@ -7,4 +7,9 @@
     <string name="notification">Notification</string>
     <string name="profile">Profile</string>
     <string name="press_once_more_to_exit">Press once more to exit</string>
+
+    <!--Tweet-->
+    <string name="empty_tweet">Home is empty</string>
+    <string name="empty_tweet_caption">Please start follow another user then see their post here!</string>
+    <string name="post_tweet">Post Tweet</string>
 </resources>

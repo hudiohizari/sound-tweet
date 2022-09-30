@@ -19,7 +19,7 @@ class TweetRepositoryImpl: TweetRepository, SafeApiRequest() {
         return mutableListOf(
             Tweet(
                 0,
-                "",
+                "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&w=1000&q=80",
                 "Martha Craig",
                 "@craig_love",
                 "2022-09-30 15:54:00",
@@ -34,7 +34,7 @@ class TweetRepositoryImpl: TweetRepository, SafeApiRequest() {
             ),
             Tweet(
                 1,
-                "",
+                "https://divineyouwellness.com/blog/wp-content/uploads/2021/03/shutterstock_563564683-scaled.jpg",
                 "Joshua Brown",
                 "@jbrown",
                 "2022-09-30 12:41:00",
@@ -49,7 +49,7 @@ class TweetRepositoryImpl: TweetRepository, SafeApiRequest() {
             ),
             Tweet(
                 2,
-                "",
+                "https://vocasia.id/blog/wp-content/uploads/2021/09/pemimpin-otoriter-2.webp",
                 "Komol Kuchkarov",
                 "@kkuchkarov",
                 "2022-09-30 10:12:00",
@@ -64,7 +64,7 @@ class TweetRepositoryImpl: TweetRepository, SafeApiRequest() {
             ),
             Tweet(
                 3,
-                "",
+                "https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg",
                 "Adam West",
                 "@awest",
                 "2022-09-27 8:12:00",

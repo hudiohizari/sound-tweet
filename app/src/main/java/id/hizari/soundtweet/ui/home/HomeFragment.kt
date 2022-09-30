@@ -8,15 +8,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import id.hizari.common.extension.isNotNullOrEmpty
 import id.hizari.common.extension.toast
 import id.hizari.common.list.UnspecifiedTypeItem
+import id.hizari.common.list.item.DefaultEmptyListItem
 import id.hizari.common.list.item.DefaultReloadListItem
 import id.hizari.common.list.performUpdates
 import id.hizari.common.util.Resources
 import id.hizari.common.util.STLog
 import id.hizari.domain.model.Tweet
-import id.hizari.soundtweet.base.BaseFragment
 import id.hizari.soundtweet.R
+import id.hizari.soundtweet.base.BaseFragment
 import id.hizari.soundtweet.databinding.FragmentHomeBinding
 import id.hizari.soundtweet.ui.tweet.TweetListItem
 import id.hizari.soundtweet.ui.tweet.TweetListItemLoading
@@ -80,20 +82,27 @@ class HomeFragment : BaseFragment() {
 
     private fun processSuccessGetTweet(list: MutableList<Tweet>?) {
         val items: MutableList<UnspecifiedTypeItem> = mutableListOf()
-        list?.forEach {
-            items.add(TweetListItem(it, object: TweetListItem.Listener {
-                override fun onClick(item: Tweet) {
-                    requireContext().toast("Goto detail: ${item.name}")
-                }
+        if (list.isNotNullOrEmpty()) {
+            list?.forEach {
+                items.add(TweetListItem(it, object: TweetListItem.Listener {
+                    override fun onClick(item: Tweet) {
+                        requireContext().toast("Goto detail: ${item.name}")
+                    }
 
-                override fun onClickMedia(item: Tweet) {
-                    requireContext().toast("Play media: ${item.mediaUrl}")
-                }
+                    override fun onClickMedia(item: Tweet) {
+                        requireContext().toast("Play media: ${item.mediaUrl}")
+                    }
 
-                override fun onClickLike(item: Tweet) {
-                    requireContext().toast("Like tweet: ${item.name}")
-                }
-            }))
+                    override fun onClickLike(item: Tweet) {
+                        requireContext().toast("Like tweet: ${item.name}")
+                    }
+                }))
+            }
+        } else {
+            items.add(DefaultEmptyListItem(
+                getString(R.string.empty_tweet),
+                getString(R.string.empty_tweet_caption)
+            ))
         }
         getTweetAdapter().performUpdates(items)
     }
