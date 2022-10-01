@@ -1,8 +1,5 @@
 package id.hizari.data.network.model.dto
 
-
-import com.google.gson.annotations.SerializedName
-
 data class TweetDTO(
     val caption: String?,
     val createdAt: String?,

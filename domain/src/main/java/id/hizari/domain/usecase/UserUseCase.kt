@@ -3,10 +3,8 @@ package id.hizari.domain.usecase
 import id.hizari.common.util.Resources
 import id.hizari.domain.model.User
 import id.hizari.domain.repository.UserRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlin.random.Random
 
 /**
  * Sound Tweet - id.hizari.domain.usecase
@@ -56,11 +54,20 @@ class UserUseCase(
 
     fun isLoggedInLive() = userRepository.getIsLoggedInLive()
 
-    fun searchUser(query: String?): Flow<Resources<MutableList<User>>> = flow {
+    fun searchUser(query: String?): Flow<Resources<MutableList<User>?>> = flow {
         emit(Resources.Loading())
         try {
-            delay(Random.nextLong(500, 5000))
             val response = userRepository.searchUser(query)
+            emit(Resources.Success(response))
+        } catch (e: Exception) {
+            emit(Resources.Error(e))
+        }
+    }
+
+    fun followUser(userId: Int?): Flow<Resources<User?>> = flow {
+        emit(Resources.Loading())
+        try {
+            val response = userRepository.followUser(userId)
             emit(Resources.Success(response))
         } catch (e: Exception) {
             emit(Resources.Error(e))

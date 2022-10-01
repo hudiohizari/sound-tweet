@@ -41,6 +41,6 @@
     <string name="follow">Follow</string>
     <string name="search_user">Search user</string>
     <string name="empty_search_query">Search query is empty</string>
-    <string name="empty_search_query_caption">Please enter text on the input above to show user, minimum search character is 3</string>
+    <string name="empty_search_query_caption">Please enter text on the input above to show suggested user</string>
 
 </resources>

@@ -70,7 +70,7 @@ class SearchFragment : BaseFragment() {
             }
         }
         viewModel.query.observeDebounce(viewLifecycleOwner) {
-            if (it.isNullOrBlank()) processEmptyQuery() else if (it.length > 2) {
+            if (it.isNullOrBlank()) processEmptyQuery() else {
                 viewModel.searchUser()
             }
         }
@@ -78,6 +78,14 @@ class SearchFragment : BaseFragment() {
             when (it) {
                 is Resources.Loading -> processLoadingGetTweet()
                 is Resources.Success -> processSuccessGetTweet(it.data)
+                is Resources.Error -> processFailedGetTweet()
+                else -> STLog.e("Unhandled resource")
+            }
+        }
+        viewModel.user.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resources.Loading -> STLog.d("Loading")
+                is Resources.Success -> viewModel.onRefresh()
                 is Resources.Error -> processFailedGetTweet()
                 else -> STLog.e("Unhandled resource")
             }
@@ -110,7 +118,7 @@ class SearchFragment : BaseFragment() {
                         requireContext().toast("Click user = ${item.name}")
                     }
                     override fun onClickFollow(item: User) {
-                        requireContext().toast("${if (item.isFollowed()) "Unfollow" else "Follow"} = ${item.name}")
+                        viewModel.followUser(item.id)
                     }
                 }))
             }

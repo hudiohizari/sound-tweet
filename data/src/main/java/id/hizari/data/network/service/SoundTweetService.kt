@@ -4,6 +4,7 @@ import id.hizari.data.network.util.Client
 import id.hizari.common.util.Constant
 import id.hizari.data.network.model.dto.TweetsDTO
 import id.hizari.data.network.model.dto.UserDTO
+import id.hizari.data.network.model.dto.UsersDTO
 import id.hizari.data.network.model.request.LoginRequest
 import id.hizari.data.network.model.request.RegisterRequest
 import retrofit2.Response
@@ -12,6 +13,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  * Sound Tweet - id.hizari.data.network.service
@@ -35,6 +39,16 @@ interface SoundTweetService {
 
     @GET("tweet")
     suspend fun getTweets(): Response<TweetsDTO>
+
+    @GET("users/search")
+    suspend fun searchUsers(
+        @Query("keyword") query: String?
+    ): Response<UsersDTO>
+
+    @POST("users/follow/{id}")
+    suspend fun followUser(
+        @Path("id") userId: Int?
+    ): Response<UserDTO>
 
     companion object {
         operator fun invoke(client: Client): SoundTweetService {
