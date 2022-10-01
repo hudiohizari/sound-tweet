@@ -6,5 +6,5 @@ data class TweetDTO(
     val id: Int?,
     val postUrl: String?,
     val updatedAt: String?,
-    val userId: Int?
+    val user: UserDTO?
 )

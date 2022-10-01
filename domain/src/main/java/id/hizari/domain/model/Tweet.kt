@@ -19,7 +19,7 @@ data class Tweet(
     val id: Int?,
     val postUrl: String?,
     val updatedAt: String?,
-    val userId: Int?
+    val user: User?
 ) {
 
     fun getPostedTimeAgo(context: Context): String {

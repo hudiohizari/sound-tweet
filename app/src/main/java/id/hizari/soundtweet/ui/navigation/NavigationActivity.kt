@@ -10,6 +10,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
+import id.hizari.common.util.STLog
 import id.hizari.soundtweet.R
 import id.hizari.soundtweet.databinding.ActivityNavigationBinding
 import kotlinx.coroutines.launch
@@ -74,6 +75,15 @@ class NavigationActivity : AppCompatActivity() {
                     )
                 }
             }
+        }
+
+        viewModel.navigateTo.observe(this) {
+            it?.let { navController.navigate(it) }
+        }
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            STLog.d("destination.id = ${destination.id}")
+            viewModel.isShowFab.postValue(destination.id != R.id.postTweetFragment)
         }
     }
 

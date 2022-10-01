@@ -26,5 +26,5 @@ fun UserDTO.toDomain(): User {
 }
 
 fun TweetDTO.toDomain(): Tweet {
-    return Tweet(caption, createdAt, id, postUrl, updatedAt, userId)
+    return Tweet(caption, createdAt, id, postUrl, updatedAt, user?.toDomain())
 }

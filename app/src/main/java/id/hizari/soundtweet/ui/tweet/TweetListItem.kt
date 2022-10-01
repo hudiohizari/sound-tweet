@@ -43,8 +43,7 @@ class TweetListItem(
         binding.item = model
 
         binding.tvName.apply {
-//            val originText = "${model.name} ${model.userName} ·${model.getPostedTimeAgo(context)}"
-            val originText = "User @user ·${model.getPostedTimeAgo(context)}"
+            val originText = "${model.user?.name} ${model.user?.userName} ·${model.getPostedTimeAgo(context)}"
             val highlightedTexts = arrayOf("User" as String?)
             val highlightedColors = arrayOf(R.color.cinder as Int?)
             setupHighlightedText(

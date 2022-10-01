@@ -86,7 +86,7 @@ class HomeFragment : BaseFragment() {
             list?.forEach {
                 items.add(TweetListItem(it, object : TweetListItem.Listener {
                     override fun onClick(item: Tweet) {
-                        requireContext().toast("Goto detail: ${item.userId}")
+                        requireContext().toast("Goto detail: ${item.user?.name}")
                     }
 
                     override fun onClickMedia(item: Tweet) {

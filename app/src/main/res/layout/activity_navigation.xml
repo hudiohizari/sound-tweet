@@ -51,7 +51,7 @@
             android:contentDescription="@string/post_tweet"
             android:onClick="@{viewModel::onClickPostTweet}"
             android:src="@drawable/ic_sound_wave"
-            android:visibility="@{viewModel.isLoggedIn ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.isShowFab &amp;&amp; viewModel.isLoggedIn ? View.VISIBLE : View.GONE}"
             app:backgroundTint="@color/cornflower_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
