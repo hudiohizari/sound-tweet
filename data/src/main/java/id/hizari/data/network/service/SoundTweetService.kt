@@ -2,6 +2,7 @@ package id.hizari.data.network.service
 
 import id.hizari.data.network.util.Client
 import id.hizari.common.util.Constant
+import id.hizari.data.network.model.dto.TweetsDTO
 import id.hizari.data.network.model.dto.UserDTO
 import id.hizari.data.network.model.request.LoginRequest
 import id.hizari.data.network.model.request.RegisterRequest
@@ -9,6 +10,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 /**
@@ -30,6 +32,9 @@ interface SoundTweetService {
     suspend fun postLogin(
         @Body body: LoginRequest
     ): Response<UserDTO>
+
+    @GET("tweet")
+    suspend fun getTweets(): Response<TweetsDTO>
 
     companion object {
         operator fun invoke(client: Client): SoundTweetService {

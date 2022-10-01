@@ -8,11 +8,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import id.hizari.data.network.service.SoundTweetService
+import id.hizari.data.network.util.AuthInterceptor
 import id.hizari.data.network.util.Client
-import id.hizari.data.repository.TweetRepositoryImpl
-import id.hizari.data.repository.UserRepositoryImpl
-import id.hizari.domain.repository.TweetRepository
-import id.hizari.domain.repository.UserRepository
 import javax.inject.Singleton
 
 /**
@@ -38,8 +35,11 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideClient(chuckerInterceptor: ChuckerInterceptor): Client {
-        return Client(chuckerInterceptor)
+    fun provideClient(
+        authInterceptor: AuthInterceptor,
+        chuckerInterceptor: ChuckerInterceptor
+    ): Client {
+        return Client(authInterceptor, chuckerInterceptor)
     }
 
     @Provides

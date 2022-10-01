@@ -13,63 +13,17 @@ import id.hizari.domain.R
  *
  */
 
-class Tweet(
-    val id: Int?,
-    val imgUrl: String?,
-    val name: String?,
-    val userName: String?,
-    val postedTime: String?,
+data class Tweet(
     val caption: String?,
-    val mediaUrl: String?,
-    val mediaDuration: Int?,
-    val isLiked: Boolean?,
-    val likes: Long?,
-    val comments: Long?,
-    val plays: Long?,
-    val friendsLike: MutableList<String?>?
+    val createdAt: String?,
+    val id: Int?,
+    val postUrl: String?,
+    val updatedAt: String?,
+    val userId: Int?
 ) {
 
-    fun isShowLikedByFriend(): Boolean {
-        return friendsLike?.isEmpty() == false
-    }
-
-    fun getLikedByFriends(context: Context): String {
-        val size = friendsLike?.size ?: 0
-        return if (size == 1) {
-            context.getString(
-                R.string.friend_liked,
-                friendsLike?.get(0)
-            )
-        } else if (size == 2) {
-            context.getString(
-                R.string.friends_liked,
-                friendsLike?.get(0),
-                friendsLike?.get(1)
-            )
-        } else if (size > 2) {
-            context.getString(
-                R.string.many_friends_liked,
-                friendsLike?.get(0),
-                friendsLike?.get(1),
-                (size - 2)
-            )
-        } else ""
-    }
-
-    fun getFormattedLikes(): String {
-        return likes?.toCompactFormat() ?: ""
-    }
-
-    fun getFormattedComments(): String {
-        return comments?.toCompactFormat() ?: ""
-    }
-
-    fun getFormattedPlays(): String {
-        return plays?.toCompactFormat() ?: ""
-    }
-
     fun getPostedTimeAgo(context: Context): String {
-        return DateUtil.getTimeAgo(context, postedTime)
+        return DateUtil.getTimeAgo(context, createdAt)
     }
 
 }

@@ -12,6 +12,6 @@ import id.hizari.domain.model.Tweet
 
 interface TweetRepository {
 
-    suspend fun getTweets(): MutableList<Tweet>
+    suspend fun getTweets(): MutableList<Tweet>?
 
 }

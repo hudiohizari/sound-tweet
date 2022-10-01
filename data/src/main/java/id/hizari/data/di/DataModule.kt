@@ -26,8 +26,8 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideTweetRepository(): TweetRepository {
-        return TweetRepositoryImpl()
+    fun provideTweetRepository(soundTweetService: SoundTweetService): TweetRepository {
+        return TweetRepositoryImpl(soundTweetService)
     }
 
     @Provides

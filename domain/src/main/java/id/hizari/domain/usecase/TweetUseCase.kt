@@ -20,7 +20,7 @@ class TweetUseCase(
     private val tweetRepository: TweetRepository
 ) {
 
-    fun getTweets(): Flow<Resources<MutableList<Tweet>>> = flow {
+    fun getTweets(): Flow<Resources<MutableList<Tweet>?>> = flow {
         emit(Resources.Loading())
         try {
             delay(Random.nextLong(500, 5000))

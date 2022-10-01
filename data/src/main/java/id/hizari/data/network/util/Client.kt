@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class Client @Inject constructor(
+    private val authInterceptor: AuthInterceptor,
     private val chuckerInterceptor: ChuckerInterceptor
 ) {
 
@@ -16,6 +17,7 @@ class Client @Inject constructor(
 
         return OkHttpClient.Builder()
             .addInterceptor(interceptorLogging)
+            .addInterceptor(authInterceptor)
             .addInterceptor(chuckerInterceptor)
             .connectTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)

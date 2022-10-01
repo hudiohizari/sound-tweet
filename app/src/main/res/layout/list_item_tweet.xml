@@ -19,9 +19,9 @@
             name="onClickMedia"
             type="android.view.View.OnClickListener" />
 
-        <variable
-            name="onClickLike"
-            type="android.view.View.OnClickListener" />
+<!--        <variable-->
+<!--            name="onClickLike"-->
+<!--            type="android.view.View.OnClickListener" />-->
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,58 +32,58 @@
         android:onClick="@{onClick}"
         android:paddingVertical="16dp">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cvProfilePicture"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="16dp"
-            app:cardCornerRadius="28dp"
-            app:cardElevation="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvName">
+        <!--        <com.google.android.material.card.MaterialCardView-->
+        <!--            android:id="@+id/cvProfilePicture"-->
+        <!--            android:layout_width="56dp"-->
+        <!--            android:layout_height="56dp"-->
+        <!--            android:layout_marginStart="16dp"-->
+        <!--            app:cardCornerRadius="28dp"-->
+        <!--            app:cardElevation="0dp"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="@id/tvName">-->
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:contentDescription="@{item.name}"
-                app:imageUrl="@{item.imgUrl}"
-                tools:src="@tools:sample/avatars" />
+        <!--            <ImageView-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:adjustViewBounds="true"-->
+        <!--                android:contentDescription="@{item.name}"-->
+        <!--                app:imageUrl="@{item.imgUrl}"-->
+        <!--                tools:src="@tools:sample/avatars" />-->
 
-        </com.google.android.material.card.MaterialCardView>
+        <!--        </com.google.android.material.card.MaterialCardView>-->
 
-        <androidx.constraintlayout.widget.Group
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:visibility="@{item.isShowLikedByFriend ? View.VISIBLE : View.GONE}"
-            app:constraint_referenced_ids="ivLikedBy,tvLikedBy" />
+        <!--        <androidx.constraintlayout.widget.Group-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:visibility="@{item.isShowLikedByFriend ? View.VISIBLE : View.GONE}"-->
+        <!--            app:constraint_referenced_ids="ivLikedBy,tvLikedBy" />-->
 
-        <ImageView
-            android:id="@+id/ivLikedBy"
-            android:layout_width="wrap_content"
-            android:layout_height="16dp"
-            android:layout_marginEnd="8dp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_heart_filled"
-            app:layout_constraintBottom_toBottomOf="@id/tvLikedBy"
-            app:layout_constraintEnd_toStartOf="@id/tvLikedBy"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
+        <!--        <ImageView-->
+        <!--            android:id="@+id/ivLikedBy"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="16dp"-->
+        <!--            android:layout_marginEnd="8dp"-->
+        <!--            android:adjustViewBounds="true"-->
+        <!--            android:src="@drawable/ic_heart_filled"-->
+        <!--            app:layout_constraintBottom_toBottomOf="@id/tvLikedBy"-->
+        <!--            app:layout_constraintEnd_toStartOf="@id/tvLikedBy"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            tools:ignore="ContentDescription" />-->
 
-        <TextView
-            android:id="@+id/tvLikedBy"
-            style="@style/TextSecondaryRegular"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="@{item.getLikedByFriends(context)}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cvProfilePicture"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Saya and Dia liked" />
+        <!--        <TextView-->
+        <!--            android:id="@+id/tvLikedBy"-->
+        <!--            style="@style/TextSecondaryRegular"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="8dp"-->
+        <!--            android:layout_marginEnd="16dp"-->
+        <!--            android:ellipsize="end"-->
+        <!--            android:maxLines="2"-->
+        <!--            android:text="@{item.getLikedByFriends(context)}"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent" -->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            tools:text="Saya and Dia liked" />-->
 
         <TextView
             android:id="@+id/tvName"
@@ -96,8 +96,8 @@
             android:ellipsize="end"
             android:maxLines="2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cvProfilePicture"
-            app:layout_constraintTop_toBottomOf="@id/tvLikedBy"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="John Lennon" />
 
         <TextView
@@ -112,7 +112,7 @@
             android:maxLines="10"
             android:text="@{item.caption}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cvProfilePicture"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvName"
             tools:text="@tools:sample/lorem/random" />
 
@@ -128,7 +128,7 @@
             app:cardCornerRadius="4dp"
             app:layout_constraintDimensionRatio="H,2:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cvProfilePicture"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvCaption">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -170,75 +170,75 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:id="@+id/tvComments"
-            style="@style/TextSecondarySmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
-            android:drawablePadding="4dp"
-            android:text="@{item.formattedComments}"
-            app:drawableStartCompat="@drawable/ic_comment"
-            app:layout_constraintEnd_toStartOf="@id/tvLikes"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toEndOf="@id/cvProfilePicture"
-            app:layout_constraintTop_toBottomOf="@id/cvMedia"
-            tools:text="56" />
+<!--        <TextView-->
+<!--            android:id="@+id/tvComments"-->
+<!--            style="@style/TextSecondarySmall"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:layout_marginTop="12dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:drawablePadding="4dp"-->
+<!--            android:text="@{item.formattedComments}"-->
+<!--            app:drawableStartCompat="@drawable/ic_comment"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/tvLikes"-->
+<!--            app:layout_constraintHorizontal_chainStyle="spread_inside"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/cvMedia"-->
+<!--            tools:text="56" />-->
 
-        <TextView
-            android:id="@+id/tvLikes"
-            style="@style/TextSecondarySmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
-            android:background="?attr/selectableItemBackground"
-            android:drawablePadding="4dp"
-            android:onClick="@{onClickLike}"
-            android:text="@{item.formattedLikes}"
-            android:visibility="@{!item.isLiked ? View.VISIBLE : View.GONE}"
-            app:drawableStartCompat="@drawable/ic_heart"
-            app:layout_constraintEnd_toStartOf="@id/tvPlays"
-            app:layout_constraintStart_toEndOf="@id/tvComments"
-            app:layout_constraintTop_toBottomOf="@id/cvMedia"
-            tools:text="6" />
+<!--        <TextView-->
+<!--            android:id="@+id/tvLikes"-->
+<!--            style="@style/TextSecondarySmall"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:layout_marginTop="12dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:background="?attr/selectableItemBackground"-->
+<!--            android:drawablePadding="4dp"-->
+<!--            android:onClick="@{onClickLike}"-->
+<!--            android:text="@{item.formattedLikes}"-->
+<!--            android:visibility="@{!item.isLiked ? View.VISIBLE : View.GONE}"-->
+<!--            app:drawableStartCompat="@drawable/ic_heart"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/tvPlays"-->
+<!--            app:layout_constraintStart_toEndOf="@id/tvComments"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/cvMedia"-->
+<!--            tools:text="6" />-->
 
-        <TextView
-            android:id="@+id/tvLikesLiked"
-            style="@style/TextSecondarySmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="?attr/selectableItemBackground"
-            android:drawablePadding="4dp"
-            android:onClick="@{onClickLike}"
-            android:text="@{item.formattedLikes}"
-            android:textColor="@color/deep_rose"
-            android:visibility="@{item.isLiked ? View.VISIBLE : View.GONE, default=gone}"
-            app:drawableStartCompat="@drawable/ic_heart_filled_red"
-            app:layout_constraintEnd_toStartOf="@id/tvPlays"
-            app:layout_constraintStart_toEndOf="@id/tvComments"
-            app:layout_constraintTop_toBottomOf="@id/cvMedia"
-            tools:text="6" />
+<!--        <TextView-->
+<!--            android:id="@+id/tvLikesLiked"-->
+<!--            style="@style/TextSecondarySmall"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="12dp"-->
+<!--            android:background="?attr/selectableItemBackground"-->
+<!--            android:drawablePadding="4dp"-->
+<!--            android:onClick="@{onClickLike}"-->
+<!--            android:text="@{item.formattedLikes}"-->
+<!--            android:textColor="@color/deep_rose"-->
+<!--            android:visibility="@{item.isLiked ? View.VISIBLE : View.GONE, default=gone}"-->
+<!--            app:drawableStartCompat="@drawable/ic_heart_filled_red"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/tvPlays"-->
+<!--            app:layout_constraintStart_toEndOf="@id/tvComments"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/cvMedia"-->
+<!--            tools:text="6" />-->
 
-        <TextView
-            android:id="@+id/tvPlays"
-            style="@style/TextSecondarySmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
-            android:drawablePadding="4dp"
-            android:text="@{item.formattedPlays}"
-            app:drawableStartCompat="@drawable/ic_play"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvLikes"
-            app:layout_constraintTop_toBottomOf="@id/cvMedia"
-            tools:text="126" />
+<!--        <TextView-->
+<!--            android:id="@+id/tvPlays"-->
+<!--            style="@style/TextSecondarySmall"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:layout_marginTop="12dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:drawablePadding="4dp"-->
+<!--            android:text="@{item.formattedPlays}"-->
+<!--            app:drawableStartCompat="@drawable/ic_play"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@id/tvLikes"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/cvMedia"-->
+<!--            tools:text="126" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

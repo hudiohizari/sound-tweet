@@ -1,6 +1,8 @@
 package id.hizari.data.mapper
 
+import id.hizari.data.network.model.dto.TweetDTO
 import id.hizari.data.network.model.dto.UserDTO
+import id.hizari.domain.model.Tweet
 import id.hizari.domain.model.User
 
 /**
@@ -21,4 +23,8 @@ fun UserDTO.toDomain(): User {
             it?.toDomain()
         }?.toMutableList()
     )
+}
+
+fun TweetDTO.toDomain(): Tweet {
+    return Tweet(caption, createdAt, id, postUrl, updatedAt, userId)
 }

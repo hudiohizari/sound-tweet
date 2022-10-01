@@ -26,18 +26,8 @@ class TweetListItem(
     override fun itemIdentifier(): Any = model.id ?: model.hashCode()
 
     override fun comparableContents(): List<Any> = listOf(
-        model.imgUrl ?: model.hashCode(),
-        model.name ?: model.hashCode(),
-        model.userName ?: model.hashCode(),
-        model.postedTime ?: model.hashCode(),
         model.caption ?: model.hashCode(),
-        model.mediaUrl ?: model.hashCode(),
-        model.mediaDuration ?: model.hashCode(),
-        model.likes ?: model.hashCode(),
-        model.likes ?: model.hashCode(),
-        model.comments ?: model.hashCode(),
-        model.plays ?: model.hashCode(),
-        model.friendsLike ?: model.hashCode(),
+        model.postUrl ?: model.hashCode(),
     )
 
     override fun createBinding(
@@ -53,8 +43,9 @@ class TweetListItem(
         binding.item = model
 
         binding.tvName.apply {
-            val originText = "${model.name} ${model.userName} ·${model.getPostedTimeAgo(context)}"
-            val highlightedTexts = arrayOf(model.name)
+//            val originText = "${model.name} ${model.userName} ·${model.getPostedTimeAgo(context)}"
+            val originText = "User @user ·${model.getPostedTimeAgo(context)}"
+            val highlightedTexts = arrayOf("User" as String?)
             val highlightedColors = arrayOf(R.color.cinder as Int?)
             setupHighlightedText(
                 originText, highlightedTexts, highlightedColors, isBold = true
@@ -63,13 +54,13 @@ class TweetListItem(
 
         binding.onClick = View.OnClickListener { listener.onClick(model) }
         binding.onClickMedia = View.OnClickListener { listener.onClickMedia(model) }
-        binding.onClickLike = View.OnClickListener { listener.onClickLike(model) }
+//        binding.onClickLike = View.OnClickListener { listener.onClickLike(model) }
     }
 
     interface Listener {
         fun onClick(item: Tweet)
         fun onClickMedia(item: Tweet)
-        fun onClickLike(item: Tweet)
+//        fun onClickLike(item: Tweet)
     }
 
 }

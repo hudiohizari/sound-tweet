@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit
 
 object DateUtil {
 
-    private const val SERVER_DATE_TIME = "yyyy-MM-dd HH:mm:ss"
+    private const val SERVER_DATE_TIME = "yyyy-MM-dd'T'HH:mm:ssZZZ"
 
     private const val PRINT_DATE = "dd/MM/yyyy"
 

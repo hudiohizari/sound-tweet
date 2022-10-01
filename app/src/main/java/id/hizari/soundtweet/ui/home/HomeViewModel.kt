@@ -25,7 +25,7 @@ class HomeViewModel @Inject constructor(
 ): ViewModel() {
 
     val isRefreshing = MutableLiveData<Boolean>()
-    val tweets = MutableLiveData<Resources<MutableList<Tweet>>>()
+    val tweets = MutableLiveData<Resources<MutableList<Tweet>?>>()
 
     init {
         getTweets()
