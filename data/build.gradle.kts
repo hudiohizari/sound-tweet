@@ -45,4 +45,5 @@ dependencies {
 
     hilt()
     retrofit()
+    dataStore()
 }

@@ -41,6 +41,8 @@ object Dependencies {
 
     const val GLIDE = "com.github.bumptech.glide:glide:${Versions.GLIDE}"
     const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${Versions.GLIDE}"
+
+    const val DATA_STORE = "androidx.datastore:datastore-preferences:${Versions.DATA_STORE}"
 }
 
 fun DependencyHandler.unitTest() {
@@ -80,6 +82,10 @@ fun DependencyHandler.fastAdapter() {
 fun DependencyHandler.glide() {
     implementation(Dependencies.GLIDE)
     annotationProcessor(Dependencies.GLIDE_COMPILER)
+}
+
+fun DependencyHandler.dataStore() {
+    implementation(Dependencies.DATA_STORE)
 }
 
 private fun DependencyHandler.implementation(depName: String) {

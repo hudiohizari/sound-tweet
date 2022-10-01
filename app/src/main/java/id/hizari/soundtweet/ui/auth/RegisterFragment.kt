@@ -75,9 +75,9 @@ class RegisterFragment : BaseFragment() {
 
     private fun initView() {
         binding.tvRegisterNow.apply {
-            val originText = getString(R.string.do_not_have_an_account_yet)
+            val originText = getString(R.string.already_have_an_account)
             val clickableTexts = arrayOf(
-                getString(R.string.do_not_have_an_account_yet_highlighted) as String?
+                getString(R.string.already_have_an_account_highlighted) as String?
             )
             val onClicks = arrayOf({
                 navigateWithAction(

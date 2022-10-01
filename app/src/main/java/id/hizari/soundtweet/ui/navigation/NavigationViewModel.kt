@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.hizari.common.extension.toast
 import id.hizari.common.util.STLog
+import id.hizari.domain.usecase.UserUseCase
 import id.hizari.soundtweet.base.BaseViewModel
 import javax.inject.Inject
 
@@ -17,9 +18,13 @@ import javax.inject.Inject
  */
 
 @HiltViewModel
-class NavigationViewModel @Inject constructor(): BaseViewModel() {
+class NavigationViewModel @Inject constructor(
+    private val userUseCase: UserUseCase
+): BaseViewModel() {
 
-    val login = MutableLiveData(false)
+    val isLoggedIn = MutableLiveData(false)
+
+    fun checkIsLoggedIn() = userUseCase.isLoggedInLive()
 
     @Suppress("unused")
     fun View.onClickPostTweet() {

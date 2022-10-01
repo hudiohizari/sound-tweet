@@ -45,6 +45,17 @@ class UserUseCase(
         }
     }
 
+    fun isLoggedIn(): Flow<Resources<Boolean?>> = flow {
+        emit(Resources.Loading())
+        try {
+            emit(Resources.Success(userRepository.getIsLoggedIn()))
+        } catch (e: Exception) {
+            emit(Resources.Error(e))
+        }
+    }
+
+    fun isLoggedInLive() = userRepository.getIsLoggedInLive()
+
     fun searchUser(query: String?): Flow<Resources<MutableList<User>>> = flow {
         emit(Resources.Loading())
         try {

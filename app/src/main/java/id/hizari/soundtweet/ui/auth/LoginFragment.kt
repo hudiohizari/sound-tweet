@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import id.hizari.common.extension.observeDebounce
 import id.hizari.common.extension.setupClickableText
-import id.hizari.common.extension.toast
 import id.hizari.common.util.Resources
 import id.hizari.common.util.STLog
 import id.hizari.soundtweet.R
@@ -61,9 +60,7 @@ class LoginFragment : BaseFragment() {
             login.observe(viewLifecycleOwner) {
                 when (it) {
                     is Resources.Loading -> STLog.d("Loading")
-                    is Resources.Success -> {
-                        STLog.d("Success = ${it.data?.name}")
-                    }
+                    is Resources.Success -> STLog.d("Success = ${it.data?.name}")
                     is Resources.Error -> it.throwable?.handleGeneralError(binding.clRoot)
                     else -> STLog.e("Unhandled resource")
                 }

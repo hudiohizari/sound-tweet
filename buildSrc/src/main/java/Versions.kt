@@ -33,6 +33,8 @@ object Versions {
 
     const val GLIDE = "4.13.2"
 
+    const val DATA_STORE = "1.0.0"
+
     const val J_UNIT = "4.13.2"
 
     const val J_UNIT_ANDROID = "1.1.3"

@@ -4,12 +4,15 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import id.hizari.soundtweet.R
 import id.hizari.soundtweet.databinding.ActivityNavigationBinding
+import kotlinx.coroutines.launch
 
 /**
  * Sound Tweet - id.hizari.soundtweet.ui.navigation
@@ -30,11 +33,13 @@ class NavigationActivity : AppCompatActivity() {
 
         initBinding()
         initView()
+        initObserver()
     }
 
     private fun initBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_navigation)
         binding.lifecycleOwner = this
+        binding.viewModel = viewModel
     }
 
     private fun initView() {
@@ -47,4 +52,29 @@ class NavigationActivity : AppCompatActivity() {
         // Setup the bottom navigation view with navController
         binding.bnvMain.setupWithNavController(navController)
     }
+
+    private fun initObserver() {
+        lifecycleScope.launch {
+            viewModel.checkIsLoggedIn().collect {
+                viewModel.isLoggedIn.postValue(it)
+                val selectedNavigation = if (it) R.id.dashboardNavigation else R.id.authNavigation
+                val isOkToNavigate = if (selectedNavigation == R.id.dashboardNavigation) {
+                    navController.currentDestination?.id != R.id.homeFragment
+                } else {
+                    navController.currentDestination?.id != R.id.registerFragment
+                }
+
+                if (isOkToNavigate) {
+                    navController.navigate(
+                        selectedNavigation,
+                        null,
+                        NavOptions.Builder()
+                            .setPopUpTo(selectedNavigation, true)
+                            .build()
+                    )
+                }
+            }
+        }
+    }
+
 }

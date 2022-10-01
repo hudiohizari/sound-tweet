@@ -2,28 +2,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dashboardNavigation"
-    app:startDestination="@+id/homeNavigation">
+    app:startDestination="@+id/homeFragment">
 
     <fragment
-        android:id="@+id/homeNavigation"
+        android:id="@+id/homeFragment"
         android:name="id.hizari.soundtweet.ui.home.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/searchNavigation"
+        android:id="@+id/searchFragment"
         android:name="id.hizari.soundtweet.ui.search.SearchFragment"
         android:label="@string/search"
         tools:layout="@layout/fragment_search" />
 
     <fragment
-        android:id="@+id/notificationNavigation"
+        android:id="@+id/notificationFragment"
         android:name="id.hizari.soundtweet.ui.notification.NotificationFragment"
         android:label="@string/notification"
         tools:layout="@layout/fragment_notification" />
 
     <fragment
-        android:id="@+id/profileNavigation"
+        android:id="@+id/profileFragment"
         android:name="id.hizari.soundtweet.ui.profile.ProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile" />

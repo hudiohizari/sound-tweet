@@ -1,4 +1,4 @@
-package id.hizari.data.network.di
+package id.hizari.data.di
 
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
@@ -13,11 +13,10 @@ import id.hizari.data.repository.TweetRepositoryImpl
 import id.hizari.data.repository.UserRepositoryImpl
 import id.hizari.domain.repository.TweetRepository
 import id.hizari.domain.repository.UserRepository
-import retrofit2.Retrofit
 import javax.inject.Singleton
 
 /**
- * Sound Tweet - id.hizari.data.network.di
+ * Sound Tweet - id.hizari.data.di
  *
  * Created by Hudio Hizari on 29/09/2022.
  * https://github.com/hudiohizari
@@ -26,7 +25,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DataModule {
+object NetworkModule {
 
     @Provides
     @Singleton
@@ -45,20 +44,8 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideSoundTweeService(client: Client): SoundTweetService {
+    fun provideSoundTweetService(client: Client): SoundTweetService {
         return SoundTweetService.invoke(client)
-    }
-
-    @Provides
-    @Singleton
-    fun provideTweetRepository(): TweetRepository {
-        return TweetRepositoryImpl()
-    }
-
-    @Provides
-    @Singleton
-    fun provideUserRepository(soundTweetService: SoundTweetService): UserRepository {
-        return UserRepositoryImpl(soundTweetService)
     }
 
 }

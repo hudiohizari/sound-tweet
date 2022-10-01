@@ -1,6 +1,7 @@
 package id.hizari.domain.repository
 
 import id.hizari.domain.model.User
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Sound Tweet - id.hizari.domain.repository
@@ -20,6 +21,8 @@ interface UserRepository {
     ): User?
 
     suspend fun postLogin(username: String?, password: String?): User?
+    suspend fun getIsLoggedIn(): Boolean
+    fun getIsLoggedInLive(): Flow<Boolean>
     suspend fun searchUser(query: String?): MutableList<User>
 
 }
