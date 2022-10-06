@@ -1,7 +1,6 @@
 package id.hizari.data.repository
 
 import id.hizari.data.local.DataStore
-import id.hizari.data.mapper.toDomain
 import id.hizari.data.network.model.request.LoginRequest
 import id.hizari.data.network.model.request.RegisterRequest
 import id.hizari.data.network.service.SoundTweetService

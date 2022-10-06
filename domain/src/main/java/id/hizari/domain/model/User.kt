@@ -13,11 +13,5 @@ class User(
     val name: String?,
     val userName: String?,
     val bio: String?,
-    val userFollower: MutableList<User?>?
-) {
-
-    fun isFollowed(): Boolean {
-        return userFollower?.find { it?.id == id } != null
-    }
-
-}
+    val isFollowed: Boolean?
+)

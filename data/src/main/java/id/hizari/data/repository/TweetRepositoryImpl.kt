@@ -1,6 +1,6 @@
 package id.hizari.data.repository
 
-import id.hizari.data.mapper.toDomain
+import android.content.Context
 import id.hizari.data.network.service.SoundTweetService
 import id.hizari.data.network.util.SafeApiRequest
 import id.hizari.domain.model.Tweet
@@ -19,10 +19,12 @@ class TweetRepositoryImpl @Inject constructor(
     private val soundTweetService: SoundTweetService
 ): TweetRepository, SafeApiRequest() {
 
-    override suspend fun getTweets(): MutableList<Tweet>? {
+    override suspend fun getTweets(
+        context: Context
+    ): MutableList<Tweet>? {
         val response = apiRequest { soundTweetService.getTweets() }
         return response?.map {
-            it.toDomain()
+            it.toDomain(context)
         }?.toMutableList()
     }
 

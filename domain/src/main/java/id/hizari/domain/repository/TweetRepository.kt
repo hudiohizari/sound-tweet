@@ -1,5 +1,6 @@
 package id.hizari.domain.repository
 
+import android.content.Context
 import id.hizari.domain.model.Tweet
 
 /**
@@ -12,6 +13,6 @@ import id.hizari.domain.model.Tweet
 
 interface TweetRepository {
 
-    suspend fun getTweets(): MutableList<Tweet>?
+    suspend fun getTweets(context: Context): MutableList<Tweet>?
 
 }

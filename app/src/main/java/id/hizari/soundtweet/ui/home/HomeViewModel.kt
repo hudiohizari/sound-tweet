@@ -1,5 +1,6 @@
 package id.hizari.soundtweet.ui.home
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -27,18 +28,14 @@ class HomeViewModel @Inject constructor(
     val isRefreshing = MutableLiveData<Boolean>()
     val tweets = MutableLiveData<Resources<MutableList<Tweet>?>>()
 
-    init {
-        getTweets()
-    }
-
-    fun getTweets() {
-        tweetsUseCase.getTweets().onEach {
+    fun getTweets(context: Context) {
+        tweetsUseCase.getTweets(context).onEach {
             tweets.postValue(it)
         }.launchIn(viewModelScope)
     }
 
-    fun onRefresh() {
-        getTweets()
+    fun onRefresh(context: Context) {
+        getTweets(context)
         isRefreshing.postValue(false)
     }
 

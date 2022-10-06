@@ -3,7 +3,7 @@ package id.hizari.common.util
 import androidx.annotation.Keep
 
 /**
- * Sound Tweet - id.hizari.data.mapper
+ * Sound Tweet - id.hizari.common.util
  *
  * Created by Hudio Hizari on 29/09/2022.
  * https://github.com/hudiohizari

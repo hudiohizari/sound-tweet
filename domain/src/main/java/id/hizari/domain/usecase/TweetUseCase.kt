@@ -1,5 +1,6 @@
 package id.hizari.domain.usecase
 
+import android.content.Context
 import id.hizari.common.util.Resources
 import id.hizari.domain.model.Tweet
 import id.hizari.domain.repository.TweetRepository
@@ -20,11 +21,11 @@ class TweetUseCase(
     private val tweetRepository: TweetRepository
 ) {
 
-    fun getTweets(): Flow<Resources<MutableList<Tweet>?>> = flow {
+    fun getTweets(context: Context): Flow<Resources<MutableList<Tweet>?>> = flow {
         emit(Resources.Loading())
         try {
             delay(Random.nextLong(500, 5000))
-            val response = tweetRepository.getTweets()
+            val response = tweetRepository.getTweets(context)
             emit(Resources.Success(response))
         } catch (e: Exception) {
             emit(Resources.Error(e))

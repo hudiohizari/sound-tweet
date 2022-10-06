@@ -15,15 +15,9 @@ import id.hizari.domain.R
 
 data class Tweet(
     val caption: String?,
-    val createdAt: String?,
+    val postedTimeAgo: String?,
     val id: Int?,
     val postUrl: String?,
     val updatedAt: String?,
     val user: User?
-) {
-
-    fun getPostedTimeAgo(context: Context): String {
-        return DateUtil.getTimeAgo(context, createdAt)
-    }
-
-}
+)

@@ -58,7 +58,12 @@ class HomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initApiCall()
         initObserver()
+    }
+
+    private fun initApiCall() {
+        viewModel.getTweets(requireContext())
     }
 
     private fun initObserver() {
@@ -113,7 +118,7 @@ class HomeFragment : BaseFragment() {
         val items: MutableList<UnspecifiedTypeItem> = mutableListOf()
         items.add(DefaultReloadListItem(object : DefaultReloadListItem.Listener {
             override fun reload() {
-                viewModel.getTweets()
+                viewModel.getTweets(requireContext())
             }
         }))
         getTweetAdapter().performUpdates(items)

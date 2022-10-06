@@ -1,6 +1,7 @@
 package id.hizari.data.network.model.dto
 
 import id.hizari.data.network.model.base.BaseDTO
+import id.hizari.domain.model.User
 
 /**
  * Sound Tweet - id.hizari.data.network.model.dto
@@ -22,4 +23,20 @@ data class UserDTO(
     val updatedAt: String?,
     val userFollower: MutableList<UserDTO?>?,
     val username: String?
-): BaseDTO()
+): BaseDTO() {
+
+    fun toDomain(): User {
+        return User(
+            id,
+            nickname,
+            username,
+            bio,
+            isFollowed()
+        )
+    }
+
+    private fun isFollowed(): Boolean {
+        return userFollower?.find { it?.id == id } != null
+    }
+
+}
