@@ -10,7 +10,7 @@ import id.hizari.common.util.InputValidator.INPUT_NAME_MIN
 import id.hizari.common.util.Resources
 import id.hizari.common.util.STLog
 import id.hizari.domain.model.User
-import id.hizari.domain.usecase.UserUseCase
+import id.hizari.domain.usecase.user.PostRegisterUseCase
 import id.hizari.soundtweet.R
 import id.hizari.soundtweet.base.BaseContextViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -28,7 +28,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     app: Application,
-    private val userUseCase: UserUseCase
+    private val postRegisterUseCase: PostRegisterUseCase
 ) : BaseContextViewModel(app) {
 
     val email = MutableLiveData<String?>()
@@ -71,7 +71,7 @@ class RegisterViewModel @Inject constructor(
 
     @Suppress("unused")
     fun View.onClickRegister() {
-        userUseCase.postRegister(
+        postRegisterUseCase(
             email.value,
             name.value,
             username.value,

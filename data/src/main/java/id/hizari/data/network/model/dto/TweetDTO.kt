@@ -14,7 +14,7 @@ data class TweetDTO(
 ) {
 
     fun toDomain(context: Context): Tweet {
-        return Tweet(caption, getPostedTimeAgo(context), id, postUrl, updatedAt, user?.toDomain())
+        return Tweet(caption, getPostedTimeAgo(context), id, postUrl, user?.toDomain())
     }
 
     private fun getPostedTimeAgo(context: Context): String {

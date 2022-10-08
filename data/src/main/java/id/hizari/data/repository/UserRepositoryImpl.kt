@@ -53,13 +53,13 @@ class UserRepositoryImpl @Inject constructor(
         return dataStore.getIsLoggedIn()
     }
 
-    override suspend fun searchUser(query: String?): MutableList<User>? {
-        val response = apiRequest { soundTweetService.searchUsers(query) }
+    override suspend fun getSearchUser(query: String?): MutableList<User>? {
+        val response = apiRequest { soundTweetService.getSearchUsers(query) }
         return response?.map { it.toDomain() }?.toMutableList()
     }
 
-    override suspend fun followUser(userId: Int?): User? {
-        val response = apiRequest { soundTweetService.followUser(userId) }
+    override suspend fun postFollowUser(userId: Int?): User? {
+        val response = apiRequest { soundTweetService.postFollowUser(userId) }
         return response?.toDomain()
     }
 

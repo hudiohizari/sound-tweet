@@ -6,8 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.hizari.domain.repository.TweetRepository
 import id.hizari.domain.repository.UserRepository
-import id.hizari.domain.usecase.TweetUseCase
-import id.hizari.domain.usecase.UserUseCase
+import id.hizari.domain.usecase.tweet.GetTweetsUseCase
+import id.hizari.domain.usecase.user.*
 
 /**
  * Sound Tweet - id.hizari.domain.di
@@ -22,13 +22,38 @@ import id.hizari.domain.usecase.UserUseCase
 object DomainModule {
 
     @Provides
-    fun provideTweetUseCase(tweetRepository: TweetRepository): TweetUseCase {
-        return TweetUseCase(tweetRepository)
+    fun provideGetTweetsUseCase(tweetRepository: TweetRepository): GetTweetsUseCase {
+        return GetTweetsUseCase(tweetRepository)
     }
 
     @Provides
-    fun provideSearchUserUseCase(userRepository: UserRepository): UserUseCase {
-        return UserUseCase(userRepository)
+    fun providePostRegisterUseCase(userRepository: UserRepository): PostRegisterUseCase {
+        return PostRegisterUseCase(userRepository)
+    }
+
+    @Provides
+    fun providePostLoginUseCase(userRepository: UserRepository): PostLoginUseCase {
+        return PostLoginUseCase(userRepository)
+    }
+
+    @Provides
+    fun provideGetIsLoggedInUseCase(userRepository: UserRepository): GetIsLoggedInUseCase {
+        return GetIsLoggedInUseCase(userRepository)
+    }
+
+    @Provides
+    fun provideGetIsLoggedInLiveUseCase(userRepository: UserRepository): GetIsLoggedInLiveUseCase {
+        return GetIsLoggedInLiveUseCase(userRepository)
+    }
+
+    @Provides
+    fun provideGetSearchUserUseCase(userRepository: UserRepository): GetSearchUserUseCase {
+        return GetSearchUserUseCase(userRepository)
+    }
+
+    @Provides
+    fun providePostFollowUserUseCase(userRepository: UserRepository): PostFollowUserUseCase {
+        return PostFollowUserUseCase(userRepository)
     }
 
 }

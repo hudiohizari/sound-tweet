@@ -8,7 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import id.hizari.common.util.InputValidator
 import id.hizari.common.util.Resources
 import id.hizari.domain.model.User
-import id.hizari.domain.usecase.UserUseCase
+import id.hizari.domain.usecase.user.PostLoginUseCase
 import id.hizari.soundtweet.R
 import id.hizari.soundtweet.base.BaseContextViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -26,7 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     app: Application,
-    private val userUseCase: UserUseCase
+    private val postLoginUseCase: PostLoginUseCase
 ) : BaseContextViewModel(app) {
 
     val username = MutableLiveData<String?>()
@@ -54,7 +54,7 @@ class LoginViewModel @Inject constructor(
 
     @Suppress("unused")
     fun View.onClickLogin() {
-        userUseCase.postLogin(username.value, password.value).onEach {
+        postLoginUseCase(username.value, password.value).onEach {
             login.postValue(it)
         }.launchIn(viewModelScope)
     }

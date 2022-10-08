@@ -6,7 +6,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.hizari.common.util.Resources
 import id.hizari.domain.model.User
-import id.hizari.domain.usecase.UserUseCase
+import id.hizari.domain.usecase.user.GetSearchUserUseCase
+import id.hizari.domain.usecase.user.PostFollowUserUseCase
 import id.hizari.soundtweet.base.BaseViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -22,7 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val userUseCase: UserUseCase
+    private val getSearchUserUseCase: GetSearchUserUseCase,
+    private val postFollowUserUseCase: PostFollowUserUseCase
 ) : BaseViewModel() {
 
     var lastSearch: String? = null
@@ -35,13 +37,13 @@ class SearchViewModel @Inject constructor(
 
     fun searchUser() {
         lastSearch = query.value
-        userUseCase.searchUser(query.value).onEach {
+        getSearchUserUseCase(query.value).onEach {
             users.postValue(it)
         }.launchIn(viewModelScope)
     }
 
     fun followUser(userId: Int?) {
-        userUseCase.followUser(userId).onEach {
+        postFollowUserUseCase(userId).onEach {
             user.postValue(it)
         }.launchIn(viewModelScope)
     }

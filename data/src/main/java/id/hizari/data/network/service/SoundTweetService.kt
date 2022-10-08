@@ -13,7 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -41,12 +40,12 @@ interface SoundTweetService {
     suspend fun getTweets(): Response<TweetsDTO>
 
     @GET("users/search")
-    suspend fun searchUsers(
+    suspend fun getSearchUsers(
         @Query("keyword") query: String?
     ): Response<UsersDTO>
 
     @POST("users/follow/{id}")
-    suspend fun followUser(
+    suspend fun postFollowUser(
         @Path("id") userId: Int?
     ): Response<UserDTO>
 

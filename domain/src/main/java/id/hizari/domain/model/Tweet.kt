@@ -1,10 +1,5 @@
 package id.hizari.domain.model
 
-import android.content.Context
-import id.hizari.common.extension.toCompactFormat
-import id.hizari.common.util.DateUtil
-import id.hizari.domain.R
-
 /**
  * Sound Tweet - id.hizari.domain.model
  *
@@ -18,6 +13,5 @@ data class Tweet(
     val postedTimeAgo: String?,
     val id: Int?,
     val postUrl: String?,
-    val updatedAt: String?,
     val user: User?
 )
