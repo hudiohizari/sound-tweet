@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import id.hizari.common.util.Resources
 import id.hizari.domain.model.Tweet
 import id.hizari.domain.usecase.tweet.GetTweetsUseCase
+import id.hizari.soundtweet.base.BaseViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -23,7 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getTweetsUseCase: GetTweetsUseCase
-): ViewModel() {
+): BaseViewModel() {
 
     val isRefreshing = MutableLiveData<Boolean>()
     val tweets = MutableLiveData<Resources<MutableList<Tweet>?>>()

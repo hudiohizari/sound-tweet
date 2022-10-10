@@ -18,6 +18,7 @@ import id.hizari.common.util.STLog
 import id.hizari.domain.model.User
 import id.hizari.soundtweet.R
 import id.hizari.soundtweet.base.BaseFragment
+import id.hizari.soundtweet.base.BaseViewModel
 import id.hizari.soundtweet.databinding.FragmentSearchBinding
 import id.hizari.soundtweet.ui.user.UserListItem
 import id.hizari.soundtweet.ui.user.UserListItemLoading
@@ -36,6 +37,8 @@ class SearchFragment : BaseFragment() {
     private lateinit var binding: FragmentSearchBinding
 
     private val viewModel: SearchViewModel by viewModels()
+
+    override fun getViewModel(): BaseViewModel = viewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

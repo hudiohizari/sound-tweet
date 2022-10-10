@@ -1,10 +1,14 @@
 package id.hizari.soundtweet.base
 
-import androidx.activity.addCallback
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDirections
+import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import id.hizari.soundtweet.extention.popBackStackAllInstances
+import id.hizari.soundtweet.util.NavigationCommand
 
 /**
  * Sound Tweet - id.hizari.common.base
@@ -15,38 +19,47 @@ import id.hizari.soundtweet.extention.popBackStackAllInstances
  */
 
 abstract class BaseFragment : Fragment() {
-    private var isNavigated = false
 
-    protected fun navigateWithAction(action: NavDirections) {
-        isNavigated = true
-        findNavController().navigate(action)
+    /**
+     * [FragmentNavigatorExtras] mainly used to enable Shared Element transition
+     */
+    open fun getExtras(): FragmentNavigator.Extras = FragmentNavigatorExtras()
+
+    abstract fun getViewModel(): ViewModel
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observeNavigation(getViewModel())
     }
 
-    protected fun navigate(resId: Int) {
-        isNavigated = true
-        findNavController().navigate(resId)
+    private fun observeNavigation(viewModel: ViewModel) {
+        if (viewModel is BaseViewModel) {
+            viewModel.navigation.observe(viewLifecycleOwner) {
+                it?.getContentIfNotHandled()?.let { command -> handleCommand(command)}
+            }
+        } else if (viewModel is BaseContextViewModel) {
+            viewModel.navigation.observe(viewLifecycleOwner) {
+                it?.getContentIfNotHandled()?.let { command -> handleCommand(command)}
+            }
+        }
+    }
+
+    private fun handleCommand(command: NavigationCommand) {
+        when (command) {
+            is NavigationCommand.To -> findNavController().navigate(
+                command.directions,
+                getExtras()
+            )
+            is NavigationCommand.Back -> navigateUp()
+        }
     }
 
     protected fun navigateUp() {
         findNavController().navigateUp()
     }
 
-    protected fun getNavigationResult(key: String = "result") =
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(key)
-
-    protected fun setNavigationResult(result: String?, key: String = "result") {
-        findNavController().previousBackStackEntry?.savedStateHandle?.set(key, result)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        if (!isNavigated)
-            requireActivity().onBackPressedDispatcher.addCallback(this) {
-                val navController = findNavController()
-                navController.currentBackStackEntry?.destination?.id?.let {
-                    findNavController().popBackStackAllInstances(it, true)
-                } ?: navController.popBackStack()
-            }
+    protected fun navigateWithAction(action: NavDirections) {
+        findNavController().navigate(action)
     }
 
 }

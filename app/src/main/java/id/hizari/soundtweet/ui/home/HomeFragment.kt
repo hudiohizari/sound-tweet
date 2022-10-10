@@ -20,6 +20,7 @@ import id.hizari.common.util.STLog
 import id.hizari.domain.model.Tweet
 import id.hizari.soundtweet.R
 import id.hizari.soundtweet.base.BaseFragment
+import id.hizari.soundtweet.base.BaseViewModel
 import id.hizari.soundtweet.databinding.FragmentHomeBinding
 import id.hizari.soundtweet.ui.tweet.TweetListItem
 import id.hizari.soundtweet.ui.tweet.TweetListItemLoading
@@ -38,6 +39,8 @@ class HomeFragment : BaseFragment() {
     private lateinit var binding: FragmentHomeBinding
 
     private val viewModel: HomeViewModel by viewModels()
+
+    override fun getViewModel(): BaseViewModel = viewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
