@@ -1,4 +1,4 @@
-package id.hizari.common.list
+package id.hizari.common.list.item.decoration
 
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable

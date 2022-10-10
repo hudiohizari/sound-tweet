@@ -17,7 +17,7 @@ class AuthInterceptor @Inject constructor(
         val req = chain.request().also { STLog.d("[1] $it") }
 
         val username = runBlocking {
-            dataStore.getLoggedInUsername().first()
+            dataStore.getLoggedInUser().first()?.userName
         }.also { STLog.d("[2] $req $it") }
 
         return  chain.proceedWithToken(req, username)

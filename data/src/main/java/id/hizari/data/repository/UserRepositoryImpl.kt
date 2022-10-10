@@ -32,17 +32,17 @@ class UserRepositoryImpl @Inject constructor(
     ): User? {
         val body = RegisterRequest(email, name, username, password)
         val response = apiRequest { soundTweetService.postRegister(body) }
-        dataStore.setLoggedInUsername(response?.username)
-        dataStore.setIsLoggedIn(true)
-        return response?.toDomain()
+        val responseDomain = response?.toDomain()
+        dataStore.setLoggedInUser(responseDomain)
+        return responseDomain
     }
 
     override suspend fun postLogin(username: String?, password: String?): User? {
         val body = LoginRequest(username, password)
         val response = apiRequest { soundTweetService.postLogin(body) }
-        dataStore.setLoggedInUsername(response?.username)
-        dataStore.setIsLoggedIn(true)
-        return response?.toDomain()
+        val responseDomain = response?.toDomain()
+        dataStore.setLoggedInUser(responseDomain)
+        return responseDomain
     }
 
     override suspend fun getIsLoggedIn(): Boolean {

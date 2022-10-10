@@ -4,7 +4,7 @@ import android.graphics.drawable.ColorDrawable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import id.hizari.common.R
-import id.hizari.common.list.DefaultDividerItemDecoration
+import id.hizari.common.list.item.decoration.DefaultDividerItemDecoration
 
 /**
  * Sound Tweet - id.hizari.common.extension
