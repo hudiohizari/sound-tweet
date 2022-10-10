@@ -1,5 +1,7 @@
 package id.hizari.soundtweet.ui.tweet
 
+import android.view.View
+import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.hizari.soundtweet.base.BaseViewModel
 import javax.inject.Inject
@@ -15,5 +17,24 @@ import javax.inject.Inject
 @HiltViewModel
 class PostTweetViewModel @Inject constructor(
 ) : BaseViewModel() {
+
+    val caption = MutableLiveData<String>()
+    val recordDuration = MutableLiveData<String>()
+    val isRecording = MutableLiveData(false)
+
+    @Suppress("unused")
+    fun View.onClickCancel() {
+        navigateBack()
+    }
+
+    @Suppress("unused")
+    fun View.onClickPost() {
+
+    }
+
+    @Suppress("unused")
+    fun View.onClickRecord() {
+        isRecording.postValue(!(isRecording.value ?: false))
+    }
 
 }

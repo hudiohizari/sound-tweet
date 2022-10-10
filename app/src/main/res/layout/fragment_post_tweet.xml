@@ -15,7 +15,164 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="?android:attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:animateLayoutChanges="true">
+
+                <TextView
+                    android:id="@+id/tvCancel"
+                    style="@style/TextPrimaryLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:onClick="@{viewModel::onClickCancel}"
+                    android:text="@string/cancel"
+                    android:textColor="@color/cornflower_blue"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPost"
+                    style="@style/ButtonThinTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="@{!viewModel.isRecording}"
+                    android:onClick="@{viewModel::onClickPost}"
+                    android:text="@string/post"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@null"
+                android:hint="@string/insert_a_caption"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine" />
+
+        </ScrollView>
+
+        <View
+            android:id="@+id/vRecordLineHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginBottom="12dp"
+            android:background="@color/dawn_pink"
+            app:layout_constraintBottom_toTopOf="@id/mcvRecord"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/vRecordLineVertical"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="12dp"
+            android:background="@color/dawn_pink"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/mcvRecord"
+            app:layout_constraintTop_toBottomOf="@id/vRecordLineHorizontal" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mcvRecord"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            android:onClick="@{viewModel::onClickRecord}"
+            app:cardBackgroundColor="@color/cornflower_blue"
+            app:cardCornerRadius="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@{viewModel.isRecording ? @string/pause : @string/record}"
+                android:padding="6dp"
+                android:src="@{viewModel.isRecording ? @drawable/ic_pause : @drawable/ic_sound_wave}"
+                tools:contentDescription="@string/record"
+                tools:src="@drawable/ic_sound_wave" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:constraint_referenced_ids="tvRecordStatus,tvRecordDuration"
+            android:visibility="@{viewModel.recordDuration != null ? View.VISIBLE : View.GONE}"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvRecordStatus"
+            style="@style/TextSecondaryLargeRegular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:text="@{viewModel.isRecording ? @string/recording : @string/paused}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvRecordDuration"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vRecordLineHorizontal"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvRecordDuration"
+            style="@style/TextPrimaryRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:text="@{viewModel.recordDuration}"
+            android:textColor="@color/cornflower_blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/vRecordLineVertical"
+            app:layout_constraintTop_toBottomOf="@id/vRecordLineHorizontal"
+            tools:text="01:12"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvRecordHint"
+            style="@style/TextPrimaryRegular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:maxLines="1"
+            android:text="@string/press_this_button_to_start_recording"
+            android:textColor="@color/cornflower_blue"
+            android:visibility="@{viewModel.recordDuration == null ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/vRecordLineVertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vRecordLineHorizontal" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
