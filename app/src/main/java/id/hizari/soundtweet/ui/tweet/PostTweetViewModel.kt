@@ -3,6 +3,7 @@ package id.hizari.soundtweet.ui.tweet
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.hizari.common.extension.toast
 import id.hizari.soundtweet.base.BaseViewModel
 import javax.inject.Inject
 
@@ -18,6 +19,11 @@ import javax.inject.Inject
 class PostTweetViewModel @Inject constructor(
 ) : BaseViewModel() {
 
+    companion object {
+        const val LISTENER_REQUEST_PERMISSION = 0
+    }
+
+    val listenerToFragment = MutableLiveData<Int>()
     val caption = MutableLiveData<String>()
     val recordDuration = MutableLiveData<String>()
     val isRecording = MutableLiveData(false)
@@ -27,14 +33,15 @@ class PostTweetViewModel @Inject constructor(
         navigateBack()
     }
 
-    @Suppress("unused")
     fun View.onClickPost() {
-
+        context.toast("onClickPost")
     }
 
     @Suppress("unused")
     fun View.onClickRecord() {
-        isRecording.postValue(!(isRecording.value ?: false))
+        if (isRecording.value == true) {
+            isRecording.postValue(false)
+        } else listenerToFragment.postValue(LISTENER_REQUEST_PERMISSION)
     }
 
 }

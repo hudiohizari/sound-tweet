@@ -13,8 +13,8 @@ data class TweetDTO(
     val user: UserDTO?
 ) {
 
-    fun toDomain(context: Context): Tweet {
-        return Tweet(caption, getPostedTimeAgo(context), id, postUrl, user?.toDomain())
+    fun toDomain(context: Context, loggedInId: Long?): Tweet {
+        return Tweet(caption, getPostedTimeAgo(context), id, postUrl, user?.toDomain(loggedInId))
     }
 
     private fun getPostedTimeAgo(context: Context): String {

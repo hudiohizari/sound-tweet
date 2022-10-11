@@ -53,7 +53,7 @@ interface SoundTweetService {
         operator fun invoke(client: Client): SoundTweetService {
             return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(Constant.BASE_URL)
+                .baseUrl(Constant.URL.BASE_URL)
                 .client(client.provideClient())
                 .build()
                 .create(SoundTweetService::class.java)

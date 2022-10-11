@@ -4,6 +4,7 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.hizari.common.extension.isNotNullOrEmpty
 import id.hizari.common.util.Resources
 import id.hizari.domain.model.User
 import id.hizari.domain.usecase.user.GetSearchUserUseCase
@@ -46,7 +47,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onRefresh() {
-        searchUser()
+        if (query.value.isNotNullOrEmpty()) searchUser()
         isRefreshing.postValue(false)
     }
 

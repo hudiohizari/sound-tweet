@@ -12,8 +12,13 @@ import id.hizari.common.BuildConfig
 
 object Constant {
 
-    const val BASE_URL = BuildConfig.BASE_URL
+    object URL {
+        const val BASE_URL = BuildConfig.BASE_URL
+        const val IMAGE_INVALID = "https://via.placeholder.com/150?text=No+Image"
+    }
 
-    const val IMAGE_INVALID = "https://via.placeholder.com/150?text=No+Image"
+    object Permission {
+        const val REQUEST_CODE_AUDIO = 1001
+    }
 
 }

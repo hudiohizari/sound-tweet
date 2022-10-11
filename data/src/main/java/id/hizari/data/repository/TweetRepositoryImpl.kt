@@ -1,10 +1,12 @@
 package id.hizari.data.repository
 
 import android.content.Context
+import id.hizari.data.local.DataStore
 import id.hizari.data.network.service.SoundTweetService
 import id.hizari.data.network.util.SafeApiRequest
 import id.hizari.domain.model.Tweet
 import id.hizari.domain.repository.TweetRepository
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 /**
@@ -16,7 +18,8 @@ import javax.inject.Inject
  */
 
 class TweetRepositoryImpl @Inject constructor(
-    private val soundTweetService: SoundTweetService
+    private val soundTweetService: SoundTweetService,
+    private val dataStore: DataStore
 ): TweetRepository, SafeApiRequest() {
 
     override suspend fun getTweets(
@@ -24,7 +27,7 @@ class TweetRepositoryImpl @Inject constructor(
     ): MutableList<Tweet>? {
         val response = apiRequest { soundTweetService.getTweets() }
         return response?.map {
-            it.toDomain(context)
+            it.toDomain(context, dataStore.getLoggedInUser().first()?.id)
         }?.toMutableList()
     }
 

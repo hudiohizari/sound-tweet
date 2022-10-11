@@ -38,7 +38,7 @@ class DataStore @Inject constructor(
 
     suspend fun setLoggedInUser(user: User?) {
         context.dataStore.edit { preferences ->
-            preferences[USER_ID] = user?.id ?: -1
+            preferences[USER_ID] = user?.id ?: -1L
             preferences[USER_NAME] = user?.name ?: ""
             preferences[USER_USERNAME] = user?.userName ?: ""
             preferences[USER_BIO] = user?.bio ?: ""

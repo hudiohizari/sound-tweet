@@ -10,6 +10,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
+import id.hizari.common.util.PermissionUtil
 import id.hizari.common.util.STLog
 import id.hizari.soundtweet.R
 import id.hizari.soundtweet.databinding.ActivityNavigationBinding
@@ -25,9 +26,20 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class NavigationActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityNavigationBinding
     private lateinit var navController: NavController
     private val viewModel: NavigationViewModel by viewModels()
+    private val permissionUtil by lazy {
+        PermissionUtil(
+            this,
+            object : PermissionUtil.Listener {
+                override fun onPermissionUpdate(isGranted: Boolean) {
+                    viewModel.isPermissionGranted.postValue(isGranted)
+                }
+            }
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +47,15 @@ class NavigationActivity : AppCompatActivity() {
         initBinding()
         initView()
         initObserver()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        permissionUtil.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     private fun initBinding() {
@@ -55,6 +76,10 @@ class NavigationActivity : AppCompatActivity() {
     }
 
     private fun initObserver() {
+        viewModel.requestedPermission.observe(this) {
+            if (!it.isNullOrEmpty()) permissionUtil.checkPermissions(it)
+        }
+
         lifecycleScope.launch {
             viewModel.checkIsLoggedIn().collect {
                 viewModel.isLoggedIn.postValue(it)

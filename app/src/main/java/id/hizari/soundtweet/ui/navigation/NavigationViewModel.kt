@@ -21,6 +21,8 @@ class NavigationViewModel @Inject constructor(
     private val getIsLoggedInLiveUseCase: GetIsLoggedInLiveUseCase
 ): BaseViewModel() {
 
+    val requestedPermission = MutableLiveData<String>()
+    val isPermissionGranted = MutableLiveData<Boolean>()
     val navigateTo = MutableLiveData<Int>()
     val isLoggedIn = MutableLiveData(false)
     val isShowFab = MutableLiveData(true)

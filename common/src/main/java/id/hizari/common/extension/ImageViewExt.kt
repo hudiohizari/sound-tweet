@@ -29,8 +29,7 @@ fun ImageView.imageUrl(
     }
 
     loadImageFromUrl(
-        if (url.isNullOrEmpty()) Constant.IMAGE_INVALID
-        else url,
+        url.ifEmpty { Constant.URL.IMAGE_INVALID },
         true,
         disableCenterCrop
     )
