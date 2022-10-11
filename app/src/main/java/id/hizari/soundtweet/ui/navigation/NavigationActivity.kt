@@ -70,7 +70,7 @@ class NavigationActivity : AppCompatActivity() {
                         selectedNavigation,
                         null,
                         NavOptions.Builder()
-                            .setPopUpTo(selectedNavigation, true)
+                            .setPopUpTo(navController.graph.startDestinationId, true)
                             .build()
                     )
                 }
