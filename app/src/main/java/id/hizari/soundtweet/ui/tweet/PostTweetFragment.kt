@@ -1,6 +1,8 @@
 package id.hizari.soundtweet.ui.tweet
 
 import android.Manifest
+import android.media.MediaRecorder
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +19,8 @@ import id.hizari.soundtweet.base.BaseFragment
 import id.hizari.soundtweet.base.BaseViewModel
 import id.hizari.soundtweet.databinding.FragmentPostTweetBinding
 import id.hizari.soundtweet.ui.navigation.NavigationViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Sound Tweet - id.hizari.soundtweet.ui.tweet
@@ -42,11 +46,40 @@ class PostTweetFragment : BaseFragment() {
         })
     }
 
+    private val recorder by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            MediaRecorder(requireContext())
+        } else {
+            @Suppress("DEPRECATION")
+            MediaRecorder()
+        }
+    }
+
     override fun getViewModel(): BaseViewModel = viewModel
 
     override fun onPause() {
+        STLog.d("onPause")
+        when (viewModel.recordingStatus.value) {
+            PostTweetViewModel.RECORDING_STATUS_RESUME,
+            PostTweetViewModel.RECORDING_STATUS_FIRST_TIME -> {
+                viewModel.recordingStatus.postValue(PostTweetViewModel.RECORDING_STATUS_PAUSE)
+            }
+        }
+
         super.onPause()
-        if (viewModel.isRecording.value == true) viewModel.isRecording.postValue(false)
+    }
+
+    override fun onDestroy() {
+        STLog.d("onDestroy")
+        when (viewModel.recordingStatus.value) {
+            PostTweetViewModel.RECORDING_STATUS_RESUME,
+            PostTweetViewModel.RECORDING_STATUS_FIRST_TIME,
+            PostTweetViewModel.RECORDING_STATUS_PAUSE -> {
+                stopRecord()
+            }
+        }
+
+        super.onDestroy()
     }
 
     override fun onCreateView(
@@ -75,31 +108,82 @@ class PostTweetFragment : BaseFragment() {
         sharedViewModel.isPermissionGranted.observe(viewLifecycleOwner) {
             when (it) {
                 true -> {
-                    viewModel.isRecording.postValue(!(viewModel.isRecording.value ?: false))
+                    when (viewModel.recordingStatus.value) {
+                        PostTweetViewModel.RECORDING_STATUS_FIRST_TIME,
+                        PostTweetViewModel.RECORDING_STATUS_PAUSE -> {
+                            viewModel.recordingStatus.postValue(PostTweetViewModel.RECORDING_STATUS_RESUME)
+                        }
+                        null -> {
+                            viewModel.recordingStatus.postValue(PostTweetViewModel.RECORDING_STATUS_FIRST_TIME)
+                        }
+                        else -> STLog.e("Unhandled recordingStatus = ${viewModel.recordingStatus.value}")
+                    }
                 }
                 false -> toast(getString(commonR.string.please_grant_audio_permission))
-                else -> STLog.e("Unhandled isPermissionGranted")
+                else -> STLog.e("Unhandled isPermissionGranted = $it")
             }
+            if (it != null) sharedViewModel.isPermissionGranted.postValue(null)
         }
         viewModel.listenerToFragment.observe(viewLifecycleOwner) {
             when (it) {
                 PostTweetViewModel.LISTENER_REQUEST_PERMISSION -> {
                     sharedViewModel.requestedPermission.postValue(Manifest.permission.RECORD_AUDIO)
                 }
-                else -> STLog.e("Unhandled listener to fragment")
+                else -> STLog.e("Unhandled listener to fragment = $it")
             }
         }
-        viewModel.isRecording.observe(viewLifecycleOwner) {
-            if (it) startRecord() else pauseRecord()
+        viewModel.recordingStatus.observe(viewLifecycleOwner) {
+            when (it) {
+                PostTweetViewModel.RECORDING_STATUS_FIRST_TIME -> startRecord()
+                PostTweetViewModel.RECORDING_STATUS_RESUME -> resumeRecord()
+                PostTweetViewModel.RECORDING_STATUS_PAUSE -> pauseRecord()
+                PostTweetViewModel.RECORDING_STATUS_STOP -> stopRecord()
+                else -> STLog.e("Unhandled recordingStatus = $it")
+            }
         }
     }
 
     private fun startRecord() {
+        STLog.d("startRecord")
         timer.start()
+        recorder.apply {
+            val dirPath = "${requireActivity().externalCacheDir?.absolutePath}/"
+            val sdf = SimpleDateFormat("dd-MM-yyyy-hh-mm-ss", Locale.getDefault())
+            val date = sdf.format(Date())
+            val fileName = "sound_tweet_record_$date.mp3"
+
+            setAudioSource(MediaRecorder.AudioSource.MIC)
+            setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+            setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+            setOutputFile("$dirPath$fileName")
+
+            try {
+                prepare()
+                start()
+            } catch (e: Exception) {
+                STLog.e("Error = ${e.message}")
+            }
+        }
+    }
+
+    private fun resumeRecord() {
+        STLog.d("resumeRecord")
+        timer.start()
+        recorder.resume()
     }
 
     private fun pauseRecord() {
+        STLog.d("pauseRecord")
         timer.pause()
+        recorder.pause()
+    }
+
+    private fun stopRecord() {
+        STLog.d("stopRecord")
+        timer.stop()
+        recorder.stop()
+        viewModel.recordingStatus.postValue(null)
+        viewModel.recordDuration.postValue(null)
     }
 
 }

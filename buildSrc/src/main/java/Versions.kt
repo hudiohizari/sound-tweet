@@ -7,7 +7,7 @@
  */
 
 object Versions {
-    const val MIN_ANDROID_SDK = 21
+    const val MIN_ANDROID_SDK = 24
     const val TARGET_ANDROID_SDK = 33
     const val VERSION_CODE = 1
     const val VERSION_NAME = "1"

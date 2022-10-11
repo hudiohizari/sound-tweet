@@ -50,7 +50,7 @@
                     style="@style/ButtonThinTheme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:enabled="@{!viewModel.isRecording}"
+                    android:enabled="@{viewModel.recordingStatus == viewModel.RECORDING_STATUS_PAUSE}"
                     android:onClick="@{viewModel::onClickPost}"
                     android:text="@string/post"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -73,13 +73,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:paddingBottom="28dp"
                 android:background="@null"
                 android:gravity="top"
                 android:hint="@string/insert_a_caption"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
                 android:minLines="10"
+                android:paddingBottom="28dp"
                 android:text="@={viewModel.caption}"
                 tools:text="@tools:sample/lorem/random" />
 
@@ -120,9 +120,9 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="@{viewModel.isRecording ? @string/pause : @string/record}"
+                android:contentDescription="@{viewModel.recordingStatus != null &amp;&amp; viewModel.recordingStatus != viewModel.RECORDING_STATUS_PAUSE ? @string/pause : @string/record}"
                 android:padding="6dp"
-                android:src="@{viewModel.isRecording ? @drawable/ic_pause : @drawable/ic_sound_wave}"
+                android:src="@{viewModel.recordingStatus != null &amp;&amp; viewModel.recordingStatus != viewModel.RECORDING_STATUS_PAUSE ? @drawable/ic_pause : @drawable/ic_sound_wave}"
                 tools:contentDescription="@string/record"
                 tools:src="@drawable/ic_sound_wave" />
 
@@ -131,7 +131,7 @@
         <androidx.constraintlayout.widget.Group
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="@{viewModel.recordDuration != null ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.recordingStatus != null ? View.VISIBLE : View.GONE}"
             app:constraint_referenced_ids="tvRecordStatus,tvRecordDuration"
             tools:visibility="gone" />
 
@@ -141,7 +141,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
-            android:text="@{viewModel.isRecording ? @string/recording : @string/paused}"
+            android:text="@{viewModel.recordingStatus == viewModel.RECORDING_STATUS_PAUSE ? @string/paused : @string/recording}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvRecordDuration"
             app:layout_constraintStart_toStartOf="parent"
@@ -173,7 +173,7 @@
             android:maxLines="1"
             android:text="@string/press_this_button_to_start_recording"
             android:textColor="@color/cornflower_blue"
-            android:visibility="@{viewModel.recordDuration == null ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.recordingStatus == null ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/vRecordLineVertical"
             app:layout_constraintStart_toStartOf="parent"
