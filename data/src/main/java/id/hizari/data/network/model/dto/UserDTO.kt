@@ -17,7 +17,7 @@ data class UserDTO(
     val email: String?,
     val followers: Int?,
     val following: Int?,
-    val id: Int?,
+    val id: Long?,
     val nickname: String?,
     val password: String?,
     val updatedAt: String?,

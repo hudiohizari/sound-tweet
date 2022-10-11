@@ -58,7 +58,7 @@ class UserRepositoryImpl @Inject constructor(
         return response?.map { it.toDomain() }?.toMutableList()
     }
 
-    override suspend fun postFollowUser(userId: Int?): User? {
+    override suspend fun postFollowUser(userId: Long?): User? {
         val response = apiRequest { soundTweetService.postFollowUser(userId) }
         return response?.toDomain()
     }

@@ -24,6 +24,6 @@ interface UserRepository {
     suspend fun getIsLoggedIn(): Boolean
     fun getIsLoggedInLive(): Flow<Boolean>
     suspend fun getSearchUser(query: String?): MutableList<User>?
-    suspend fun postFollowUser(userId: Int?): User?
+    suspend fun postFollowUser(userId: Long?): User?
 
 }

@@ -39,7 +39,7 @@ class SearchViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun followUser(userId: Int?) {
+    fun followUser(userId: Long?) {
         postFollowUserUseCase(userId).onEach {
             user.postValue(it)
         }.launchIn(viewModelScope)

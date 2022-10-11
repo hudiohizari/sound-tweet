@@ -9,7 +9,7 @@ package id.hizari.domain.model
  */
 
 class User(
-    val id: Int?,
+    val id: Long?,
     val name: String?,
     val userName: String?,
     val bio: String?,

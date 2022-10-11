@@ -19,7 +19,7 @@ class PostFollowUserUseCase(
     private val userRepository: UserRepository
 ) {
 
-    operator fun invoke(userId: Int?): Flow<Resources<User?>> = flow {
+    operator fun invoke(userId: Long?): Flow<Resources<User?>> = flow {
         emit(Resources.Loading())
         try {
             val response = userRepository.postFollowUser(userId)

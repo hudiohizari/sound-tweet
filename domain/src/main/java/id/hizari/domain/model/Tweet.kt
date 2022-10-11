@@ -11,7 +11,7 @@ package id.hizari.domain.model
 data class Tweet(
     val caption: String?,
     val postedTimeAgo: String?,
-    val id: Int?,
+    val id: Long?,
     val postUrl: String?,
     val user: User?
 )

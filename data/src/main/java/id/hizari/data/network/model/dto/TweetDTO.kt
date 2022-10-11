@@ -7,7 +7,7 @@ import id.hizari.domain.model.Tweet
 data class TweetDTO(
     val caption: String?,
     val createdAt: String?,
-    val id: Int?,
+    val id: Long?,
     val postUrl: String?,
     val updatedAt: String?,
     val user: UserDTO?

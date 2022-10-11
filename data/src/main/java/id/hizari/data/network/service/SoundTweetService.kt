@@ -46,7 +46,7 @@ interface SoundTweetService {
 
     @POST("users/follow/{id}")
     suspend fun postFollowUser(
-        @Path("id") userId: Int?
+        @Path("id") userId: Long?
     ): Response<UserDTO>
 
     companion object {

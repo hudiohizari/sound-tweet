@@ -18,7 +18,7 @@ class DataStore @Inject constructor(
     companion object {
         const val DATA_STORE_NAME = "SoundTweetDataStore"
 
-        private val USER_ID = intPreferencesKey("user_id")
+        private val USER_ID = longPreferencesKey("user_id")
         private val USER_NAME = stringPreferencesKey("user_name")
         private val USER_USERNAME = stringPreferencesKey("user_userName")
         private val USER_BIO = stringPreferencesKey("user_bio")

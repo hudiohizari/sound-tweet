@@ -64,7 +64,7 @@
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/vRecordLineHorizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar">
@@ -73,10 +73,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:paddingBottom="28dp"
                 android:background="@null"
+                android:gravity="top"
                 android:hint="@string/insert_a_caption"
                 android:importantForAutofill="no"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:minLines="10"
+                android:text="@={viewModel.caption}"
+                tools:text="@tools:sample/lorem/random" />
 
         </ScrollView>
 
@@ -126,8 +131,8 @@
         <androidx.constraintlayout.widget.Group
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:constraint_referenced_ids="tvRecordStatus,tvRecordDuration"
             android:visibility="@{viewModel.recordDuration != null ? View.VISIBLE : View.GONE}"
+            app:constraint_referenced_ids="tvRecordStatus,tvRecordDuration"
             tools:visibility="gone" />
 
         <TextView
