@@ -85,6 +85,10 @@ class NavigationActivity : AppCompatActivity() {
             STLog.d("destination.id = ${destination.id}")
             viewModel.isShowFab.postValue(destination.id != R.id.postTweetFragment)
         }
+
+        binding.bnvMain.setOnItemReselectedListener {
+            STLog.d("it.title = ${it.title}")
+        }
     }
 
 }
