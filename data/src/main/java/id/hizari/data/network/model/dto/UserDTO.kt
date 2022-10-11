@@ -25,18 +25,18 @@ data class UserDTO(
     val username: String?
 ): BaseDTO() {
 
-    fun toDomain(): User {
+    fun toDomain(loggedInId: Long?): User {
         return User(
             id,
             nickname,
             username,
             bio,
-            isFollowed()
+            isFollowed(loggedInId)
         )
     }
 
-    private fun isFollowed(): Boolean {
-        return userFollower?.find { it?.id == id } != null
+    private fun isFollowed(loggedInId: Long?): Boolean {
+        return userFollower?.find { it?.id == loggedInId } != null
     }
 
 }

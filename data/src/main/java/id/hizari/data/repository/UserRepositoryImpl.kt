@@ -32,7 +32,7 @@ class UserRepositoryImpl @Inject constructor(
     ): User? {
         val body = RegisterRequest(email, name, username, password)
         val response = apiRequest { soundTweetService.postRegister(body) }
-        val responseDomain = response?.toDomain()
+        val responseDomain = response?.toDomain(dataStore.getLoggedInUser().first()?.id)
         dataStore.setLoggedInUser(responseDomain)
         return responseDomain
     }
@@ -40,7 +40,7 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun postLogin(username: String?, password: String?): User? {
         val body = LoginRequest(username, password)
         val response = apiRequest { soundTweetService.postLogin(body) }
-        val responseDomain = response?.toDomain()
+        val responseDomain = response?.toDomain(dataStore.getLoggedInUser().first()?.id)
         dataStore.setLoggedInUser(responseDomain)
         return responseDomain
     }
@@ -55,12 +55,14 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun getSearchUser(query: String?): MutableList<User>? {
         val response = apiRequest { soundTweetService.getSearchUsers(query) }
-        return response?.map { it.toDomain() }?.toMutableList()
+        return response?.map {
+            it.toDomain(dataStore.getLoggedInUser().first()?.id)
+        }?.toMutableList()
     }
 
     override suspend fun postFollowUser(userId: Long?): User? {
         val response = apiRequest { soundTweetService.postFollowUser(userId) }
-        return response?.toDomain()
+        return response?.toDomain(dataStore.getLoggedInUser().first()?.id)
     }
 
 }
