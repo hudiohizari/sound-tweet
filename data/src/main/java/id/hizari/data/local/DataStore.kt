@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
+import com.google.gson.Gson
 import id.hizari.common.util.STLog
 import id.hizari.domain.model.User
 import kotlinx.coroutines.flow.Flow
@@ -23,6 +24,7 @@ class DataStore @Inject constructor(
         private val USER_NAME = stringPreferencesKey("user_name")
         private val USER_USERNAME = stringPreferencesKey("user_userName")
         private val USER_BIO = stringPreferencesKey("user_bio")
+        private val USER_FOLLOWING_USERNAME = stringPreferencesKey("user_following_username")
     }
 
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
@@ -44,18 +46,23 @@ class DataStore @Inject constructor(
             preferences[USER_NAME] = user?.name ?: ""
             preferences[USER_USERNAME] = user?.userName ?: ""
             preferences[USER_BIO] = user?.bio ?: ""
+            preferences[USER_FOLLOWING_USERNAME] = Gson().toJson(user?.userFollowingUsername)
         }
     }
 
     fun getLoggedInUser() : Flow<User?> {
         return context.dataStore.data.map { preferences ->
+            @Suppress("UNCHECKED_CAST")
             User(
                 preferences[USER_ID],
                 preferences[USER_IMG_URL],
                 preferences[USER_NAME],
                 preferences[USER_USERNAME],
                 preferences[USER_BIO],
-                false
+                false,
+                preferences[USER_FOLLOWING_USERNAME]?.let {
+                    Gson().fromJson<MutableList<String?>>(it, MutableList::class.java)
+                } ?: mutableListOf()
             )
         }.catch { e ->
             STLog.e("Error = ${e.message}")

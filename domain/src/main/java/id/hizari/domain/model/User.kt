@@ -18,5 +18,6 @@ class User(
     val name: String?,
     val userName: String?,
     val bio: String?,
-    val isFollowed: Boolean?
+    val isFollowed: Boolean?,
+    val userFollowingUsername: MutableList<String?>?
 ): Parcelable

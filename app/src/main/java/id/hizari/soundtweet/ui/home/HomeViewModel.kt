@@ -7,7 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import id.hizari.common.util.Resources
 import id.hizari.common.util.STLog
 import id.hizari.domain.model.Tweet
-import id.hizari.domain.usecase.tweet.GetTweetsUseCase
+import id.hizari.domain.usecase.tweet.GetHomeTweetsUseCase
 import id.hizari.domain.usecase.tweet.PostLikeTweetUseCase
 import id.hizari.soundtweet.base.BaseViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getTweetsUseCase: GetTweetsUseCase,
+    private val getHomeTweetsUseCase: GetHomeTweetsUseCase,
     private val postLikeTweetUseCase: PostLikeTweetUseCase
 ): BaseViewModel() {
 
@@ -32,7 +32,7 @@ class HomeViewModel @Inject constructor(
     val tweetsResource = MutableLiveData<Resources<MutableList<Tweet>?>>()
 
     fun getTweets(context: Context) {
-        getTweetsUseCase(context).onEach {
+        getHomeTweetsUseCase(context).onEach {
             tweetsResource.postValue(it)
         }.launchIn(viewModelScope)
     }

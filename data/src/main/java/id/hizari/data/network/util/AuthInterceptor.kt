@@ -25,7 +25,9 @@ class AuthInterceptor @Inject constructor(
 
     private fun Interceptor.Chain.proceedWithToken(req: Request, username: String?): Response =
         req.newBuilder()
-            .apply { if (!username.isNullOrEmpty()) addHeader("username", username) }
+            .apply { if (!username.isNullOrEmpty() && req.header("username") == null) {
+                addHeader("username", username)
+            } }
             .build()
             .let(::proceed)
 }

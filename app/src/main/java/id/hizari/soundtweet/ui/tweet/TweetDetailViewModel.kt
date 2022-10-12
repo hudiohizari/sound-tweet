@@ -32,11 +32,12 @@ class TweetDetailViewModel @Inject constructor(
 
     var lastId: Long? = -1
 
+    val isRefreshing = MutableLiveData<Boolean>()
     val tweetResource = MutableLiveData<Resources<Tweet?>>()
     val isBuffering = MutableLiveData<Boolean>()
     val isPlaying = MutableLiveData<Boolean>()
 
-    fun getTweet(context: Context, id: Long?) {
+    private fun getTweet(context: Context, id: Long?) {
         lastId = id
         getTweetUseCase(context, id).onEach {
             tweetResource.postValue(it)
@@ -69,6 +70,11 @@ class TweetDetailViewModel @Inject constructor(
         postLikeTweetUseCase(context, tweetResource.value?.data?.id).onEach {
             tweetResource.postValue(it)
         }.launchIn(viewModelScope)
+    }
+
+    fun onRefresh(context: Context) {
+        getTweet(context, lastId)
+        isRefreshing.postValue(false)
     }
 
     private var listener: Listener? = null

@@ -1,6 +1,7 @@
 package id.hizari.data.repository
 
 import android.content.Context
+import id.hizari.common.util.STLog
 import id.hizari.data.local.DataStore
 import id.hizari.data.network.model.request.PostTweetRequest
 import id.hizari.data.network.service.TweetService
@@ -23,11 +24,30 @@ class TweetRepositoryImpl @Inject constructor(
     private val dataStore: DataStore
 ): TweetRepository, SafeApiRequest() {
 
-    override suspend fun getTweets(context: Context): MutableList<Tweet>? {
-        val response = apiRequest { tweetService.getTweets() }
-        return response?.map {
-            it.toDomain(context, dataStore.getLoggedInUser().first()?.id)
-        }?.toMutableList()
+    override suspend fun getTweets(context: Context, isHome: Boolean): MutableList<Tweet>? {
+        val loggedInUser = dataStore.getLoggedInUser().first()
+        return mutableListOf<Tweet>().apply {
+            apiRequest { tweetService.getTweets() }?.let { tweets ->
+                STLog.d("Getting tweets from ${loggedInUser?.userName?.removePrefix("@")}")
+                for (tweet in tweets) {
+                    add(tweet.toDomain(context, loggedInUser?.id))
+                }
+            }
+            if (isHome) {
+                loggedInUser?.userFollowingUsername?.let { usernames ->
+                    for (username in usernames) {
+                        STLog.d("Getting tweets from $username")
+                        val response = apiRequest { tweetService.getTweets(username) }
+                        response?.let { tweets ->
+                            for (tweet in tweets) {
+                                add(tweet.toDomain(context, loggedInUser.id))
+                            }
+                        }
+                    }
+                }
+            }
+            sortByDescending { it.timeAndDate }
+        }
     }
 
     override suspend fun getTweet(context: Context, id: Long?): Tweet? {

@@ -23,6 +23,7 @@ data class UserDTO(
     val password: String?,
     val updatedAt: String?,
     val userFollower: MutableList<UserDTO?>?,
+    val userFollowing: MutableList<UserDTO?>?,
     val username: String?
 ): BaseDTO() {
 
@@ -34,6 +35,7 @@ data class UserDTO(
             "@%1s".format(username),
             bio,
             isFollowed(loggedInId),
+            userFollowing?.map { it?.username }?.toMutableList()
         )
     }
 

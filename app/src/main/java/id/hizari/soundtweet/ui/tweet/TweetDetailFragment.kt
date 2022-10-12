@@ -90,7 +90,7 @@ class TweetDetailFragment : BaseFragment() {
     private fun initArgument() {
         args.tweet?.let {
             viewModel.tweetResource.postValue(Resources.Success(it))
-            viewModel.getTweet(requireContext(), it.id)
+            viewModel.lastId = it.id
         }
     }
 
@@ -117,7 +117,7 @@ class TweetDetailFragment : BaseFragment() {
                                 },
                                 likes
                             )
-                            val highlightedTexts = arrayOf("$likes" as String?)
+                            val highlightedTexts = arrayOf(likes as String?)
                             val highlightedColors = arrayOf(R.color.cinder as Int?)
                             binding.tvLikes.setupHighlightedText(
                                 originText, highlightedTexts, highlightedColors, isBold = true

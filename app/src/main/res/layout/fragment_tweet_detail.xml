@@ -38,256 +38,268 @@
             app:titleTextAppearance="@style/TextPrimaryLargeBold"
             tools:title="Title" />
 
-        <ScrollView
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:visibility="@{viewModel.tweetResource.failed ? View.GONE : View.VISIBLE}"
+            android:layout_height="0dp"
+            app:onRefreshListener="@{() -> viewModel.onRefresh(context)}"
+            app:refreshing="@{viewModel.isRefreshing}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <ScrollView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:visibility="@{viewModel.tweetResource.failed ? View.GONE : View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cvProfilePicture"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    app:cardCornerRadius="28dp"
-                    app:cardElevation="0dp"
-                    app:isAnimateLoading="@{viewModel.tweetResource.loading}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:adjustViewBounds="true"
-                        android:contentDescription="@{viewModel.tweetResource.data.user.name}"
-                        app:imageUrl="@{viewModel.tweetResource.data.user.imgUrl}"
-                        tools:src="@tools:sample/avatars" />
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <TextView
-                    android:id="@+id/tvName"
-                    style="@style/TextPrimaryLargeSemiBold"
-                    android:layout_width="0dp"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:text="@{viewModel.tweetResource.data.user.name}"
-                    app:isAnimateLoading="@{viewModel.tweetResource.loading}"
-                    app:layout_constraintBottom_toTopOf="@id/tvUsername"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/cvProfilePicture"
-                    app:layout_constraintTop_toTopOf="@id/cvProfilePicture"
-                    app:layout_constraintVertical_chainStyle="packed"
-                    tools:text="John Lennon" />
+                    android:background="@color/white">
 
-                <TextView
-                    android:id="@+id/tvUsername"
-                    style="@style/TextSecondaryRegular"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:text="@{viewModel.tweetResource.data.user.userName}"
-                    app:isAnimateLoading="@{viewModel.tweetResource.loading}"
-                    app:layout_constraintBottom_toBottomOf="@id/cvProfilePicture"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/cvProfilePicture"
-                    app:layout_constraintTop_toBottomOf="@id/tvName"
-                    app:layout_constraintVertical_chainStyle="packed"
-                    tools:text="@jlennon" />
-
-                <TextView
-                    android:id="@+id/tvCaption"
-                    style="@style/TextPrimaryLargeRegular"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="12dp"
-                    android:ellipsize="end"
-                    android:maxLines="10"
-                    android:text="@{viewModel.tweetResource.data.caption}"
-                    app:isAnimateLoading="@{viewModel.tweetResource.loading}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cvProfilePicture"
-                    tools:text="@tools:sample/lorem/random" />
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cvMedia"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="12dp"
-                    android:onClick="@{viewModel::onClickMedia}"
-                    app:cardBackgroundColor="@color/dawn_pink"
-                    app:cardCornerRadius="4dp"
-                    app:layout_constraintDimensionRatio="H,2:1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvCaption">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cvProfilePicture"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        app:cardCornerRadius="28dp"
+                        app:cardElevation="0dp"
+                        app:isAnimateLoading="@{viewModel.tweetResource.loading}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:adjustViewBounds="true"
-                            android:src="@drawable/ic_sound_wave"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintWidth_percent="0.25"
-                            tools:ignore="ContentDescription" />
+                            android:contentDescription="@{viewModel.tweetResource.data.user.name}"
+                            app:imageUrl="@{viewModel.tweetResource.data.user.imgUrl}"
+                            tools:src="@tools:sample/avatars" />
 
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:background="@color/black_translucent"
-                            android:enabled="@{!viewModel.tweetResource.loading}"
-                            app:isAnimateLoading="@{viewModel.tweetResource.loading}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                    </com.google.android.material.card.MaterialCardView>
 
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/mvcPlay"
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
-                            app:cardBackgroundColor="@color/cornflower_blue"
-                            app:cardCornerRadius="26dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:strokeColor="@color/white"
-                            app:strokeWidth="2dp">
+                    <TextView
+                        android:id="@+id/tvName"
+                        style="@style/TextPrimaryLargeSemiBold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="@{viewModel.tweetResource.data.user.name}"
+                        app:isAnimateLoading="@{viewModel.tweetResource.loading}"
+                        app:layout_constraintBottom_toTopOf="@id/tvUsername"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/cvProfilePicture"
+                        app:layout_constraintTop_toTopOf="@id/cvProfilePicture"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        tools:text="John Lennon" />
 
-                            <ProgressBar
-                                android:id="@+id/pbLoading"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:padding="6dp"
-                                android:visibility="@{viewModel.isBuffering ? View.VISIBLE : View.GONE}"
-                                tools:visibility="gone" />
+                    <TextView
+                        android:id="@+id/tvUsername"
+                        style="@style/TextSecondaryRegular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="@{viewModel.tweetResource.data.user.userName}"
+                        app:isAnimateLoading="@{viewModel.tweetResource.loading}"
+                        app:layout_constraintBottom_toBottomOf="@id/cvProfilePicture"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/cvProfilePicture"
+                        app:layout_constraintTop_toBottomOf="@id/tvName"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        tools:text="@jlennon" />
+
+                    <TextView
+                        android:id="@+id/tvCaption"
+                        style="@style/TextPrimaryLargeRegular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="12dp"
+                        android:ellipsize="end"
+                        android:maxLines="10"
+                        android:text="@{viewModel.tweetResource.data.caption}"
+                        app:isAnimateLoading="@{viewModel.tweetResource.loading}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cvProfilePicture"
+                        tools:text="@tools:sample/lorem/random" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cvMedia"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="12dp"
+                        android:onClick="@{viewModel::onClickMedia}"
+                        app:cardBackgroundColor="@color/dawn_pink"
+                        app:cardCornerRadius="4dp"
+                        app:layout_constraintDimensionRatio="H,2:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvCaption">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
                             <ImageView
-                                android:id="@+id/ivPlay"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:padding="6dp"
-                                android:src="@{viewModel.isPlaying ? @drawable/ic_pause: @drawable/ic_play_filled}"
-                                tools:ignore="ContentDescription"
-                                tools:src="@drawable/ic_play_filled" />
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/ic_sound_wave"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.25"
+                                tools:ignore="ContentDescription" />
 
-                        </com.google.android.material.card.MaterialCardView>
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:background="@color/black_translucent"
+                                android:enabled="@{!viewModel.tweetResource.loading}"
+                                app:isAnimateLoading="@{viewModel.tweetResource.loading}"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/mvcPlay"
+                                android:layout_width="42dp"
+                                android:layout_height="42dp"
+                                app:cardBackgroundColor="@color/cornflower_blue"
+                                app:cardCornerRadius="26dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:strokeColor="@color/white"
+                                app:strokeWidth="2dp">
 
-                </com.google.android.material.card.MaterialCardView>
+                                <ProgressBar
+                                    android:id="@+id/pbLoading"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:padding="6dp"
+                                    android:visibility="@{viewModel.isBuffering ? View.VISIBLE : View.GONE}"
+                                    tools:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/tvDate"
-                    style="@style/TextSecondaryLargeRegular"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="12dp"
-                    android:ellipsize="end"
-                    android:maxLines="10"
-                    android:text="@{viewModel.tweetResource.data.timeAndDate}"
-                    app:isAnimateLoading="@{viewModel.tweetResource.loading}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cvMedia"
-                    tools:text="11:11 ·11/11/11" />
+                                <ImageView
+                                    android:id="@+id/ivPlay"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:padding="6dp"
+                                    android:src="@{viewModel.isPlaying ? @drawable/ic_pause: @drawable/ic_play_filled}"
+                                    tools:ignore="ContentDescription"
+                                    tools:src="@drawable/ic_play_filled" />
 
-                <View
-                    android:id="@+id/vTopLike"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@color/dawn_pink"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvDate" />
+                            </com.google.android.material.card.MaterialCardView>
 
-                <TextView
-                    android:id="@+id/tvLikes"
-                    style="@style/TextSecondaryLargeRegular"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="12dp"
-                    android:ellipsize="end"
-                    android:maxLines="10"
-                    app:isAnimateLoading="@{viewModel.tweetResource.loading}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/vTopLike"
-                    tools:text="2K Likes" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <View
-                    android:id="@+id/vBottomLike"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@color/dawn_pink"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvLikes" />
+                    </com.google.android.material.card.MaterialCardView>
 
-                <ImageView
-                    android:id="@+id/ivComment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="12dp"
-                    android:contentDescription="@string/comment"
-                    android:enabled="@{!viewModel.tweetResource.loading}"
-                    android:onClick="@{viewModel::onClickComment}"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_comment"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/ivLike"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/vBottomLike" />
+                    <TextView
+                        android:id="@+id/tvDate"
+                        style="@style/TextSecondaryLargeRegular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="12dp"
+                        android:ellipsize="end"
+                        android:maxLines="10"
+                        android:text="@{viewModel.tweetResource.data.timeAndDate}"
+                        app:isAnimateLoading="@{viewModel.tweetResource.loading}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cvMedia"
+                        tools:text="11:11 ·11/11/11" />
 
-                <ImageView
-                    android:id="@+id/ivLike"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="12dp"
-                    android:contentDescription="@string/comment"
-                    android:enabled="@{!viewModel.tweetResource.loading}"
-                    android:onClick="@{viewModel::onClickLike}"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_heart"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ivComment"
-                    app:layout_constraintTop_toBottomOf="@id/vBottomLike" />
+                    <View
+                        android:id="@+id/vTopLike"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@color/dawn_pink"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvDate" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/tvLikes"
+                        style="@style/TextSecondaryLargeRegular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="12dp"
+                        android:ellipsize="end"
+                        android:maxLines="10"
+                        app:isAnimateLoading="@{viewModel.tweetResource.loading}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/vTopLike"
+                        tools:text="2K Likes" />
 
-        </ScrollView>
+                    <View
+                        android:id="@+id/vBottomLike"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@color/dawn_pink"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvLikes" />
+
+                    <ImageView
+                        android:id="@+id/ivComment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="12dp"
+                        android:contentDescription="@string/comment"
+                        android:enabled="@{!viewModel.tweetResource.loading}"
+                        android:onClick="@{viewModel::onClickComment}"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_comment"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/ivLike"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/vBottomLike" />
+
+                    <ImageView
+                        android:id="@+id/ivLike"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="12dp"
+                        android:contentDescription="@string/comment"
+                        android:enabled="@{!viewModel.tweetResource.loading}"
+                        android:onClick="@{viewModel::onClickLike}"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_heart"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/ivComment"
+                        app:layout_constraintTop_toBottomOf="@id/vBottomLike" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </ScrollView>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <include
             layout="@layout/list_item_reload_default"

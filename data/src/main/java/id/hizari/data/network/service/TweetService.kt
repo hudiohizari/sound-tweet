@@ -10,6 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -24,7 +25,9 @@ import retrofit2.http.Path
 interface TweetService {
 
     @GET(".")
-    suspend fun getTweets(): Response<TweetsDTO>
+    suspend fun getTweets(
+        @Header("username") username: String? = null
+    ): Response<TweetsDTO>
 
     @GET("{id}")
     suspend fun getTweet(
