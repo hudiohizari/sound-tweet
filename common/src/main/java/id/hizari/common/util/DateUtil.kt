@@ -18,10 +18,9 @@ import java.util.concurrent.TimeUnit
 
 object DateUtil {
 
-    private const val SERVER_DATE_TIME = "yyyy-MM-dd'T'HH:mm:ssZZZ"
+    private const val SERVER_DATE_TIME = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
 
     private const val PRINT_DATE = "dd/MM/yyyy"
-
 
     private fun changeDateFormat(
         date: String?,
@@ -31,7 +30,7 @@ object DateUtil {
         val sdf = SimpleDateFormat(oldFormat, Locale("id", "ID"))
         return try {
             val d = sdf.parse(date ?: "") ?: ""
-            sdf.timeZone = TimeZone.getTimeZone("GMT+7")
+            sdf.timeZone = TimeZone.getTimeZone("GMT+0")
             sdf.applyPattern(newFormat)
             sdf.format(d)
         } catch (e: ParseException) {

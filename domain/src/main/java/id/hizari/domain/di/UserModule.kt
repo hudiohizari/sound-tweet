@@ -19,12 +19,7 @@ import id.hizari.domain.usecase.user.*
 
 @InstallIn(SingletonComponent::class)
 @Module
-object DomainModule {
-
-    @Provides
-    fun provideGetTweetsUseCase(tweetRepository: TweetRepository): GetTweetsUseCase {
-        return GetTweetsUseCase(tweetRepository)
-    }
+object UserModule {
 
     @Provides
     fun providePostRegisterUseCase(userRepository: UserRepository): PostRegisterUseCase {

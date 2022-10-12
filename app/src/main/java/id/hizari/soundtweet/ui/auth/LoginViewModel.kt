@@ -35,7 +35,7 @@ class LoginViewModel @Inject constructor(
     val passwordError = MutableLiveData<String>()
     val isButtonEnabled = MutableLiveData(false)
 
-    val login = MutableLiveData<Resources<User?>>()
+    val userResource = MutableLiveData<Resources<User?>>()
 
     fun checkButton() {
         val usernameOk = InputValidator.checkNotEmpty(
@@ -55,7 +55,7 @@ class LoginViewModel @Inject constructor(
     @Suppress("unused")
     fun View.onClickLogin() {
         postLoginUseCase(username.value, password.value).onEach {
-            login.postValue(it)
+            userResource.postValue(it)
         }.launchIn(viewModelScope)
     }
 

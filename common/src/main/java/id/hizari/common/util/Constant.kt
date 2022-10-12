@@ -14,11 +14,14 @@ object Constant {
 
     object URL {
         const val BASE_URL = BuildConfig.BASE_URL
+        const val BASE_URL_USERS = BASE_URL + BuildConfig.USERS_PATH
+        const val BASE_URL_TWEET = BASE_URL + BuildConfig.TWEET_PATH
+        const val FILE_STACK_BASE_URL = BuildConfig.FILE_STACK_BASE_URL
         const val IMAGE_INVALID = "https://via.placeholder.com/150?text=No+Image"
     }
 
-    object Permission {
-        const val REQUEST_CODE_AUDIO = 1001
+    object Key {
+        const val FILE_STACK_KEY = BuildConfig.FILE_STACK_KEY
     }
 
 }

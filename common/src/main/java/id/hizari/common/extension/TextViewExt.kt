@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import id.hizari.common.R
+import id.hizari.common.util.STLog
 
 /**
  * Sound Tweet - id.hizari.common.extension
@@ -28,29 +29,31 @@ fun TextView.setupHighlightedText(
     isBold: Boolean = false
 ) {
     originText?.let { ot ->
-        val ss = SpannableString(originText)
-        for (i in highlightedTexts.indices) {
-            val highlightedText = highlightedTexts[i] ?: context.getString(R.string.invalid)
-            val color = highlightedColors[i] ?: ContextCompat.getColor(context, R.color.pale_sky)
-            val span = ot.indexOf(highlightedText)
-            ss.setSpan(
-                ForegroundColorSpan(ContextCompat.getColor(context, color)),
-                span,
-                span + highlightedText.length,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            if (isBold) {
+        try {
+            val ss = SpannableString(originText)
+            for (i in highlightedTexts.indices) {
+                val highlightedText = highlightedTexts[i] ?: context.getString(R.string.invalid)
+                val color = highlightedColors[i] ?: ContextCompat.getColor(context, R.color.pale_sky)
+                val span = ot.indexOf(highlightedText)
                 ss.setSpan(
-                    StyleSpan(Typeface.BOLD),
+                    ForegroundColorSpan(ContextCompat.getColor(context, color)),
                     span,
                     span + highlightedText.length,
-                    0
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
+                if (isBold) {
+                    ss.setSpan(
+                        StyleSpan(Typeface.BOLD),
+                        span,
+                        span + highlightedText.length,
+                        0
+                    )
+                }
             }
+            setText(ss, TextView.BufferType.SPANNABLE)
+        } catch (e: Exception) {
+            STLog.e("Error = ${e.message}")
         }
-        setText(ss, TextView.BufferType.SPANNABLE)
-        movementMethod = LinkMovementMethod.getInstance()
-        isClickable = true
     }
 }
 
@@ -60,39 +63,43 @@ fun TextView.setupClickableText(
     onClicks: Array<() -> Unit>,
     isBold: Boolean = false
 ) {
-    val ss = SpannableString(originText)
-    for (i in clickableTexts.indices) {
-        val clickableText = clickableTexts[i] ?: context.getString(R.string.invalid)
-        val onClick = onClicks[i]
-        val clickableSpan: ClickableSpan = object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                onClick()
+    try {
+        val ss = SpannableString(originText)
+        for (i in clickableTexts.indices) {
+            val clickableText = clickableTexts[i] ?: context.getString(R.string.invalid)
+            val onClick = onClicks[i]
+            val clickableSpan: ClickableSpan = object : ClickableSpan() {
+                override fun onClick(widget: View) {
+                    onClick()
+                }
+                override fun updateDrawState(ds: TextPaint) {
+                    super.updateDrawState(ds)
+                    ds.color = ContextCompat.getColor(context, R.color.cornflower_blue)
+                    ds.isUnderlineText = false
+                }
             }
-            override fun updateDrawState(ds: TextPaint) {
-                super.updateDrawState(ds)
-                ds.color = ContextCompat.getColor(context, R.color.cornflower_blue)
-                ds.isUnderlineText = false
-            }
-        }
-        val span = originText.indexOf(clickableText)
-        ss.setSpan(
-            clickableSpan,
-            span,
-            span + clickableText.length,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        if (isBold) {
+            val span = originText.indexOf(clickableText)
             ss.setSpan(
-                StyleSpan(Typeface.BOLD),
+                clickableSpan,
                 span,
                 span + clickableText.length,
-                0
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
+            if (isBold) {
+                ss.setSpan(
+                    StyleSpan(Typeface.BOLD),
+                    span,
+                    span + clickableText.length,
+                    0
+                )
+            }
         }
+        setText(ss, TextView.BufferType.SPANNABLE)
+        movementMethod = LinkMovementMethod.getInstance()
+        isClickable = true
+    } catch (e: Exception) {
+        STLog.e("Error = ${e.message}")
     }
-    setText(ss, TextView.BufferType.SPANNABLE)
-    movementMethod = LinkMovementMethod.getInstance()
-    isClickable = true
 }
 
 fun TextView.setupBoldText(

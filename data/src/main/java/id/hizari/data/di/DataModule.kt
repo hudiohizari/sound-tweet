@@ -5,9 +5,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.hizari.data.local.DataStore
-import id.hizari.data.network.service.SoundTweetService
+import id.hizari.data.network.service.FileStackService
+import id.hizari.data.network.service.TweetService
+import id.hizari.data.network.service.UserService
+import id.hizari.data.repository.FileStackRepositoryImpl
 import id.hizari.data.repository.TweetRepositoryImpl
 import id.hizari.data.repository.UserRepositoryImpl
+import id.hizari.domain.repository.FileStackRepository
 import id.hizari.domain.repository.TweetRepository
 import id.hizari.domain.repository.UserRepository
 import javax.inject.Singleton
@@ -26,20 +30,26 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideTweetRepository(
-        soundTweetService: SoundTweetService,
+    fun provideUserRepository(
+        userService: UserService,
         dataStore: DataStore
-    ): TweetRepository {
-        return TweetRepositoryImpl(soundTweetService, dataStore)
+    ): UserRepository {
+        return UserRepositoryImpl(userService, dataStore)
     }
 
     @Provides
     @Singleton
-    fun provideUserRepository(
-        soundTweetService: SoundTweetService,
+    fun provideTweetRepository(
+        tweetService: TweetService,
         dataStore: DataStore
-    ): UserRepository {
-        return UserRepositoryImpl(soundTweetService, dataStore)
+    ): TweetRepository {
+        return TweetRepositoryImpl(tweetService, dataStore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFileStackRepository(fileStackService: FileStackService): FileStackRepository {
+        return FileStackRepositoryImpl(fileStackService)
     }
 
 }

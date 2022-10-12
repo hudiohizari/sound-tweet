@@ -7,7 +7,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import id.hizari.data.network.service.SoundTweetService
+import id.hizari.data.network.service.FileStackService
+import id.hizari.data.network.service.TweetService
+import id.hizari.data.network.service.UserService
 import id.hizari.data.network.util.AuthInterceptor
 import id.hizari.data.network.util.Client
 import javax.inject.Singleton
@@ -44,8 +46,20 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideSoundTweetService(client: Client): SoundTweetService {
-        return SoundTweetService.invoke(client)
+    fun provideUserService(client: Client): UserService {
+        return UserService.invoke(client)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTweetService(client: Client): TweetService {
+        return TweetService.invoke(client)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFileStackService(client: Client): FileStackService {
+        return FileStackService.invoke(client)
     }
 
 }

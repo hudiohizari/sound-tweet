@@ -14,7 +14,6 @@ import id.hizari.common.util.Resources
 import id.hizari.common.util.STLog
 import id.hizari.soundtweet.R
 import id.hizari.soundtweet.base.BaseFragment
-import id.hizari.soundtweet.base.BaseViewModel
 import id.hizari.soundtweet.databinding.FragmentLoginBinding
 import id.hizari.soundtweet.extention.handleGeneralError
 
@@ -61,7 +60,7 @@ class LoginFragment : BaseFragment() {
         viewModel.apply {
             username.observeDebounce(viewLifecycleOwner) { checkButton() }
             password.observeDebounce(viewLifecycleOwner) { checkButton() }
-            login.observe(viewLifecycleOwner) {
+            userResource.observe(viewLifecycleOwner) {
                 when (it) {
                     is Resources.Loading -> STLog.d("Loading")
                     is Resources.Success -> STLog.d("Success = ${it.data?.name}")

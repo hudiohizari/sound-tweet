@@ -41,7 +41,7 @@ class RegisterViewModel @Inject constructor(
     val passwordError = MutableLiveData<String>()
     val isButtonEnabled = MutableLiveData(false)
 
-    val register = MutableLiveData<Resources<User?>>()
+    val userResource = MutableLiveData<Resources<User?>>()
 
     fun checkButton() {
         val emailOk = InputValidator.checkEmail(
@@ -86,7 +86,7 @@ class RegisterViewModel @Inject constructor(
                 }
                 else -> STLog.e("Unhandled resource type")
             }
-            register.postValue(it)
+            userResource.postValue(it)
         }.launchIn(viewModelScope)
     }
 

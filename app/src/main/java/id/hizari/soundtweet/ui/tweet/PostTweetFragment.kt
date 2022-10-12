@@ -12,7 +12,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import id.hizari.common.extension.toast
+import id.hizari.common.util.Resources
 import id.hizari.common.R as commonR
 import id.hizari.common.util.STLog
 import id.hizari.common.util.Timer
@@ -20,6 +22,8 @@ import id.hizari.soundtweet.R
 import id.hizari.soundtweet.base.BaseFragment
 import id.hizari.soundtweet.base.BaseViewModel
 import id.hizari.soundtweet.databinding.FragmentPostTweetBinding
+import id.hizari.soundtweet.extention.handleGeneralError
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,6 +35,7 @@ import java.util.*
  *
  */
 
+@AndroidEntryPoint
 class PostTweetFragment : BaseFragment() {
 
     private lateinit var binding: FragmentPostTweetBinding
@@ -71,6 +76,11 @@ class PostTweetFragment : BaseFragment() {
             MediaRecorder()
         }
     }
+
+    private val dirPath by lazy {
+        "${requireActivity().externalCacheDir?.absolutePath}/"
+    }
+    private var fileName = ""
 
     override fun getViewModel(): BaseViewModel = viewModel
 
@@ -121,12 +131,15 @@ class PostTweetFragment : BaseFragment() {
     }
 
     private fun initObserver() {
-        viewModel.listenerToFragment.observe(viewLifecycleOwner) {
-            when (it) {
-                PostTweetViewModel.LISTENER_REQUEST_PERMISSION -> checkAudioPermission()
-                else -> STLog.e("Unhandled listener to fragment = $it")
+        viewModel.setListener(object : PostTweetViewModel.Listener {
+            override fun requestAudioPermission() {
+                checkAudioPermission()
             }
-        }
+
+            override fun getFile(): File {
+                return File("$dirPath$fileName")
+            }
+        })
         viewModel.recordingStatus.observe(viewLifecycleOwner) {
             when (it) {
                 PostTweetViewModel.RECORDING_STATUS_FIRST_TIME -> startRecord()
@@ -134,6 +147,25 @@ class PostTweetFragment : BaseFragment() {
                 PostTweetViewModel.RECORDING_STATUS_PAUSE -> pauseRecord()
                 PostTweetViewModel.RECORDING_STATUS_STOP -> stopRecord()
                 else -> STLog.e("Unhandled recordingStatus = $it")
+            }
+        }
+        viewModel.uploadedFileResource.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resources.Loading -> STLog.d("Loading")
+                is Resources.Success -> {
+                    STLog.d("Success = ${it.data?.url}")
+                    viewModel.postTweet(requireContext(), it.data?.url)
+                }
+                is Resources.Error -> it.throwable?.handleGeneralError(binding.clRoot)
+                else -> STLog.e("Unhandled resource")
+            }
+        }
+        viewModel.tweetResource.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resources.Loading -> STLog.d("Loading")
+                is Resources.Success -> STLog.d("Success = ${it.data?.user?.name}")
+                is Resources.Error -> it.throwable?.handleGeneralError(binding.clRoot)
+                else -> STLog.e("Unhandled resource")
             }
         }
     }
@@ -172,10 +204,9 @@ class PostTweetFragment : BaseFragment() {
         STLog.d("startRecord")
         timer.start()
         recorder.apply {
-            val dirPath = "${requireActivity().externalCacheDir?.absolutePath}/"
             val sdf = SimpleDateFormat("dd-MM-yyyy-hh-mm-ss", Locale.getDefault())
             val date = sdf.format(Date())
-            val fileName = "sound_tweet_record_$date.mp3"
+            fileName = "sound_tweet_record_$date.mp3"
 
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)

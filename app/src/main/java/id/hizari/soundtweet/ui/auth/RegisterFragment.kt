@@ -10,12 +10,10 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import id.hizari.common.extension.observeDebounce
 import id.hizari.common.extension.setupClickableText
-import id.hizari.common.extension.toast
 import id.hizari.common.util.Resources
 import id.hizari.common.util.STLog
 import id.hizari.soundtweet.R
 import id.hizari.soundtweet.base.BaseFragment
-import id.hizari.soundtweet.base.BaseViewModel
 import id.hizari.soundtweet.databinding.FragmentRegisterBinding
 import id.hizari.soundtweet.extention.handleGeneralError
 
@@ -64,7 +62,7 @@ class RegisterFragment : BaseFragment() {
             name.observeDebounce(viewLifecycleOwner) { checkButton() }
             username.observeDebounce(viewLifecycleOwner) { checkButton() }
             password.observeDebounce(viewLifecycleOwner) { checkButton() }
-            register.observe(viewLifecycleOwner) {
+            userResource.observe(viewLifecycleOwner) {
                 when (it) {
                     is Resources.Loading -> STLog.d("Loading")
                     is Resources.Success -> {

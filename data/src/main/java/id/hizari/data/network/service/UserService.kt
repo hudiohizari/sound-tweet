@@ -2,7 +2,6 @@ package id.hizari.data.network.service
 
 import id.hizari.data.network.util.Client
 import id.hizari.common.util.Constant
-import id.hizari.data.network.model.dto.TweetsDTO
 import id.hizari.data.network.model.dto.UserDTO
 import id.hizari.data.network.model.dto.UsersDTO
 import id.hizari.data.network.model.request.LoginRequest
@@ -24,39 +23,36 @@ import retrofit2.http.Query
  *
  */
 
-interface SoundTweetService {
+interface UserService {
 
-    @POST("users")
+    @POST(".")
     suspend fun postRegister(
         @Body body: RegisterRequest
     ): Response<UserDTO>
 
-    @POST("users/login")
+    @POST("login")
     suspend fun postLogin(
         @Body body: LoginRequest
     ): Response<UserDTO>
 
-    @GET("tweet")
-    suspend fun getTweets(): Response<TweetsDTO>
-
-    @GET("users/search")
+    @GET("search")
     suspend fun getSearchUsers(
         @Query("keyword") query: String?
     ): Response<UsersDTO>
 
-    @POST("users/follow/{id}")
+    @POST("follow/{id}")
     suspend fun postFollowUser(
         @Path("id") userId: Long?
     ): Response<UserDTO>
 
     companion object {
-        operator fun invoke(client: Client): SoundTweetService {
+        operator fun invoke(client: Client): UserService {
             return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(Constant.URL.BASE_URL)
+                .baseUrl(Constant.URL.BASE_URL_USERS)
                 .client(client.provideClient())
                 .build()
-                .create(SoundTweetService::class.java)
+                .create(UserService::class.java)
         }
     }
 

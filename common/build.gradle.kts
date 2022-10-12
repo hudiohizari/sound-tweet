@@ -15,6 +15,10 @@ android {
         consumerProguardFiles("consumer-rules.pro")
 
         buildConfigField("String", "BASE_URL", "\"https://polar-processor-360312.as.r.appspot.com/soundtweet/api/\"")
+        buildConfigField("String", "USERS_PATH", "\"users/\"")
+        buildConfigField("String", "TWEET_PATH", "\"tweet/\"")
+        buildConfigField("String", "FILE_STACK_BASE_URL", "\"https://www.filestackapi.com/api/store/\"")
+        buildConfigField("String", "FILE_STACK_KEY", "\"AJnKzXBLeRIae871w3xtbz\"")
     }
 
     buildTypes {

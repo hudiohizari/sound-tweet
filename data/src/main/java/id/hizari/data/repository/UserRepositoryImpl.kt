@@ -3,7 +3,7 @@ package id.hizari.data.repository
 import id.hizari.data.local.DataStore
 import id.hizari.data.network.model.request.LoginRequest
 import id.hizari.data.network.model.request.RegisterRequest
-import id.hizari.data.network.service.SoundTweetService
+import id.hizari.data.network.service.UserService
 import id.hizari.data.network.util.SafeApiRequest
 import id.hizari.domain.model.User
 import id.hizari.domain.repository.UserRepository
@@ -20,7 +20,7 @@ import javax.inject.Inject
  */
 
 class UserRepositoryImpl @Inject constructor(
-    private val soundTweetService: SoundTweetService,
+    private val userService: UserService,
     private val dataStore: DataStore
 ) : UserRepository, SafeApiRequest() {
 
@@ -31,7 +31,7 @@ class UserRepositoryImpl @Inject constructor(
         password: String?
     ): User? {
         val body = RegisterRequest(email, name, username, password)
-        val response = apiRequest { soundTweetService.postRegister(body) }
+        val response = apiRequest { userService.postRegister(body) }
         val responseDomain = response?.toDomain(dataStore.getLoggedInUser().first()?.id)
         dataStore.setLoggedInUser(responseDomain)
         return responseDomain
@@ -39,7 +39,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun postLogin(username: String?, password: String?): User? {
         val body = LoginRequest(username, password)
-        val response = apiRequest { soundTweetService.postLogin(body) }
+        val response = apiRequest { userService.postLogin(body) }
         val responseDomain = response?.toDomain(dataStore.getLoggedInUser().first()?.id)
         dataStore.setLoggedInUser(responseDomain)
         return responseDomain
@@ -54,14 +54,14 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getSearchUser(query: String?): MutableList<User>? {
-        val response = apiRequest { soundTweetService.getSearchUsers(query) }
+        val response = apiRequest { userService.getSearchUsers(query) }
         return response?.map {
             it.toDomain(dataStore.getLoggedInUser().first()?.id)
         }?.toMutableList()
     }
 
     override suspend fun postFollowUser(userId: Long?): User? {
-        val response = apiRequest { soundTweetService.postFollowUser(userId) }
+        val response = apiRequest { userService.postFollowUser(userId) }
         return response?.toDomain(dataStore.getLoggedInUser().first()?.id)
     }
 
