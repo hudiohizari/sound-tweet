@@ -19,6 +19,7 @@ class DataStore @Inject constructor(
         const val DATA_STORE_NAME = "SoundTweetDataStore"
 
         private val USER_ID = longPreferencesKey("user_id")
+        private val USER_IMG_URL = stringPreferencesKey("img_url")
         private val USER_NAME = stringPreferencesKey("user_name")
         private val USER_USERNAME = stringPreferencesKey("user_userName")
         private val USER_BIO = stringPreferencesKey("user_bio")
@@ -39,6 +40,7 @@ class DataStore @Inject constructor(
     suspend fun setLoggedInUser(user: User?) {
         context.dataStore.edit { preferences ->
             preferences[USER_ID] = user?.id ?: -1L
+            preferences[USER_IMG_URL] = user?.imgUrl ?: ""
             preferences[USER_NAME] = user?.name ?: ""
             preferences[USER_USERNAME] = user?.userName ?: ""
             preferences[USER_BIO] = user?.bio ?: ""
@@ -49,6 +51,7 @@ class DataStore @Inject constructor(
         return context.dataStore.data.map { preferences ->
             User(
                 preferences[USER_ID],
+                preferences[USER_IMG_URL],
                 preferences[USER_NAME],
                 preferences[USER_USERNAME],
                 preferences[USER_BIO],

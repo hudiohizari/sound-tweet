@@ -148,6 +148,7 @@ class SearchFragment : BaseFragment() {
         if (binding.adapter == null) {
             binding.adapter = FastItemAdapter()
             binding.rvUser.addDividerItem()
+            binding.rvUser.itemAnimator = null
         }
 
         return binding.adapter as FastItemAdapter

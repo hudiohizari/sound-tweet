@@ -82,7 +82,7 @@ class RegisterFragment : BaseFragment() {
                 getString(R.string.already_have_an_account_highlighted) as String?
             )
             val onClicks = arrayOf({
-                navigateWithAction(
+                navigate(
                     RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
                 )
             })

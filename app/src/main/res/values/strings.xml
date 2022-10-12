@@ -32,7 +32,11 @@
     <!--Tweet-->
     <string name="empty_tweet">Home is empty</string>
     <string name="empty_tweet_caption">Please start follow another user then see their post here!</string>
+    <string name="user_post_list_format">%1s %2s ·%3s</string>
+    <string name="post_like_format">%1s Like</string>
+    <string name="post_likes_format">%1s Likes</string>
     <string name="post_tweet">Post Tweet</string>
+    <string name="detail_tweet">Detail Tweet</string>
     <string name="post">Post</string>
     <string name="insert_a_caption">Insert a caption</string>
     <string name="press_this_button_to_start_recording">Press this button to start recording &#9654;</string>
@@ -40,6 +44,9 @@
     <string name="record">Record</string>
     <string name="paused">Paused.</string>
     <string name="pause">Pause</string>
+    <string name="tweet_posted">Tweet posted</string>
+    <string name="comment">Comment</string>
+    <string name="like">Like</string>
 
     <!--User-->
     <string name="empty_user">No User Found</string>

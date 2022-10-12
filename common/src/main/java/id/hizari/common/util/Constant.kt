@@ -18,6 +18,7 @@ object Constant {
         const val BASE_URL_TWEET = BASE_URL + BuildConfig.TWEET_PATH
         const val FILE_STACK_BASE_URL = BuildConfig.FILE_STACK_BASE_URL
         const val IMAGE_INVALID = "https://via.placeholder.com/150?text=No+Image"
+        const val IMAGE_USER_PROFILE_EMPTY = "https://i.stack.imgur.com/l60Hf.png"
     }
 
     object Key {

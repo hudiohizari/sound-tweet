@@ -28,7 +28,7 @@ class NavigationViewModel @Inject constructor(
 
     @Suppress("unused")
     fun View.onClickPostTweet() {
-        navigateTo.postValue(R.id.tweetNavigation)
+        navigateTo.postValue(R.id.postTweetFragment)
     }
 
 }

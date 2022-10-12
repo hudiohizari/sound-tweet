@@ -27,7 +27,7 @@ class TweetListItem(
 
     override fun comparableContents(): List<Any> = listOf(
         model.caption ?: model.hashCode(),
-        model.postUrl ?: model.hashCode(),
+        model.postUrl ?: model.hashCode()
     )
 
     override fun createBinding(
@@ -43,7 +43,12 @@ class TweetListItem(
         binding.item = model
 
         binding.tvName.apply {
-            val originText = "${model.user?.name} ${model.user?.userName} ·${model.postedTimeAgo}"
+            val originText = context.getString(
+                R.string.user_post_list_format,
+                model.user?.name,
+                model.user?.userName,
+                model.postedTimeAgo
+            )
             val highlightedTexts = arrayOf("${model.user?.name}" as String?)
             val highlightedColors = arrayOf(R.color.cinder as Int?)
             setupHighlightedText(
@@ -52,13 +57,11 @@ class TweetListItem(
         }
 
         binding.onClick = View.OnClickListener { listener.onClick(model) }
-        binding.onClickMedia = View.OnClickListener { listener.onClickMedia(model) }
         binding.onClickLike = View.OnClickListener { listener.onClickLike(model) }
     }
 
     interface Listener {
         fun onClick(item: Tweet)
-        fun onClickMedia(item: Tweet)
         fun onClickLike(item: Tweet)
     }
 

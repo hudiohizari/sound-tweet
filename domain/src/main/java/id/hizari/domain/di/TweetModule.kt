@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.hizari.domain.repository.TweetRepository
+import id.hizari.domain.usecase.tweet.GetTweetUseCase
 import id.hizari.domain.usecase.tweet.GetTweetsUseCase
 import id.hizari.domain.usecase.tweet.PostLikeTweetUseCase
 import id.hizari.domain.usecase.tweet.PostTweetUseCase
@@ -24,6 +25,11 @@ object TweetModule {
     @Provides
     fun provideGetTweetsUseCase(tweetRepository: TweetRepository): GetTweetsUseCase {
         return GetTweetsUseCase(tweetRepository)
+    }
+
+    @Provides
+    fun provideGetTweetUseCase(tweetRepository: TweetRepository): GetTweetUseCase {
+        return GetTweetUseCase(tweetRepository)
     }
 
     @Provides

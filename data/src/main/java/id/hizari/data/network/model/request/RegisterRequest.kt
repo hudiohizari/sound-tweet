@@ -1,5 +1,7 @@
 package id.hizari.data.network.model.request
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * Sound Tweet - id.hizari.data.network.model.request
  *
@@ -10,6 +12,7 @@ package id.hizari.data.network.model.request
 
 data class RegisterRequest(
     var email: String?,
+    @SerializedName("nickname")
     var name: String?,
     var username: String?,
     var password: String?

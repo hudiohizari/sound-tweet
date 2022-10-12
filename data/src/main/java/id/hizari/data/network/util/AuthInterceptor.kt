@@ -17,10 +17,10 @@ class AuthInterceptor @Inject constructor(
         val req = chain.request().also { STLog.d("[1] $it") }
 
         val username = runBlocking {
-            dataStore.getLoggedInUser().first()?.userName
+            dataStore.getLoggedInUser().first()?.userName?.removePrefix("@")
         }.also { STLog.d("[2] $req $it") }
 
-        return  chain.proceedWithToken(req, username)
+        return chain.proceedWithToken(req, username)
     }
 
     private fun Interceptor.Chain.proceedWithToken(req: Request, username: String?): Response =

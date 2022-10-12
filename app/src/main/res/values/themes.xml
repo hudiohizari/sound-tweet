@@ -63,6 +63,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextPrimaryLargeBold">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/cinder</item>
+        <item name="android:fontFamily">@font/sf_pro_text_bold</item>
+    </style>
+
     <style name="TextPrimaryLargeSemiBold">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/cinder</item>

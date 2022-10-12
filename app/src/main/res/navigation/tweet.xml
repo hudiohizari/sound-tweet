@@ -11,4 +11,17 @@
         android:label="@string/post_tweet"
         tools:layout="@layout/fragment_post_tweet" />
 
+    <fragment
+        android:id="@+id/tweetDetailFragment"
+        android:name="id.hizari.soundtweet.ui.tweet.TweetDetailFragment"
+        android:label="@string/post_tweet"
+        tools:layout="@layout/fragment_tweet_detail">
+
+        <argument
+            android:name="tweet"
+            app:argType="id.hizari.domain.model.Tweet"
+            app:nullable="true" />
+
+    </fragment>
+
 </navigation>

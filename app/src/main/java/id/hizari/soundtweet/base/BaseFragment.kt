@@ -58,8 +58,12 @@ abstract class BaseFragment : Fragment() {
         findNavController().navigateUp()
     }
 
-    protected fun navigateWithAction(action: NavDirections) {
+    protected fun navigate(action: NavDirections) {
         findNavController().navigate(action)
+    }
+
+    protected fun navigate(action: NavDirections, bundle: Bundle) {
+        findNavController().navigate(action.actionId, bundle)
     }
 
 }

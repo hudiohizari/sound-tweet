@@ -16,10 +16,6 @@
             type="android.view.View.OnClickListener" />
 
         <variable
-            name="onClickMedia"
-            type="android.view.View.OnClickListener" />
-
-        <variable
             name="onClickLike"
             type="android.view.View.OnClickListener" />
     </data>
@@ -27,30 +23,30 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
+        android:background="@color/white"
         android:clipToPadding="false"
         android:onClick="@{onClick}"
         android:paddingVertical="16dp">
 
-        <!--        <com.google.android.material.card.MaterialCardView-->
-        <!--            android:id="@+id/cvProfilePicture"-->
-        <!--            android:layout_width="56dp"-->
-        <!--            android:layout_height="56dp"-->
-        <!--            android:layout_marginStart="16dp"-->
-        <!--            app:cardCornerRadius="28dp"-->
-        <!--            app:cardElevation="0dp"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="@id/tvName">-->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cvProfilePicture"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="16dp"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvName">
 
-        <!--            <ImageView-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="match_parent"-->
-        <!--                android:adjustViewBounds="true"-->
-        <!--                android:contentDescription="@{item.name}"-->
-        <!--                app:imageUrl="@{item.imgUrl}"-->
-        <!--                tools:src="@tools:sample/avatars" />-->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@{item.user.name}"
+                    app:imageUrl="@{item.user.imgUrl}"
+                    tools:src="@tools:sample/avatars" />
 
-        <!--        </com.google.android.material.card.MaterialCardView>-->
+            </com.google.android.material.card.MaterialCardView>
 
         <!--        <androidx.constraintlayout.widget.Group-->
         <!--            android:layout_width="0dp"-->
@@ -96,7 +92,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cvProfilePicture"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="John Lennon" />
 
@@ -112,7 +108,7 @@
             android:maxLines="10"
             android:text="@{item.caption}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cvProfilePicture"
             app:layout_constraintTop_toBottomOf="@id/tvName"
             tools:text="@tools:sample/lorem/random" />
 
@@ -123,12 +119,11 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
-            android:onClick="@{onClickMedia}"
             app:cardBackgroundColor="@color/dawn_pink"
             app:cardCornerRadius="4dp"
             app:layout_constraintDimensionRatio="H,2:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cvProfilePicture"
             app:layout_constraintTop_toBottomOf="@id/tvCaption">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -156,52 +151,68 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_play_media"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/mvcPlay"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    app:cardBackgroundColor="@color/cornflower_blue"
+                    app:cardCornerRadius="26dp"
+                    app:strokeColor="@color/white"
+                    app:strokeWidth="2dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ProgressBar
+                        android:id="@+id/pbLoading"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="6dp"
+                        android:visibility="gone"/>
+
+                    <ImageView
+                        android:id="@+id/ivPlay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_play_filled"
+                        tools:ignore="ContentDescription" />
+
+                </com.google.android.material.card.MaterialCardView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
-<!--        <TextView-->
-<!--            android:id="@+id/tvComments"-->
-<!--            style="@style/TextSecondarySmall"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="8dp"-->
-<!--            android:layout_marginTop="12dp"-->
-<!--            android:layout_marginEnd="16dp"-->
-<!--            android:drawablePadding="4dp"-->
-<!--            android:text="@{item.formattedComments}"-->
-<!--            app:drawableStartCompat="@drawable/ic_comment"-->
-<!--            app:layout_constraintEnd_toStartOf="@id/tvLikes"-->
-<!--            app:layout_constraintHorizontal_chainStyle="spread_inside"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/cvMedia"-->
-<!--            tools:text="56" />-->
+        <TextView
+            android:id="@+id/tvComments"
+            style="@style/TextSecondarySmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:drawablePadding="4dp"
+            android:text="@{item.replies}"
+            app:drawableStartCompat="@drawable/ic_comment"
+            app:layout_constraintStart_toStartOf="@id/cvMedia"
+            app:layout_constraintTop_toBottomOf="@id/cvMedia"
+            tools:text="56" />
 
         <TextView
             android:id="@+id/tvLikes"
             style="@style/TextSecondarySmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
             android:background="?attr/selectableItemBackground"
             android:drawablePadding="4dp"
             android:onClick="@{onClickLike}"
             android:text="@{item.likes}"
             android:visibility="@{!item.isLiked ? View.VISIBLE : View.GONE}"
             app:drawableStartCompat="@drawable/ic_heart"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvComments"
             app:layout_constraintTop_toBottomOf="@id/cvMedia"
             tools:text="6" />
 

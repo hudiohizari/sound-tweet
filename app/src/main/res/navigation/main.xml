@@ -6,6 +6,5 @@
 
     <include app:graph="@navigation/auth"/>
     <include app:graph="@navigation/dashboard"/>
-    <include app:graph="@navigation/tweet"/>
 
 </navigation>

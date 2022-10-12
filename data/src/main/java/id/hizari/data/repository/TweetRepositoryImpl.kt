@@ -4,7 +4,6 @@ import android.content.Context
 import id.hizari.data.local.DataStore
 import id.hizari.data.network.model.request.PostTweetRequest
 import id.hizari.data.network.service.TweetService
-import id.hizari.data.network.service.UserService
 import id.hizari.data.network.util.SafeApiRequest
 import id.hizari.domain.model.Tweet
 import id.hizari.domain.repository.TweetRepository
@@ -24,13 +23,16 @@ class TweetRepositoryImpl @Inject constructor(
     private val dataStore: DataStore
 ): TweetRepository, SafeApiRequest() {
 
-    override suspend fun getTweets(
-        context: Context
-    ): MutableList<Tweet>? {
+    override suspend fun getTweets(context: Context): MutableList<Tweet>? {
         val response = apiRequest { tweetService.getTweets() }
         return response?.map {
             it.toDomain(context, dataStore.getLoggedInUser().first()?.id)
         }?.toMutableList()
+    }
+
+    override suspend fun getTweet(context: Context, id: Long?): Tweet? {
+        val response = apiRequest { tweetService.getTweet(id) }
+        return response?.toDomain(context, dataStore.getLoggedInUser().first()?.id)
     }
 
     override suspend fun postTweet(

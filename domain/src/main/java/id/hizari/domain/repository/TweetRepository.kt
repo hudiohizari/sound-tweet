@@ -14,6 +14,7 @@ import id.hizari.domain.model.Tweet
 interface TweetRepository {
 
     suspend fun getTweets(context: Context): MutableList<Tweet>?
+    suspend fun getTweet(context: Context, id: Long?): Tweet?
     suspend fun postTweet(
         context: Context,
         caption: String?,

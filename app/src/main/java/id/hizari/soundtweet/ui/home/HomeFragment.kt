@@ -10,7 +10,6 @@ import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import id.hizari.common.extension.addDividerItem
 import id.hizari.common.extension.isNotNullOrEmpty
-import id.hizari.common.extension.toast
 import id.hizari.common.list.UnspecifiedTypeItem
 import id.hizari.common.list.item.DefaultEmptyListItem
 import id.hizari.common.list.item.DefaultReloadListItem
@@ -24,6 +23,7 @@ import id.hizari.soundtweet.base.BaseViewModel
 import id.hizari.soundtweet.databinding.FragmentHomeBinding
 import id.hizari.soundtweet.ui.tweet.TweetListItem
 import id.hizari.soundtweet.ui.tweet.TweetListItemLoading
+
 
 /**
  * Sound Tweet - id.hizari.soundtweet.ui.home
@@ -43,14 +43,10 @@ class HomeFragment : BaseFragment() {
     override fun getViewModel(): BaseViewModel = viewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_home,
-            container,
-            false
+            inflater, R.layout.fragment_home, container, false
         )
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -94,11 +90,7 @@ class HomeFragment : BaseFragment() {
             list?.forEach {
                 items.add(TweetListItem(it, object : TweetListItem.Listener {
                     override fun onClick(item: Tweet) {
-                        requireContext().toast("Goto detail: ${item.user?.name}")
-                    }
-
-                    override fun onClickMedia(item: Tweet) {
-                        requireContext().toast("Play media: ${item.postUrl}")
+                        navigate(HomeFragmentDirections.actionHomeFragmentToTweetDetailFragment(item))
                     }
 
                     override fun onClickLike(item: Tweet) {
@@ -109,8 +101,7 @@ class HomeFragment : BaseFragment() {
         } else {
             items.add(
                 DefaultEmptyListItem(
-                    getString(R.string.empty_tweet),
-                    getString(R.string.empty_tweet_caption)
+                    getString(R.string.empty_tweet), getString(R.string.empty_tweet_caption)
                 )
             )
         }
@@ -131,6 +122,7 @@ class HomeFragment : BaseFragment() {
         if (binding.adapter == null) {
             binding.adapter = FastItemAdapter()
             binding.rvTweet.addDividerItem()
+            binding.rvTweet.itemAnimator = null
         }
 
         return binding.adapter as FastItemAdapter

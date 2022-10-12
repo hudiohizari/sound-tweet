@@ -1,5 +1,8 @@
 package id.hizari.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 /**
  * Sound Tweet - id.hizari.domain.model
  *
@@ -8,12 +11,16 @@ package id.hizari.domain.model
  *
  */
 
+@Parcelize
 data class Tweet(
     val caption: String?,
     val postedTimeAgo: String?,
+    val timeAndDate: String?,
     val id: Long?,
     val postUrl: String?,
+    val tweetReplies: MutableList<Tweet>?,
+    val replies: String?,
     val likes: String?,
     val isLiked: Boolean?,
     val user: User?
-)
+): Parcelable

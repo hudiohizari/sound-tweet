@@ -163,7 +163,11 @@ class PostTweetFragment : BaseFragment() {
         viewModel.tweetResource.observe(viewLifecycleOwner) {
             when (it) {
                 is Resources.Loading -> STLog.d("Loading")
-                is Resources.Success -> STLog.d("Success = ${it.data?.user?.name}")
+                is Resources.Success -> {
+                    STLog.d("Success = ${it.data?.caption}")
+                    toast(getString(R.string.tweet_posted))
+                    navigateUp()
+                }
                 is Resources.Error -> it.throwable?.handleGeneralError(binding.clRoot)
                 else -> STLog.e("Unhandled resource")
             }

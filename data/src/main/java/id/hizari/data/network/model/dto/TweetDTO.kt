@@ -11,6 +11,7 @@ data class TweetDTO(
     val id: Long?,
     val likes: Long?,
     val postUrl: String?,
+    val replies: MutableList<TweetDTO>?,
     val updatedAt: String?,
     val user: UserDTO?
 ) {
@@ -18,17 +19,16 @@ data class TweetDTO(
     fun toDomain(context: Context, loggedInId: Long?): Tweet {
         return Tweet(
             caption,
-            getPostedTimeAgo(context),
+            DateUtil.getTimeAgo(context, createdAt),
+            DateUtil.changeDateFormat(createdAt),
             id,
             postUrl,
-            likes?.toCompactFormat() ?: "",
+            replies?.map { it.toDomain(context, loggedInId) }?.toMutableList(),
+            (replies?.size ?: 0).toCompactFormat(),
+            (likes ?: 0).toCompactFormat(),
             false,
             user?.toDomain(loggedInId)
         )
-    }
-
-    private fun getPostedTimeAgo(context: Context): String {
-        return DateUtil.getTimeAgo(context, createdAt)
     }
 
 }

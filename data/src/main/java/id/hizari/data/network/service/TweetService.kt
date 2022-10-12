@@ -26,6 +26,11 @@ interface TweetService {
     @GET(".")
     suspend fun getTweets(): Response<TweetsDTO>
 
+    @GET("{id}")
+    suspend fun getTweet(
+        @Path("id") id: Long?
+    ): Response<TweetDTO>
+
     @POST(".")
     suspend fun postTweet(
         @Body body: PostTweetRequest

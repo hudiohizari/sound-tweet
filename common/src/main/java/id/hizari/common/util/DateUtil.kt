@@ -1,7 +1,6 @@
 package id.hizari.common.util
 
 import android.content.Context
-import android.util.Log
 import id.hizari.common.R
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -20,12 +19,12 @@ object DateUtil {
 
     private const val SERVER_DATE_TIME = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
 
-    private const val PRINT_DATE = "dd/MM/yyyy"
+    private const val PRINT_TIME_DATE = "HH:mm ·dd/MM/yyyy"
 
-    private fun changeDateFormat(
+    fun changeDateFormat(
         date: String?,
         oldFormat: String = SERVER_DATE_TIME,
-        newFormat: String = PRINT_DATE
+        newFormat: String = PRINT_TIME_DATE
     ): String{
         val sdf = SimpleDateFormat(oldFormat, Locale("id", "ID"))
         return try {

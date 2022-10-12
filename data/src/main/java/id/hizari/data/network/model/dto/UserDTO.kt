@@ -1,5 +1,6 @@
 package id.hizari.data.network.model.dto
 
+import id.hizari.common.util.Constant
 import id.hizari.data.network.model.base.BaseDTO
 import id.hizari.domain.model.User
 
@@ -28,10 +29,11 @@ data class UserDTO(
     fun toDomain(loggedInId: Long?): User {
         return User(
             id,
+            Constant.URL.IMAGE_USER_PROFILE_EMPTY,
             nickname,
-            username,
+            "@%1s".format(username),
             bio,
-            isFollowed(loggedInId)
+            isFollowed(loggedInId),
         )
     }
 
