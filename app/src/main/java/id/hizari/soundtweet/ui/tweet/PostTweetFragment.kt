@@ -1,14 +1,16 @@
 package id.hizari.soundtweet.ui.tweet
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.media.MediaRecorder
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import id.hizari.common.extension.toast
 import id.hizari.common.R as commonR
@@ -18,7 +20,6 @@ import id.hizari.soundtweet.R
 import id.hizari.soundtweet.base.BaseFragment
 import id.hizari.soundtweet.base.BaseViewModel
 import id.hizari.soundtweet.databinding.FragmentPostTweetBinding
-import id.hizari.soundtweet.ui.navigation.NavigationViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,8 +35,6 @@ class PostTweetFragment : BaseFragment() {
 
     private lateinit var binding: FragmentPostTweetBinding
 
-    private val sharedViewModel: NavigationViewModel by activityViewModels()
-
     private val viewModel: PostTweetViewModel by viewModels()
 
     private val timer by lazy {
@@ -44,6 +43,24 @@ class PostTweetFragment : BaseFragment() {
                 viewModel.recordDuration.postValue(duration)
             }
         })
+    }
+
+    private val requestRecordAudioLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        STLog.d("Permission is ${if (isGranted) "granted" else "denied"}")
+        if (isGranted) {
+            when (viewModel.recordingStatus.value) {
+                PostTweetViewModel.RECORDING_STATUS_FIRST_TIME,
+                PostTweetViewModel.RECORDING_STATUS_PAUSE -> {
+                    viewModel.recordingStatus.postValue(PostTweetViewModel.RECORDING_STATUS_RESUME)
+                }
+                null -> {
+                    viewModel.recordingStatus.postValue(PostTweetViewModel.RECORDING_STATUS_FIRST_TIME)
+                }
+                else -> STLog.e("Unhandled recordingStatus = ${viewModel.recordingStatus.value}")
+            }
+        } else toast(getString(commonR.string.please_grant_audio_permission))
     }
 
     private val recorder by lazy {
@@ -81,7 +98,6 @@ class PostTweetFragment : BaseFragment() {
 
         super.onDestroy()
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -105,30 +121,9 @@ class PostTweetFragment : BaseFragment() {
     }
 
     private fun initObserver() {
-        sharedViewModel.isPermissionGranted.observe(viewLifecycleOwner) {
-            when (it) {
-                true -> {
-                    when (viewModel.recordingStatus.value) {
-                        PostTweetViewModel.RECORDING_STATUS_FIRST_TIME,
-                        PostTweetViewModel.RECORDING_STATUS_PAUSE -> {
-                            viewModel.recordingStatus.postValue(PostTweetViewModel.RECORDING_STATUS_RESUME)
-                        }
-                        null -> {
-                            viewModel.recordingStatus.postValue(PostTweetViewModel.RECORDING_STATUS_FIRST_TIME)
-                        }
-                        else -> STLog.e("Unhandled recordingStatus = ${viewModel.recordingStatus.value}")
-                    }
-                }
-                false -> toast(getString(commonR.string.please_grant_audio_permission))
-                else -> STLog.e("Unhandled isPermissionGranted = $it")
-            }
-            if (it != null) sharedViewModel.isPermissionGranted.postValue(null)
-        }
         viewModel.listenerToFragment.observe(viewLifecycleOwner) {
             when (it) {
-                PostTweetViewModel.LISTENER_REQUEST_PERMISSION -> {
-                    sharedViewModel.requestedPermission.postValue(Manifest.permission.RECORD_AUDIO)
-                }
+                PostTweetViewModel.LISTENER_REQUEST_PERMISSION -> checkAudioPermission()
                 else -> STLog.e("Unhandled listener to fragment = $it")
             }
         }
@@ -140,6 +135,36 @@ class PostTweetFragment : BaseFragment() {
                 PostTweetViewModel.RECORDING_STATUS_STOP -> stopRecord()
                 else -> STLog.e("Unhandled recordingStatus = $it")
             }
+        }
+    }
+
+    private fun checkAudioPermission() {
+        val permission = Manifest.permission.RECORD_AUDIO
+        val isGranted = ActivityCompat.checkSelfPermission(
+            requireActivity(),
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+        STLog.d("Checking permission = $permission")
+
+        if (isGranted) {
+            STLog.d("$permission is already granted")
+            audioPermissionGranted()
+        } else {
+            STLog.d("Requesting permission = $permission")
+            requestRecordAudioLauncher.launch(Manifest.permission.RECORD_AUDIO)
+        }
+    }
+
+    private fun audioPermissionGranted() {
+        when (viewModel.recordingStatus.value) {
+            PostTweetViewModel.RECORDING_STATUS_FIRST_TIME,
+            PostTweetViewModel.RECORDING_STATUS_PAUSE -> {
+                viewModel.recordingStatus.postValue(PostTweetViewModel.RECORDING_STATUS_RESUME)
+            }
+            null -> {
+                viewModel.recordingStatus.postValue(PostTweetViewModel.RECORDING_STATUS_FIRST_TIME)
+            }
+            else -> STLog.e("Unhandled recordingStatus = ${viewModel.recordingStatus.value}")
         }
     }
 

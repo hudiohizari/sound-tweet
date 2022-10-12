@@ -50,7 +50,7 @@
                     style="@style/ButtonThinTheme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:enabled="@{viewModel.recordingStatus == viewModel.RECORDING_STATUS_PAUSE}"
+                    android:enabled="@{viewModel.recordingStatus == viewModel.RECORDING_STATUS_PAUSE &amp;&amp; viewModel.caption != null}"
                     android:onClick="@{viewModel::onClickPost}"
                     android:text="@string/post"
                     app:layout_constraintBottom_toBottomOf="parent"
