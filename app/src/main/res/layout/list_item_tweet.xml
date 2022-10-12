@@ -19,9 +19,9 @@
             name="onClickMedia"
             type="android.view.View.OnClickListener" />
 
-<!--        <variable-->
-<!--            name="onClickLike"-->
-<!--            type="android.view.View.OnClickListener" />-->
+        <variable
+            name="onClickLike"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -187,24 +187,23 @@
 <!--            app:layout_constraintTop_toBottomOf="@id/cvMedia"-->
 <!--            tools:text="56" />-->
 
-<!--        <TextView-->
-<!--            android:id="@+id/tvLikes"-->
-<!--            style="@style/TextSecondarySmall"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="8dp"-->
-<!--            android:layout_marginTop="12dp"-->
-<!--            android:layout_marginEnd="16dp"-->
-<!--            android:background="?attr/selectableItemBackground"-->
-<!--            android:drawablePadding="4dp"-->
-<!--            android:onClick="@{onClickLike}"-->
-<!--            android:text="@{item.formattedLikes}"-->
-<!--            android:visibility="@{!item.isLiked ? View.VISIBLE : View.GONE}"-->
-<!--            app:drawableStartCompat="@drawable/ic_heart"-->
-<!--            app:layout_constraintEnd_toStartOf="@id/tvPlays"-->
-<!--            app:layout_constraintStart_toEndOf="@id/tvComments"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/cvMedia"-->
-<!--            tools:text="6" />-->
+        <TextView
+            android:id="@+id/tvLikes"
+            style="@style/TextSecondarySmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/selectableItemBackground"
+            android:drawablePadding="4dp"
+            android:onClick="@{onClickLike}"
+            android:text="@{item.likes}"
+            android:visibility="@{!item.isLiked ? View.VISIBLE : View.GONE}"
+            app:drawableStartCompat="@drawable/ic_heart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cvMedia"
+            tools:text="6" />
 
 <!--        <TextView-->
 <!--            android:id="@+id/tvLikesLiked"-->
@@ -215,7 +214,7 @@
 <!--            android:background="?attr/selectableItemBackground"-->
 <!--            android:drawablePadding="4dp"-->
 <!--            android:onClick="@{onClickLike}"-->
-<!--            android:text="@{item.formattedLikes}"-->
+<!--            android:text="@{item.likes}"-->
 <!--            android:textColor="@color/deep_rose"-->
 <!--            android:visibility="@{item.isLiked ? View.VISIBLE : View.GONE, default=gone}"-->
 <!--            app:drawableStartCompat="@drawable/ic_heart_filled_red"-->

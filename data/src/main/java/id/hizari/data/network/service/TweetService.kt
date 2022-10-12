@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 /**
  * Sound Tweet - id.hizari.data.network.service
@@ -28,6 +29,11 @@ interface TweetService {
     @POST(".")
     suspend fun postTweet(
         @Body body: PostTweetRequest
+    ): Response<TweetDTO>
+
+    @POST("like/{id}")
+    suspend fun postLikeTweet(
+        @Path("id") id: Long?
     ): Response<TweetDTO>
 
     companion object {

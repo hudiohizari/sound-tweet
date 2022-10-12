@@ -24,6 +24,15 @@ class TweetRepositoryImpl @Inject constructor(
     private val dataStore: DataStore
 ): TweetRepository, SafeApiRequest() {
 
+    override suspend fun getTweets(
+        context: Context
+    ): MutableList<Tweet>? {
+        val response = apiRequest { tweetService.getTweets() }
+        return response?.map {
+            it.toDomain(context, dataStore.getLoggedInUser().first()?.id)
+        }?.toMutableList()
+    }
+
     override suspend fun postTweet(
         context: Context,
         caption: String?,
@@ -35,13 +44,9 @@ class TweetRepositoryImpl @Inject constructor(
         return response?.toDomain(context, dataStore.getLoggedInUser().first()?.id)
     }
 
-    override suspend fun getTweets(
-        context: Context
-    ): MutableList<Tweet>? {
-        val response = apiRequest { tweetService.getTweets() }
-        return response?.map {
-            it.toDomain(context, dataStore.getLoggedInUser().first()?.id)
-        }?.toMutableList()
+    override suspend fun postLikeTweets(context: Context, id: Long?): Tweet? {
+        val response = apiRequest { tweetService.postLikeTweet(id) }
+        return response?.toDomain(context, dataStore.getLoggedInUser().first()?.id)
     }
 
 }

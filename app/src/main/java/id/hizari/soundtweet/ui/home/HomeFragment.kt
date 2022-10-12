@@ -70,7 +70,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun initObserver() {
-        viewModel.tweets.observe(viewLifecycleOwner) {
+        viewModel.tweetsResource.observe(viewLifecycleOwner) {
             when (it) {
                 is Resources.Loading -> processLoadingGetTweet()
                 is Resources.Success -> processSuccessGetTweet(it.data)
@@ -101,9 +101,9 @@ class HomeFragment : BaseFragment() {
                         requireContext().toast("Play media: ${item.postUrl}")
                     }
 
-//                    override fun onClickLike(item: Tweet) {
-//                        requireContext().toast("Like tweet: ${item.name}")
-//                    }
+                    override fun onClickLike(item: Tweet) {
+                        viewModel.postLikeTweet(requireContext(), item.id)
+                    }
                 }))
             }
         } else {

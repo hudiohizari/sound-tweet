@@ -10,19 +10,19 @@ import kotlinx.coroutines.flow.flow
 /**
  * Sound Tweet - id.hizari.domain.usecase.tweet
  *
- * Created by Hudio Hizari on 30/09/2022.
+ * Created by Hudio Hizari on 12/10/2022.
  * https://github.com/hudiohizari
  *
  */
 
-class GetTweetsUseCase(
+class PostLikeTweetUseCase(
     private val tweetRepository: TweetRepository
 ) {
 
-    operator fun invoke(context: Context): Flow<Resources<MutableList<Tweet>?>> = flow {
+    operator fun invoke(context: Context, id: Long?): Flow<Resources<Tweet?>> = flow {
         emit(Resources.Loading())
         try {
-            val response = tweetRepository.getTweets(context)
+            val response = tweetRepository.postLikeTweets(context, id)
             emit(Resources.Success(response))
         } catch (e: Exception) {
             emit(Resources.Error(e))

@@ -77,7 +77,7 @@ class SearchFragment : BaseFragment() {
                 viewModel.searchUser()
             }
         }
-        viewModel.users.observe(viewLifecycleOwner) {
+        viewModel.usersResource.observe(viewLifecycleOwner) {
             when (it) {
                 is Resources.Loading -> processLoadingGetTweet()
                 is Resources.Success -> processSuccessGetTweet(it.data)
@@ -85,7 +85,7 @@ class SearchFragment : BaseFragment() {
                 else -> STLog.e("Unhandled resource")
             }
         }
-        viewModel.user.observe(viewLifecycleOwner) {
+        viewModel.userResourse.observe(viewLifecycleOwner) {
             when (it) {
                 is Resources.Loading -> STLog.d("Loading")
                 is Resources.Success -> viewModel.onRefresh()

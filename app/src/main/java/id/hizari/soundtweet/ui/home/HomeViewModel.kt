@@ -2,12 +2,13 @@ package id.hizari.soundtweet.ui.home
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.hizari.common.util.Resources
+import id.hizari.common.util.STLog
 import id.hizari.domain.model.Tweet
 import id.hizari.domain.usecase.tweet.GetTweetsUseCase
+import id.hizari.domain.usecase.tweet.PostLikeTweetUseCase
 import id.hizari.soundtweet.base.BaseViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,15 +24,25 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getTweetsUseCase: GetTweetsUseCase
+    private val getTweetsUseCase: GetTweetsUseCase,
+    private val postLikeTweetUseCase: PostLikeTweetUseCase
 ): BaseViewModel() {
 
     val isRefreshing = MutableLiveData<Boolean>()
-    val tweets = MutableLiveData<Resources<MutableList<Tweet>?>>()
+    val tweetsResource = MutableLiveData<Resources<MutableList<Tweet>?>>()
 
     fun getTweets(context: Context) {
         getTweetsUseCase(context).onEach {
-            tweets.postValue(it)
+            tweetsResource.postValue(it)
+        }.launchIn(viewModelScope)
+    }
+
+    fun postLikeTweet(context: Context, id: Long?) {
+        postLikeTweetUseCase(context, id).onEach {
+            when (it) {
+                is Resources.Success -> getTweets(context)
+                else -> STLog.e("Unhandled resource type = $it")
+            }
         }.launchIn(viewModelScope)
     }
 

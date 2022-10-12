@@ -13,5 +13,7 @@ data class Tweet(
     val postedTimeAgo: String?,
     val id: Long?,
     val postUrl: String?,
+    val likes: String?,
+    val isLiked: Boolean?,
     val user: User?
 )
