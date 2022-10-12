@@ -46,7 +46,7 @@ class TweetRepositoryImpl @Inject constructor(
                     }
                 }
             }
-            sortByDescending { it.timeAndDate }
+            sortByDescending { it.id }
         }
     }
 

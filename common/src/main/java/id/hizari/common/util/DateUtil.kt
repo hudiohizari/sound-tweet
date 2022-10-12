@@ -29,7 +29,7 @@ object DateUtil {
         val sdf = SimpleDateFormat(oldFormat, Locale("id", "ID"))
         return try {
             val d = sdf.parse(date ?: "") ?: ""
-            sdf.timeZone = TimeZone.getTimeZone("GMT+0")
+            sdf.timeZone = TimeZone.getTimeZone("GMT+14")
             sdf.applyPattern(newFormat)
             sdf.format(d)
         } catch (e: ParseException) {
@@ -43,9 +43,10 @@ object DateUtil {
         date: String?
     ): String {
         return try {
-            val format = SimpleDateFormat(SERVER_DATE_TIME, Locale("id", "ID"))
+            val sdf = SimpleDateFormat(SERVER_DATE_TIME, Locale("id", "ID"))
+            sdf.timeZone = TimeZone.getTimeZone("GMT+0")
             if (date != null) {
-                val past = format.parse(date)
+                val past = sdf.parse(date)
                 if (past != null) {
                     val now = Date()
                     val seconds = TimeUnit.MILLISECONDS
