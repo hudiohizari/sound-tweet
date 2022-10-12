@@ -29,9 +29,11 @@
     <string name="do_not_have_an_account_yet">Don\'t have an account yet? Register now</string>
     <string name="do_not_have_an_account_yet_highlighted">Register now</string>
 
+    <!--Home-->
+    <string name="empty_home">Home is empty</string>
+    <string name="empty_home_caption">Please start follow another user then see their post here!</string>
+
     <!--Tweet-->
-    <string name="empty_tweet">Home is empty</string>
-    <string name="empty_tweet_caption">Please start follow another user then see their post here!</string>
     <string name="user_post_list_format">%1s %2s ·%3s</string>
     <string name="post_like_format">%1s Like</string>
     <string name="post_likes_format">%1s Likes</string>
@@ -56,5 +58,14 @@
     <string name="search_user">Search user</string>
     <string name="empty_search_query">Search query is empty</string>
     <string name="empty_search_query_caption">Please enter text on the input above to show suggested user</string>
+
+    <!--Notification-->
+    <string name="notifications">Notifications</string>
+    <string name="empty_notification">Notification is empty</string>
+    <string name="empty_notification_caption">Please start interacting to get notification!</string>
+    <string name="notification_text_format">
+        In case you missed %1s’s post a Voice with caption:
+        \n%2s
+    </string>
 
 </resources>

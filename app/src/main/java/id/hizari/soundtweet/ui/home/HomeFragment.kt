@@ -101,7 +101,7 @@ class HomeFragment : BaseFragment() {
         } else {
             items.add(
                 DefaultEmptyListItem(
-                    getString(R.string.empty_tweet), getString(R.string.empty_tweet_caption)
+                    getString(R.string.empty_home), getString(R.string.empty_home_caption)
                 )
             )
         }
