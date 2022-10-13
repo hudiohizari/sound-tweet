@@ -24,6 +24,8 @@ class DataStore @Inject constructor(
         private val USER_NAME = stringPreferencesKey("user_name")
         private val USER_USERNAME = stringPreferencesKey("user_userName")
         private val USER_BIO = stringPreferencesKey("user_bio")
+        private val USER_EMAIL = stringPreferencesKey("user_email")
+        private val USER_PASSWORD = stringPreferencesKey("user_password")
         private val USER_JOINED = stringPreferencesKey("user_joined")
         private val USER_FOLLOWER = stringPreferencesKey("user_followed")
         private val USER_FOLLOWING = stringPreferencesKey("user_following")
@@ -47,8 +49,10 @@ class DataStore @Inject constructor(
             preferences[USER_ID] = user?.id ?: -1L
             preferences[USER_IMG_URL] = user?.imgUrl ?: ""
             preferences[USER_NAME] = user?.name ?: ""
-            preferences[USER_USERNAME] = user?.userName ?: ""
+            preferences[USER_USERNAME] = user?.username ?: ""
             preferences[USER_BIO] = user?.bio ?: ""
+            preferences[USER_EMAIL] = user?.email ?: ""
+            preferences[USER_PASSWORD] = user?.password ?: ""
             preferences[USER_JOINED] = user?.joined ?: ""
             preferences[USER_FOLLOWER] = user?.follower ?: ""
             preferences[USER_FOLLOWING]  = user?.following ?: ""
@@ -65,6 +69,8 @@ class DataStore @Inject constructor(
                 preferences[USER_NAME],
                 preferences[USER_USERNAME],
                 preferences[USER_BIO],
+                preferences[USER_EMAIL],
+                preferences[USER_PASSWORD],
                 preferences[USER_JOINED],
                 false,
                 preferences[USER_FOLLOWER],

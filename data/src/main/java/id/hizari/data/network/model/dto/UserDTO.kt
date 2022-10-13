@@ -36,6 +36,8 @@ data class UserDTO(
             nickname,
             "@%1s".format(username),
             bio,
+            email,
+            password,
             DateUtil.changeDateFormat(createdAt, newFormat = DateUtil.PRINT_MONTH_YEAR),
             isFollowed(loggedInId),
             (userFollower?.size ?: 0).toCompactFormat(),

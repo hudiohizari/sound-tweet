@@ -4,6 +4,8 @@
     <!--Common-->
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
 
     <!--Navigation-->
     <string name="register">Register</string>
@@ -12,6 +14,8 @@
     <string name="search">Search</string>
     <string name="notification">Notification</string>
     <string name="profile">Profile</string>
+    <string name="post_tweet">Post Tweet</string>
+    <string name="edit_profile">Edit profile</string>
     <string name="press_once_more_to_exit">Press once more to exit</string>
 
     <!--Auth-->
@@ -40,7 +44,6 @@
     <string name="user_post_list_format">%1s %2s ·%3s</string>
     <string name="post_like_format">%1s Like</string>
     <string name="post_likes_format">%1s Likes</string>
-    <string name="post_tweet">Post Tweet</string>
     <string name="detail_tweet">Detail Tweet</string>
     <string name="post">Post</string>
     <string name="insert_a_caption">Insert a caption</string>
@@ -49,7 +52,7 @@
     <string name="record">Record</string>
     <string name="paused">Paused.</string>
     <string name="pause">Pause</string>
-    <string name="tweet_posted">Tweet posted</string>
+    <string name="tweet_posted_successfully">Tweet posted successfully</string>
     <string name="comment">Comment</string>
     <string name="like">Like</string>
     <string name="cancel_post_tweet_rationale">Cancel posting tweet?</string>
@@ -75,12 +78,18 @@
 
     <!--Profile-->
     <string name="logout">Logout</string>
-    <string name="edit_profile">Edit profile</string>
     <string name="joined_date_format">Joined %1s</string>
     <string name="following_format">%1s Following</string>
     <string name="follower_format">%1s Follower</string>
     <string name="followers_format">%1s Followers</string>
     <string name="logout_rationale">Do want to logout?</string>
     <string name="logout_rationale_caption">You will be redirected to login page after logout.</string>
+    <string name="bio">Bio</string>
+    <string name="bio_error">Bio can\'t be empty</string>
+    <string name="profile_edited_successfully">Profile edited successfully</string>
+    <string name="cancel_edit_profile_rationale">Cancel edit profile?</string>
+    <string name="cancel_edit_profile_rationale_caption">The data that you\'ve changed will be deleted.</string>
+    <string name="edit_profile_assurance">You sure want to change?</string>
+    <string name="edit_profile_assurance_caption">The data that you\'ve changed will be saved and can\'t be reverse.</string>
 
 </resources>

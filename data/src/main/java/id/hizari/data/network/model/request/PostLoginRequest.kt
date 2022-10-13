@@ -8,7 +8,7 @@ package id.hizari.data.network.model.request
  *
  */
 
-data class LoginRequest(
+data class PostLoginRequest(
     var username: String?,
     var password: String?
 )

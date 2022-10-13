@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.hizari.common.extension.showSimpleDialogReturn
-import id.hizari.common.extension.toast
 import id.hizari.common.util.Resources
 import id.hizari.common.util.STLog
 import id.hizari.domain.model.Tweet
@@ -94,8 +93,9 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    @Suppress("unused")
     fun View.onClickEditProfile() {
-        context.toast("onClickEditProfile")
+        navigate(ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment())
     }
 
     fun onRefresh(context: Context) {

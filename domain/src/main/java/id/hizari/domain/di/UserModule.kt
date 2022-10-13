@@ -45,6 +45,11 @@ object UserModule {
     }
 
     @Provides
+    fun provideGetIsLoggedInUserUseCase(userRepository: UserRepository): GetIsLoggedInUserUseCase {
+        return GetIsLoggedInUserUseCase(userRepository)
+    }
+
+    @Provides
     fun providePostLogoutUseCase(userRepository: UserRepository): PostLogoutUseCase {
         return PostLogoutUseCase(userRepository)
     }
@@ -57,6 +62,11 @@ object UserModule {
     @Provides
     fun providePostFollowUserUseCase(userRepository: UserRepository): PostFollowUserUseCase {
         return PostFollowUserUseCase(userRepository)
+    }
+
+    @Provides
+    fun providePutEditProfileUseCase(userRepository: UserRepository): PutEditProfileUseCase {
+        return PutEditProfileUseCase(userRepository)
     }
 
 }

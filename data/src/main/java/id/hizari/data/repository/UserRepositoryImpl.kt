@@ -1,8 +1,9 @@
 package id.hizari.data.repository
 
 import id.hizari.data.local.DataStore
-import id.hizari.data.network.model.request.LoginRequest
-import id.hizari.data.network.model.request.RegisterRequest
+import id.hizari.data.network.model.request.PostLoginRequest
+import id.hizari.data.network.model.request.PostRegisterRequest
+import id.hizari.data.network.model.request.PutEditProfileRequest
 import id.hizari.data.network.service.UserService
 import id.hizari.data.network.util.SafeApiRequest
 import id.hizari.domain.model.User
@@ -30,7 +31,7 @@ class UserRepositoryImpl @Inject constructor(
         username: String?,
         password: String?
     ): User? {
-        val body = RegisterRequest(email, name, username, password)
+        val body = PostRegisterRequest(email, name, username, password)
         val response = apiRequest { userService.postRegister(body) }
         val responseDomain = response?.toDomain(dataStore.getLoggedInUser().first()?.id)
         dataStore.setLoggedInUser(responseDomain)
@@ -38,7 +39,7 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun postLogin(username: String?, password: String?): User? {
-        val body = LoginRequest(username, password)
+        val body = PostLoginRequest(username, password)
         val response = apiRequest { userService.postLogin(body) }
         val responseDomain = response?.toDomain(dataStore.getLoggedInUser().first()?.id)
         dataStore.setLoggedInUser(responseDomain)
@@ -75,6 +76,21 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun postFollowUser(userId: Long?): User? {
         val response = apiRequest { userService.postFollowUser(userId) }
         return response?.toDomain(dataStore.getLoggedInUser().first()?.id)
+    }
+
+    override suspend fun putEditProfile(
+        bio: String?,
+        email: String?,
+        name: String?,
+        username: String?,
+        password: String?
+    ): User? {
+        val loggedInUser = dataStore.getLoggedInUser().first()
+        val body = PutEditProfileRequest(bio, email, name, username, password)
+        val response = apiRequest { userService.putEditProfile(loggedInUser?.id, body) }
+        return response?.toDomain(loggedInUser?.id).also {
+            dataStore.setLoggedInUser(it)
+        }
     }
 
 }

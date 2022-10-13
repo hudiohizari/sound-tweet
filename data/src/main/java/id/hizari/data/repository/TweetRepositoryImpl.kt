@@ -28,7 +28,7 @@ class TweetRepositoryImpl @Inject constructor(
         val loggedInUser = dataStore.getLoggedInUser().first()
         val list = mutableListOf<Tweet>().apply {
             apiRequest { tweetService.getTweets() }?.let { tweets ->
-                STLog.d("Getting tweets from ${loggedInUser?.userName?.removePrefix("@")}")
+                STLog.d("Getting tweets from ${loggedInUser?.username?.removePrefix("@")}")
                 for (tweet in tweets) {
                     add(tweet.toDomain(context, loggedInUser?.id))
                 }

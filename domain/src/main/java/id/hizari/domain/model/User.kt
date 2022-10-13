@@ -16,11 +16,13 @@ class User(
     val id: Long?,
     val imgUrl: String?,
     val name: String?,
-    val userName: String?,
+    val username: String?,
     val bio: String?,
+    val email: String?,
+    val password: String?,
     val joined: String?,
     val isFollowed: Boolean?,
     val follower: String?,
     val following: String?,
     val userFollowingUsername: MutableList<String?>?
-): Parcelable
+) : Parcelable

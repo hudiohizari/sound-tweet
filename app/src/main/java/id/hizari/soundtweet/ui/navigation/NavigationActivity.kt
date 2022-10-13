@@ -28,6 +28,8 @@ class NavigationActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private val viewModel: NavigationViewModel by viewModels()
 
+    private var lastNavigationId = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -65,9 +67,10 @@ class NavigationActivity : AppCompatActivity() {
                     navController.currentDestination?.id != R.id.homeFragment
                 } else {
                     navController.currentDestination?.id != R.id.registerFragment
-                }
+                } && lastNavigationId != selectedNavigation
 
                 if (isOkToNavigate) {
+                    lastNavigationId = selectedNavigation
                     navController.navigate(
                         selectedNavigation,
                         null,

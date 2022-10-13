@@ -46,7 +46,7 @@ class TweetListItem(
             val originText = context.getString(
                 R.string.user_post_list_format,
                 model.user?.name,
-                model.user?.userName,
+                model.user?.username,
                 model.postedTimeAgo
             )
             val highlightedTexts = arrayOf("${model.user?.name}" as String?)

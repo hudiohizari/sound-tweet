@@ -165,7 +165,7 @@ class PostTweetFragment : BaseFragment() {
                 is Resources.Loading -> STLog.d("Loading")
                 is Resources.Success -> {
                     STLog.d("Success = ${it.data?.caption}")
-                    toast(getString(R.string.tweet_posted))
+                    toast(getString(R.string.tweet_posted_successfully))
                     navigateUp()
                 }
                 is Resources.Error -> it.throwable?.handleGeneralError(binding.clRoot)

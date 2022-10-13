@@ -28,5 +28,12 @@ interface UserRepository {
     suspend fun postLogout()
     suspend fun getSearchUser(query: String?): MutableList<User>?
     suspend fun postFollowUser(userId: Long?): User?
+    suspend fun putEditProfile(
+        bio: String?,
+        email: String?,
+        name: String?,
+        username: String?,
+        password: String?
+    ): User?
 
 }
