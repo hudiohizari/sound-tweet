@@ -54,6 +54,16 @@ class TweetDetailViewModel @Inject constructor(
     }
 
     @Suppress("unused")
+    fun View.onClickUser() {
+        tweetResource.value?.data?.user?.let {
+            navigate(
+                TweetDetailFragmentDirections.actionTweetDetailFragmentToUserProfileFragment()
+                    .setUser(it)
+            )
+        }
+    }
+
+    @Suppress("unused")
     fun View.onClickMedia() {
         if (tweetResource.value?.data?.postUrl.isNotNullOrEmpty()) {
             listener?.toggleMedia()

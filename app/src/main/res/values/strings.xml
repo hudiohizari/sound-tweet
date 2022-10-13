@@ -40,7 +40,7 @@
 
     <!--Tweet-->
     <string name="empty_tweet">Tweet is empty</string>
-    <string name="empty_tweet_caption">Please posting tweet then see your tweet here!</string>
+    <string name="empty_tweet_caption">Please post a tweet then see your tweet here!</string>
     <string name="user_post_list_format">%1s %2s ·%3s</string>
     <string name="post_like_format">%1s Like</string>
     <string name="post_likes_format">%1s Likes</string>

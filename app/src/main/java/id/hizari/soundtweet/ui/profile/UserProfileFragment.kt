@@ -22,7 +22,7 @@ import id.hizari.domain.model.Tweet
 import id.hizari.soundtweet.R
 import id.hizari.soundtweet.base.BaseFragment
 import id.hizari.soundtweet.base.BaseViewModel
-import id.hizari.soundtweet.databinding.FragmentProfileBinding
+import id.hizari.soundtweet.databinding.FragmentUserProfileBinding
 import id.hizari.soundtweet.extention.handleGeneralError
 import id.hizari.soundtweet.ui.tweet.TweetListItem
 import id.hizari.soundtweet.ui.tweet.TweetListItemLoading
@@ -30,16 +30,17 @@ import id.hizari.soundtweet.ui.tweet.TweetListItemLoading
 /**
  * Sound Tweet - id.hizari.soundtweet.ui.profile
  *
- * Created by Hudio Hizari on 27/09/2022.
+ * Created by Hudio Hizari on 13/10/2022.
  * https://github.com/hudiohizari
  *
  */
 
 @AndroidEntryPoint
-class ProfileFragment : BaseFragment() {
+class UserProfileFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentProfileBinding
-    private val viewModel: ProfileViewModel by viewModels()
+    private lateinit var binding: FragmentUserProfileBinding
+    private val viewModel: UserProfileViewModel by viewModels()
+    private val args: UserProfileFragmentArgs by navArgs()
 
     override fun getViewModel(): BaseViewModel = viewModel
 
@@ -47,7 +48,7 @@ class ProfileFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_profile, container, false
+            inflater, R.layout.fragment_user_profile, container, false
         )
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -58,12 +59,16 @@ class ProfileFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initArgs()
         initCall()
         initObserver()
     }
 
+    private fun initArgs() {
+        args.user?.let { viewModel.userResource.postValue(Resources.Success(it)) }
+    }
+
     private fun initCall() {
-        viewModel.getLocalUser()
         viewModel.getTweets(requireContext())
     }
 
@@ -130,7 +135,7 @@ class ProfileFragment : BaseFragment() {
                 items.add(TweetListItem(it, object : TweetListItem.Listener {
                     override fun onClick(item: Tweet) {
                         navigate(
-                            ProfileFragmentDirections.actionProfileFragmentToTweetDetailFragment(
+                            UserProfileFragmentDirections.actionUserProfileFragmentToTweetDetailFragment(
                                 item
                             )
                         )

@@ -15,14 +15,17 @@ import kotlinx.coroutines.flow.flow
  *
  */
 
-class GetHomeTweetsUseCase(
+class GetUserTweetsUseCase(
     private val tweetRepository: TweetRepository
 ) {
 
-    operator fun invoke(context: Context): Flow<Resources<MutableList<Tweet>?>> = flow {
+    operator fun invoke(
+        context: Context,
+        username: String?
+    ): Flow<Resources<MutableList<Tweet>?>> = flow {
         emit(Resources.Loading())
         try {
-            val response = tweetRepository.getHomeTweets(context)
+            val response = tweetRepository.getUserTweets(context, username?.removePrefix("@"))
             emit(Resources.Success(response))
         } catch (e: Exception) {
             emit(Resources.Error(e))

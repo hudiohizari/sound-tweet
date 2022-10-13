@@ -22,7 +22,7 @@ class GetOwnTweetsUseCase(
     operator fun invoke(context: Context): Flow<Resources<MutableList<Tweet>?>> = flow {
         emit(Resources.Loading())
         try {
-            val response = tweetRepository.getTweets(context, isHome = false)
+            val response = tweetRepository.getOwnTweets(context)
             emit(Resources.Success(response))
         } catch (e: Exception) {
             emit(Resources.Error(e))

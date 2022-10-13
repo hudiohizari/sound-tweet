@@ -24,31 +24,42 @@ class TweetRepositoryImpl @Inject constructor(
     private val dataStore: DataStore
 ): TweetRepository, SafeApiRequest() {
 
-    override suspend fun getTweets(context: Context, isHome: Boolean): MutableList<Tweet>? {
+    override suspend fun getHomeTweets(context: Context): MutableList<Tweet>? {
+        STLog.d("Getting home tweets")
         val loggedInUser = dataStore.getLoggedInUser().first()
-        val list = mutableListOf<Tweet>().apply {
-            apiRequest { tweetService.getTweets() }?.let { tweets ->
-                STLog.d("Getting tweets from ${loggedInUser?.username?.removePrefix("@")}")
-                for (tweet in tweets) {
-                    add(tweet.toDomain(context, loggedInUser?.id))
-                }
-            }
-            if (isHome) {
-                loggedInUser?.userFollowingUsername?.let { usernames ->
-                    for (username in usernames) {
-                        STLog.d("Getting tweets from $username")
-                        val response = apiRequest { tweetService.getTweets(username) }
-                        response?.let { tweets ->
-                            for (tweet in tweets) {
-                                add(tweet.toDomain(context, loggedInUser.id))
-                            }
+        return getOwnTweets(context)?.apply {
+            loggedInUser?.userFollowingUsername?.let { usernames ->
+                for (username in usernames) {
+                    STLog.d("Getting tweets from $username")
+                    val response = apiRequest { tweetService.getTweets(username) }
+                    response?.let { tweets ->
+                        for (tweet in tweets) {
+                            add(tweet.toDomain(context, loggedInUser.id))
                         }
                     }
                 }
-                sortByDescending { it.id }
-            }
-        }
-        return if (isHome) list.distinctBy { it.id }.toMutableList() else list
+            } ?: STLog.d("Can't get following tweets, following are empty")
+            sortByDescending { it.id }
+        }?.distinctBy { it.id }?.toMutableList()
+    }
+
+    override suspend fun getOwnTweets(context: Context): MutableList<Tweet>? {
+        STLog.d("Getting own tweets")
+        val response = apiRequest { tweetService.getTweets() }
+        return response?.map{
+            it.toDomain(context, dataStore.getLoggedInUser().first()?.id)
+        }?.toMutableList()
+    }
+
+    override suspend fun getUserTweets(
+        context: Context,
+        username: String?
+    ): MutableList<Tweet>? {
+        STLog.d("Getting $username's tweets")
+        val response = apiRequest { tweetService.getTweets(username) }
+        return response?.map{
+            it.toDomain(context, dataStore.getLoggedInUser().first()?.id)
+        }?.toMutableList()
     }
 
     override suspend fun getTweet(context: Context, id: Long?): Tweet? {

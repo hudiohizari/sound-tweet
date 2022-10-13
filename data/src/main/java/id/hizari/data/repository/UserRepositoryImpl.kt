@@ -75,6 +75,10 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun postFollowUser(userId: Long?): User? {
         val response = apiRequest { userService.postFollowUser(userId) }
+        //Update following and followers
+        dataStore.getLoggedInUser().first()?.let {
+            postLogin(it.username?.removePrefix("@"), it.password)
+        }
         return response?.toDomain(dataStore.getLoggedInUser().first()?.id)
     }
 

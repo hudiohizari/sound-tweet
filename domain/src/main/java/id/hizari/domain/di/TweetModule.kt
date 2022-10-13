@@ -30,6 +30,11 @@ object TweetModule {
     }
 
     @Provides
+    fun provideGetUserTweetsUseCase(tweetRepository: TweetRepository): GetUserTweetsUseCase {
+        return GetUserTweetsUseCase(tweetRepository)
+    }
+
+    @Provides
     fun provideGetTweetUseCase(tweetRepository: TweetRepository): GetTweetUseCase {
         return GetTweetUseCase(tweetRepository)
     }

@@ -119,6 +119,16 @@
                         app:layout_constraintVertical_chainStyle="packed"
                         tools:text="@jlennon" />
 
+                    <View
+                        android:id="@+id/vClickerProfile"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:onClick="@{viewModel::onClickUser}"
+                        app:layout_constraintBottom_toBottomOf="@id/cvProfilePicture"
+                        app:layout_constraintEnd_toEndOf="@id/tvName"
+                        app:layout_constraintStart_toStartOf="@id/cvProfilePicture"
+                        app:layout_constraintTop_toTopOf="@id/cvProfilePicture" />
+
                     <TextView
                         android:id="@+id/tvCaption"
                         style="@style/TextPrimaryLargeRegular"

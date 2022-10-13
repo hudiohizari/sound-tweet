@@ -118,7 +118,10 @@ class SearchFragment : BaseFragment() {
             list?.forEach {
                 items.add(UserListItem(it, object : UserListItem.Listener {
                     override fun onClick(item: User) {
-                        requireContext().toast("Click user = ${item.name}")
+                        navigate(
+                            SearchFragmentDirections.actionSearchFragmentToUserProfileFragment()
+                                .setUser(item)
+                        )
                     }
                     override fun onClickFollow(item: User) {
                         viewModel.followUser(item.id)

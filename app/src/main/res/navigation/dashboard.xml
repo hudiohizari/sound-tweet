@@ -20,7 +20,13 @@
         android:id="@+id/searchFragment"
         android:name="id.hizari.soundtweet.ui.search.SearchFragment"
         android:label="@string/search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+
+        <action
+            android:id="@+id/action_searchFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/notificationFragment"
@@ -34,11 +40,6 @@
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile">
 
-        <argument
-            android:name="isSeeOtherUser"
-            android:defaultValue="false"
-            app:argType="boolean" />
-
         <action
             android:id="@+id/action_profileFragment_to_tweetDetailFragment"
             app:destination="@id/tweetDetailFragment" />
@@ -46,6 +47,24 @@
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="id.hizari.soundtweet.ui.profile.UserProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_user_profile">
+
+        <argument
+            android:name="user"
+            android:defaultValue="@null"
+            app:argType="id.hizari.domain.model.User"
+            app:nullable="true" />
+
+        <action
+            android:id="@+id/action_userProfileFragment_to_tweetDetailFragment"
+            app:destination="@id/tweetDetailFragment" />
 
     </fragment>
 
@@ -65,6 +84,10 @@
             android:name="tweet"
             app:argType="id.hizari.domain.model.Tweet"
             app:nullable="true" />
+
+        <action
+            android:id="@+id/action_tweetDetailFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
 
     </fragment>
 

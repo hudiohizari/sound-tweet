@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 /**
- * Sound Tweet - id.hizari.soundtweet.ui.home
+ * Sound Tweet - id.hizari.soundtweet.ui.profile
  *
  * Created by Hudio Hizari on 30/09/2022.
  * https://github.com/hudiohizari
@@ -36,7 +36,6 @@ class ProfileViewModel @Inject constructor(
     private val postLikeTweetUseCase: PostLikeTweetUseCase
 ): BaseViewModel() {
 
-    val isSeeOtherUser = MutableLiveData<Boolean>()
     val isRefreshing = MutableLiveData<Boolean>()
     val userResource = MutableLiveData<Resources<User?>>()
     val tweetsResource = MutableLiveData<Resources<MutableList<Tweet>?>>()
@@ -45,10 +44,6 @@ class ProfileViewModel @Inject constructor(
         getLoggedInUserLiveUseCase().onEach {
             userResource.postValue(it)
         }.launchIn(viewModelScope)
-    }
-
-    private fun getUser() {
-
     }
 
     fun getTweets(context: Context) {
@@ -64,11 +59,6 @@ class ProfileViewModel @Inject constructor(
                 else -> STLog.e("Unhandled resource type = $it")
             }
         }.launchIn(viewModelScope)
-    }
-
-    @Suppress("unused")
-    fun View.onNavigationBackClick() {
-        navigateBack()
     }
 
     fun View.onClickLogout() {
@@ -99,7 +89,6 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onRefresh(context: Context) {
-        getUser()
         getTweets(context)
         isRefreshing.postValue(false)
     }

@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="id.hizari.soundtweet.ui.profile.ProfileViewModel" />
+            type="id.hizari.soundtweet.ui.profile.UserProfileViewModel" />
 
         <variable
             name="adapter"
@@ -36,21 +36,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_left_arrow"
+            app:navigationOnClickListener="@{viewModel::onNavigationBackClick}"
             app:title="@string/profile"
             app:titleCentered="true"
-            app:titleTextAppearance="@style/TextPrimaryLargerBold">
-
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="end"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/logout"
-                android:onClick="@{viewModel::onClickLogout}"
-                android:padding="4dp"
-                android:src="@drawable/ic_logout" />
-
-        </com.google.android.material.appbar.MaterialToolbar>
+            app:titleTextAppearance="@style/TextPrimaryLargerBold" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="0dp"
@@ -97,18 +87,6 @@
                         tools:src="@tools:sample/avatars" />
 
                 </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/mbEditProfile"
-                    style="@style/ButtonOutlineThin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:onClick="@{viewModel::onClickEditProfile}"
-                    android:text="@string/edit_profile"
-                    app:layout_constraintBottom_toBottomOf="@id/cvProfilePicture"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/cvProfilePicture" />
 
                 <TextView
                     android:id="@+id/tvName"
