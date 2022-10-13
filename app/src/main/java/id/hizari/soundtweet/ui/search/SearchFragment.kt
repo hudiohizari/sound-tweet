@@ -85,14 +85,6 @@ class SearchFragment : BaseFragment() {
                 else -> STLog.e("Unhandled resource")
             }
         }
-        viewModel.userResource.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resources.Loading -> STLog.d("Loading")
-                is Resources.Success -> viewModel.onRefresh()
-                is Resources.Error -> processFailedGetTweet()
-                else -> STLog.e("Unhandled resource")
-            }
-        }
     }
 
     private fun processEmptyQuery() {

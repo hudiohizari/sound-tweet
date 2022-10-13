@@ -20,6 +20,7 @@ object DateUtil {
     private const val SERVER_DATE_TIME = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
 
     private const val PRINT_TIME_DATE = "HH:mm ·dd/MM/yyyy"
+    private const val PRINT_DATE = "dd/MM/yyyy"
     const val PRINT_MONTH_YEAR = "MMMM yyyy"
 
     fun changeDateFormat(
@@ -60,7 +61,7 @@ object DateUtil {
                         seconds < 60 -> context.getString(R.string.second_ago, seconds)
                         minutes < 60 -> context.getString(R.string.minute_ago, minutes)
                         hours < 24 -> context.getString(R.string.hour_ago, hours)
-                        else -> changeDateFormat(date)
+                        else -> changeDateFormat(date, newFormat = PRINT_DATE)
                     }
                 } else context.getString(R.string.wrong_format)
             } else context.getString(R.string.wrong_format)

@@ -34,19 +34,20 @@ class UserProfileViewModel @Inject constructor(
     val userResource = MutableLiveData<Resources<User?>>()
     val tweetsResource = MutableLiveData<Resources<MutableList<Tweet>?>>()
 
-    fun getTweets(context: Context) {
+    fun getTweets(context: Context, isShowLoading: Boolean = true) {
         getUserTweetsUseCase(
             context,
             userResource.value?.data?.username
-        ).onEach {
-            tweetsResource.postValue(it)
+        ).onEach { res ->
+            if (!isShowLoading && res is Resources.Loading) return@onEach
+            tweetsResource.postValue(res)
         }.launchIn(viewModelScope)
     }
 
     fun postLikeTweet(context: Context, id: Long?) {
         postLikeTweetUseCase(context, id).onEach {
             when (it) {
-                is Resources.Success -> getTweets(context)
+                is Resources.Success -> getTweets(context, false)
                 else -> STLog.e("Unhandled resource type = $it")
             }
         }.launchIn(viewModelScope)

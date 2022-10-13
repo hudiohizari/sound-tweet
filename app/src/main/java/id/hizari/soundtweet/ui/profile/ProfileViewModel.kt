@@ -46,16 +46,17 @@ class ProfileViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun getTweets(context: Context) {
-        getOwnTweetsUseCase(context).onEach {
-            tweetsResource.postValue(it)
+    fun getTweets(context: Context, isShowLoading: Boolean = true) {
+        getOwnTweetsUseCase(context).onEach { res ->
+            if (!isShowLoading && res is Resources.Loading) return@onEach
+            tweetsResource.postValue(res)
         }.launchIn(viewModelScope)
     }
 
     fun postLikeTweet(context: Context, id: Long?) {
         postLikeTweetUseCase(context, id).onEach {
             when (it) {
-                is Resources.Success -> getTweets(context)
+                is Resources.Success -> getTweets(context, false)
                 else -> STLog.e("Unhandled resource type = $it")
             }
         }.launchIn(viewModelScope)

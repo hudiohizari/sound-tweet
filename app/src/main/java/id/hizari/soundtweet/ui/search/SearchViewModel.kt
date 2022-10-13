@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.hizari.common.extension.isNotNullOrEmpty
 import id.hizari.common.util.Resources
+import id.hizari.common.util.STLog
 import id.hizari.domain.model.User
 import id.hizari.domain.usecase.user.GetSearchUserUseCase
 import id.hizari.domain.usecase.user.PostFollowUserUseCase
@@ -32,17 +33,19 @@ class SearchViewModel @Inject constructor(
     val isSearchFocused = MutableLiveData<Boolean>()
     val query = MutableLiveData<String>()
     val usersResource = MutableLiveData<Resources<MutableList<User>?>>()
-    val userResource = MutableLiveData<Resources<User?>>()
 
-    fun searchUser() {
-        getSearchUserUseCase(query.value).onEach {
-            usersResource.postValue(it)
+    fun searchUser(isShowLoading: Boolean = true) {
+        getSearchUserUseCase(query.value).onEach { res ->
+            if (!isShowLoading && res is Resources.Loading) return@onEach
+            usersResource.postValue(res)
         }.launchIn(viewModelScope)
     }
 
     fun followUser(userId: Long?) {
-        postFollowUserUseCase(userId).onEach {
-            userResource.postValue(it)
+        postFollowUserUseCase(userId).onEach {when (it) {
+            is Resources.Success -> searchUser(false)
+            else -> STLog.e("Unhandled resource type = $it")
+        }
         }.launchIn(viewModelScope)
     }
 

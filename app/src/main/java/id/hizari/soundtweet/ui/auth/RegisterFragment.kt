@@ -13,6 +13,7 @@ import id.hizari.common.extension.setupClickableText
 import id.hizari.common.util.Resources
 import id.hizari.common.util.STLog
 import id.hizari.soundtweet.R
+import id.hizari.soundtweet.base.BaseContextViewModel
 import id.hizari.soundtweet.base.BaseFragment
 import id.hizari.soundtweet.databinding.FragmentRegisterBinding
 import id.hizari.soundtweet.extention.handleGeneralError
@@ -31,7 +32,7 @@ class RegisterFragment : BaseFragment() {
 
     private val viewModel: RegisterViewModel by viewModels()
 
-    override fun getViewModel(): ViewModel = viewModel
+    override fun getViewModel(): BaseContextViewModel = viewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

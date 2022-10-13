@@ -60,16 +60,11 @@ class UserProfileFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initArgs()
-        initCall()
         initObserver()
     }
 
     private fun initArgs() {
         args.user?.let { viewModel.userResource.postValue(Resources.Success(it)) }
-    }
-
-    private fun initCall() {
-        viewModel.getTweets(requireContext())
     }
 
     private fun initObserver() {
@@ -79,6 +74,7 @@ class UserProfileFragment : BaseFragment() {
                     is Resources.Loading -> STLog.d("Loading")
                     is Resources.Success -> {
                         STLog.d("Success = ${it.data?.name}")
+                        viewModel.getTweets(requireContext())
                         binding.tvFollowing.apply {
                             val following = it.data?.following ?: "0"
                             val originText = getString(R.string.following_format, following)

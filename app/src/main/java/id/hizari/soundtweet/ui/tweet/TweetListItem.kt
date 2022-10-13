@@ -27,7 +27,9 @@ class TweetListItem(
 
     override fun comparableContents(): List<Any> = listOf(
         model.caption ?: model.hashCode(),
-        model.postUrl ?: model.hashCode()
+        model.postUrl ?: model.hashCode(),
+        model.likes ?: model.hashCode(),
+        model.replies ?: model.hashCode()
     )
 
     override fun createBinding(

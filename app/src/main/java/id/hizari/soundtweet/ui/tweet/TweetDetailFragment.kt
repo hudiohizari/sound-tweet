@@ -15,7 +15,9 @@ import id.hizari.common.extension.setupHighlightedText
 import id.hizari.common.util.Resources
 import id.hizari.common.util.STLog
 import id.hizari.soundtweet.R
+import id.hizari.soundtweet.base.BaseContextViewModel
 import id.hizari.soundtweet.base.BaseFragment
+import id.hizari.soundtweet.base.BaseViewModel
 import id.hizari.soundtweet.databinding.FragmentTweetDetailBinding
 import id.hizari.soundtweet.extention.handleGeneralError
 
@@ -48,7 +50,7 @@ class TweetDetailFragment : BaseFragment() {
     private var isNeverPlayed = true
     private var length = 0
 
-    override fun getViewModel(): ViewModel = viewModel
+    override fun getViewModel(): BaseViewModel = viewModel
 
     override fun onPause() {
         super.onPause()
@@ -152,6 +154,7 @@ class TweetDetailFragment : BaseFragment() {
                 }
             } catch (e: Exception) {
                 STLog.e("${e.message}")
+                stopAudio()
             }
         } ?: STLog.e("URL is null")
         isNeverPlayed = false
@@ -183,7 +186,10 @@ class TweetDetailFragment : BaseFragment() {
     private fun stopAudio() {
         STLog.d("stopAudio")
         mediaPlayer.apply {
-            if (isPlaying) stop()
+            if (isPlaying) {
+                stop()
+                release()
+            }
             length = 0
         }
         viewModel.isPlaying.postValue(false)
