@@ -26,8 +26,10 @@ data class TweetDTO(
             replies?.map { it.toDomain(context, loggedInId) }?.toMutableList(),
             (replies?.size ?: 0).toCompactFormat(),
             (likes ?: 0).toCompactFormat(),
-            false,
-            user?.toDomain(loggedInId)
+            isLiked = false,
+            isPLaying = false,
+            isBuffering = false,
+            user = user?.toDomain(loggedInId)
         )
     }
 
