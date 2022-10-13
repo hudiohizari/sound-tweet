@@ -143,7 +143,10 @@ class UserProfileFragment : BaseTweetListFragment() {
                     override fun onClick(item: Tweet) {
                         navigate(
                             UserProfileFragmentDirections.actionUserProfileFragmentToTweetDetailFragment(
-                                item
+                                item.apply {
+                                    isPLaying = false
+                                    isBuffering = false
+                                }
                             )
                         )
                     }

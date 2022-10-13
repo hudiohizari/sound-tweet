@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import id.hizari.common.extension.setupHighlightedText
 import id.hizari.common.util.Resources
 import id.hizari.common.util.STLog
+import id.hizari.domain.model.Tweet
 import id.hizari.soundtweet.R
 import id.hizari.soundtweet.base.BaseFragment
 import id.hizari.soundtweet.base.BaseViewModel
@@ -45,21 +46,12 @@ class TweetDetailFragment : BaseFragment() {
         }
     }
 
-    private var isNeverPlayed = true
-    private var length = 0
+    private var lastPlayPosition: Int = 0
 
     override fun getViewModel(): BaseViewModel = viewModel
 
     override fun onPause() {
         super.onPause()
-
-        if (mediaPlayer.isPlaying) {
-            pauseAudio()
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
 
         stopAudio()
     }
@@ -98,11 +90,9 @@ class TweetDetailFragment : BaseFragment() {
         viewModel.apply {
             setListener(object : TweetDetailViewModel.Listener {
                 override fun toggleMedia() {
-                    when {
-                        isNeverPlayed -> playAudio(viewModel.tweetResource.value?.data?.postUrl)
-                        mediaPlayer.isPlaying -> pauseAudio()
-                        else -> resumeAudio()
-                    }
+                    tweetResource.value?.data?.let {
+                        toggleAudio(it)
+                    } ?: STLog.e("Tweet is null")
                 }
             })
             tweetResource.observe(viewLifecycleOwner) {
@@ -131,66 +121,66 @@ class TweetDetailFragment : BaseFragment() {
         }
         mediaPlayer.apply {
             setOnBufferingUpdateListener { _, percentage ->
-                viewModel.isBuffering.postValue(percentage < 100)
+                STLog.d("Buffering = $percentage")
+                viewModel.tweetResource.value?.data?.let {
+                    viewModel.tweetResource.postValue(Resources.Success(it.apply {
+                        isBuffering = percentage < 100
+                    }))
+                }
             }
             setOnCompletionListener {
-                STLog.d("complete")
-                stopAudio()
-            }
-        }
-    }
-
-    private fun playAudio(url: String?) {
-        STLog.d("playAudio")
-        url?.let {
-            try {
-                mediaPlayer.apply {
-                    reset()
-                    setDataSource(it)
-                    prepare()
-                    start()
+                STLog.d("Audio completed")
+                viewModel.tweetResource.value?.data?.let {
+                    viewModel.tweetResource.postValue(Resources.Success(it.apply {
+                        isPLaying = false
+                    }))
                 }
-            } catch (e: Exception) {
-                STLog.e("${e.message}")
-                stopAudio()
+                lastPlayPosition = 0
             }
-        } ?: STLog.e("URL is null")
-        isNeverPlayed = false
-        viewModel.isPlaying.postValue(true)
-    }
-
-    private fun resumeAudio() {
-        STLog.d("resumeAudio")
-        mediaPlayer.apply {
-            if (!isPlaying) {
-                seekTo(length)
+            setOnPreparedListener {
                 start()
+                seekTo(lastPlayPosition)
             }
         }
-        viewModel.isPlaying.postValue(true)
     }
 
-    private fun pauseAudio() {
-        STLog.d("pauseAudio")
-        mediaPlayer.apply {
-            if (isPlaying) {
-                pause()
-                length = currentPosition
+    private fun toggleAudio(item: Tweet) {
+        viewModel.tweetResource.postValue(Resources.Success(
+            item.apply {
+                isPLaying = !(isPLaying ?: false)
+                when (isPLaying) {
+                    true -> {
+                        STLog.d("Play audio")
+                        postUrl?.let {
+                            try {
+                                mediaPlayer.apply {
+                                    reset()
+                                    setDataSource(it)
+                                    prepareAsync()
+                                    isBuffering = true
+                                }
+                            } catch (e: Exception) {
+                                STLog.e("${e.message}")
+                                mediaPlayer.reset()
+                            }
+                        } ?: STLog.e("URL is null")
+                    }
+                    false -> stopAudio()
+                    else -> STLog.e("isPlaying is empty")
+                }
             }
-        }
-        viewModel.isPlaying.postValue(false)
+        ))
     }
 
     private fun stopAudio() {
-        STLog.d("stopAudio")
+        STLog.d("Stop audio")
         mediaPlayer.apply {
             if (isPlaying) {
                 stop()
-                release()
-            }
-            length = 0
+                lastPlayPosition = currentPosition
+                STLog.d("Audio stopped")
+            } else STLog.d("Audio not played")
         }
-        viewModel.isPlaying.postValue(false)
     }
 
 }

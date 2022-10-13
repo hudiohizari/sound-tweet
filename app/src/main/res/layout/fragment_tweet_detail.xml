@@ -202,7 +202,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:padding="6dp"
-                                    android:visibility="@{viewModel.isBuffering ? View.VISIBLE : View.GONE}"
+                                    android:progressTint="@color/white"
+                                    android:visibility="@{viewModel.tweetResource.data.isBuffering ? View.VISIBLE : View.GONE}"
                                     tools:visibility="gone" />
 
                                 <ImageView
@@ -210,7 +211,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:padding="6dp"
-                                    android:src="@{viewModel.isPlaying ? @drawable/ic_pause: @drawable/ic_play_filled}"
+                                    android:src="@{viewModel.tweetResource.data.isBuffering ? null : viewModel.tweetResource.data.isPLaying ? @drawable/ic_pause : @drawable/ic_play_filled}"
                                     tools:ignore="ContentDescription"
                                     tools:src="@drawable/ic_play_filled" />
 
@@ -278,6 +279,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="12dp"
+                        android:background="?android:attr/selectableItemBackground"
                         android:contentDescription="@string/comment"
                         android:enabled="@{!viewModel.tweetResource.loading}"
                         android:onClick="@{viewModel::onClickComment}"
@@ -293,6 +295,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="12dp"
+                        android:background="?android:attr/selectableItemBackground"
                         android:contentDescription="@string/comment"
                         android:enabled="@{!viewModel.tweetResource.loading}"
                         android:onClick="@{viewModel::onClickLike}"

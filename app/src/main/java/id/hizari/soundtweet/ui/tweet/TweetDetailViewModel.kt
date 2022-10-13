@@ -36,8 +36,6 @@ class TweetDetailViewModel @Inject constructor(
 
     val isRefreshing = MutableLiveData<Boolean>()
     val tweetResource = MutableLiveData<Resources<Tweet?>>()
-    val isBuffering = MutableLiveData<Boolean>()
-    val isPlaying = MutableLiveData<Boolean>()
 
     private fun getTweet(context: Context, id: Long?) {
         lastId = id

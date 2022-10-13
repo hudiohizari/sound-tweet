@@ -106,7 +106,12 @@ class HomeFragment : BaseTweetListFragment() {
             list?.forEach {
                 items.add(TweetListItem(it, object : TweetListItem.Listener {
                     override fun onClick(item: Tweet) {
-                        navigate(HomeFragmentDirections.actionHomeFragmentToTweetDetailFragment(item))
+                        navigate(HomeFragmentDirections.actionHomeFragmentToTweetDetailFragment(
+                            item.apply {
+                                isPLaying = false
+                                isBuffering = false
+                            }
+                        ))
                     }
 
                     override fun onClickLike(item: Tweet) {
