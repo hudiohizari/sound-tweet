@@ -11,6 +11,7 @@ import id.hizari.common.util.Resources
 import id.hizari.domain.model.Tweet
 import id.hizari.domain.usecase.tweet.GetTweetUseCase
 import id.hizari.domain.usecase.tweet.PostLikeTweetUseCase
+import id.hizari.domain.usecase.user.GetIsLoggedInUserUseCase
 import id.hizari.soundtweet.base.BaseViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -27,7 +28,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TweetDetailViewModel @Inject constructor(
     private val getTweetUseCase: GetTweetUseCase,
-    private val postLikeTweetUseCase: PostLikeTweetUseCase
+    private val postLikeTweetUseCase: PostLikeTweetUseCase,
+    private val getLoggedInUserUserUseCase: GetIsLoggedInUserUseCase
 ) : BaseViewModel() {
 
     var lastId: Long? = -1
@@ -55,12 +57,19 @@ class TweetDetailViewModel @Inject constructor(
 
     @Suppress("unused")
     fun View.onClickUser() {
-        tweetResource.value?.data?.user?.let {
-            navigate(
-                TweetDetailFragmentDirections.actionTweetDetailFragmentToUserProfileFragment()
-                    .setUser(it)
-            )
-        }
+        getLoggedInUserUserUseCase().onEach { res ->
+            if (res is Resources.Success) {
+                tweetResource.value?.data?.user?.let {
+                    if (it.username != res.data?.username) {
+                        navigate(
+                            TweetDetailFragmentDirections
+                                .actionTweetDetailFragmentToUserProfileFragment()
+                                .setUser(it)
+                        )
+                    }
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 
     @Suppress("unused")

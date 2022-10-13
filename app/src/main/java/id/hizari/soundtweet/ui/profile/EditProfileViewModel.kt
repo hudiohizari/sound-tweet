@@ -132,10 +132,12 @@ class EditProfileViewModel @Inject constructor(
                         password.value
                     ).onEach { res ->
                         userResource.postValue(res)
-                        context.apply {
-                            toast(getString(R.string.profile_edited_successfully))
+                        if (res is Resources.Success) {
+                            context.apply {
+                                toast(getString(R.string.profile_edited_successfully))
+                            }
+                            navigateBack()
                         }
-                        navigateBack()
                     }.launchIn(viewModelScope)
                 }
                 setNegativeButton(context.getString(R.string.cancel)) { _, _ -> }

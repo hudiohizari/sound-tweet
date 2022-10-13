@@ -26,28 +26,20 @@ class TweetRepositoryImpl @Inject constructor(
 
     override suspend fun getHomeTweets(context: Context): MutableList<Tweet>? {
         STLog.d("Getting home tweets")
-        val loggedInUser = dataStore.getLoggedInUser().first()
-        return getOwnTweets(context)?.apply {
-            loggedInUser?.userFollowingUsername?.let { usernames ->
-                for (username in usernames) {
-                    STLog.d("Getting tweets from $username")
-                    val response = apiRequest { tweetService.getTweets(username) }
-                    response?.let { tweets ->
-                        for (tweet in tweets) {
-                            add(tweet.toDomain(context, loggedInUser.id))
-                        }
-                    }
-                }
-            } ?: STLog.d("Can't get following tweets, following are empty")
-            sortByDescending { it.id }
-        }?.distinctBy { it.id }?.toMutableList()
+        val response = apiRequest { tweetService.getTweets() }
+        return response?.map{
+            it.toDomain(context, dataStore.getLoggedInUser().first()?.id)
+        }?.toMutableList()
     }
 
     override suspend fun getOwnTweets(context: Context): MutableList<Tweet>? {
         STLog.d("Getting own tweets")
-        val response = apiRequest { tweetService.getTweets() }
+        val loggedInUser = dataStore.getLoggedInUser().first()
+        val response = apiRequest {
+            tweetService.getUserTweets(loggedInUser?.username?.removePrefix("@"))
+        }
         return response?.map{
-            it.toDomain(context, dataStore.getLoggedInUser().first()?.id)
+            it.toDomain(context, loggedInUser?.id)
         }?.toMutableList()
     }
 
@@ -56,7 +48,7 @@ class TweetRepositoryImpl @Inject constructor(
         username: String?
     ): MutableList<Tweet>? {
         STLog.d("Getting $username's tweets")
-        val response = apiRequest { tweetService.getTweets(username) }
+        val response = apiRequest { tweetService.getUserTweets(username) }
         return response?.map{
             it.toDomain(context, dataStore.getLoggedInUser().first()?.id)
         }?.toMutableList()
