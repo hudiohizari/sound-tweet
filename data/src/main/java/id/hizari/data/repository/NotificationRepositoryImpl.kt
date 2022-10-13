@@ -28,7 +28,10 @@ class NotificationRepositoryImpl @Inject constructor(): NotificationRepository, 
                     "Saad Drusteer",
                     "sdrusterr",
                     "",
+                    "April 2022",
                     false,
+                    "0",
+                    "0",
                     mutableListOf()
                 )
             ))
@@ -41,7 +44,10 @@ class NotificationRepositoryImpl @Inject constructor(): NotificationRepository, 
                     "UX Upper",
                     "uupper",
                     "",
+                    "September 2022",
                     false,
+                    "0",
+                    "0",
                     mutableListOf()
                 )
             ))
@@ -54,7 +60,10 @@ class NotificationRepositoryImpl @Inject constructor(): NotificationRepository, 
                     "Teador Van Schneider",
                     "tvschneider",
                     "",
+                    "April 2022",
                     false,
+                    "0",
+                    "0",
                     mutableListOf()
                 )
             ))

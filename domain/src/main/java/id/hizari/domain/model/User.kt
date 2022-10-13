@@ -18,6 +18,9 @@ class User(
     val name: String?,
     val userName: String?,
     val bio: String?,
+    val joined: String?,
     val isFollowed: Boolean?,
+    val follower: String?,
+    val following: String?,
     val userFollowingUsername: MutableList<String?>?
 ): Parcelable

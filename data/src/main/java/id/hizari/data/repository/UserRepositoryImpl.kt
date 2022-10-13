@@ -53,6 +53,18 @@ class UserRepositoryImpl @Inject constructor(
         return dataStore.getIsLoggedIn()
     }
 
+    override suspend fun getLoggedInUser(): User? {
+        return dataStore.getLoggedInUser().first()
+    }
+
+    override fun getLoggedInUserLive(): Flow<User?> {
+        return dataStore.getLoggedInUser()
+    }
+
+    override suspend fun postLogout() {
+        dataStore.clear()
+    }
+
     override suspend fun getSearchUser(query: String?): MutableList<User>? {
         val response = apiRequest { userService.getSearchUsers(query) }
         return response?.map {

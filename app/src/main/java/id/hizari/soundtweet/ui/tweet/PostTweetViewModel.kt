@@ -5,11 +5,14 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.hizari.common.extension.isNotNullOrEmpty
+import id.hizari.common.extension.showSimpleDialogReturn
 import id.hizari.common.util.Resources
 import id.hizari.domain.model.Tweet
 import id.hizari.domain.model.UploadedFile
 import id.hizari.domain.usecase.filestack.PostFileUseCase
 import id.hizari.domain.usecase.tweet.PostTweetUseCase
+import id.hizari.soundtweet.R
 import id.hizari.soundtweet.base.BaseViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -55,9 +58,21 @@ class PostTweetViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    @Suppress("unused")
     fun View.onClickCancel() {
-        navigateBack()
+        if (caption.value.isNotNullOrEmpty() || recordingStatus.value != null || recordDuration.value != null) {
+            context.apply {
+                showSimpleDialogReturn(
+                    getString(R.string.cancel_post_tweet_rationale_caption),
+                    getString(R.string.cancel_post_tweet_rationale)
+                ).apply {
+                    setPositiveButton(context.getString(R.string.ok)) { _, _ ->
+                        navigateBack()
+                    }
+                    setNegativeButton(context.getString(R.string.cancel)) { _, _ -> }
+                    show()
+                }
+            }
+        } else navigateBack()
     }
 
     @Suppress("unused")

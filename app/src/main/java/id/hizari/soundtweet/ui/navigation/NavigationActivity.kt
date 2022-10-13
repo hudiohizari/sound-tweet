@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
@@ -13,7 +12,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import id.hizari.common.util.STLog
 import id.hizari.soundtweet.R
 import id.hizari.soundtweet.databinding.ActivityNavigationBinding
-import kotlinx.coroutines.launch
 
 /**
  * Sound Tweet - id.hizari.soundtweet.ui.navigation
@@ -36,6 +34,7 @@ class NavigationActivity : AppCompatActivity() {
         initBinding()
         initView()
         initObserver()
+        initCall()
     }
 
     private fun initBinding() {
@@ -56,10 +55,12 @@ class NavigationActivity : AppCompatActivity() {
     }
 
     private fun initObserver() {
-        lifecycleScope.launch {
-            viewModel.checkIsLoggedIn().collect {
-                viewModel.isLoggedIn.postValue(it)
-                val selectedNavigation = if (it) R.id.dashboardNavigation else R.id.authNavigation
+        viewModel.apply {
+            val owner = this@NavigationActivity
+            isLoggedInResource.observe(owner) {
+                val selectedNavigation = if (it.data == true) R.id.dashboardNavigation else {
+                    R.id.authNavigation
+                }
                 val isOkToNavigate = if (selectedNavigation == R.id.dashboardNavigation) {
                     navController.currentDestination?.id != R.id.homeFragment
                 } else {
@@ -76,20 +77,27 @@ class NavigationActivity : AppCompatActivity() {
                     )
                 }
             }
+            navigateTo.observe(owner) {
+                it?.let { navController.navigate(it) }
+            }
         }
 
-        viewModel.navigateTo.observe(this) {
-            it?.let { navController.navigate(it) }
+        navController.apply {
+            addOnDestinationChangedListener { _, destination, _ ->
+                STLog.d("destination.id = ${destination.id}")
+                viewModel.isShowFab.postValue(destination.id != R.id.postTweetFragment)
+            }
         }
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            STLog.d("destination.id = ${destination.id}")
-            viewModel.isShowFab.postValue(destination.id != R.id.postTweetFragment)
+        binding.bnvMain.apply {
+            setOnItemReselectedListener {
+                STLog.d("it.title = ${it.title}")
+            }
         }
+    }
 
-        binding.bnvMain.setOnItemReselectedListener {
-            STLog.d("it.title = ${it.title}")
-        }
+    private fun initCall() {
+        viewModel.checkIsLoggedIn()
     }
 
 }

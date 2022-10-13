@@ -26,7 +26,7 @@ class TweetRepositoryImpl @Inject constructor(
 
     override suspend fun getTweets(context: Context, isHome: Boolean): MutableList<Tweet>? {
         val loggedInUser = dataStore.getLoggedInUser().first()
-        return mutableListOf<Tweet>().apply {
+        val list = mutableListOf<Tweet>().apply {
             apiRequest { tweetService.getTweets() }?.let { tweets ->
                 STLog.d("Getting tweets from ${loggedInUser?.userName?.removePrefix("@")}")
                 for (tweet in tweets) {
@@ -45,9 +45,10 @@ class TweetRepositoryImpl @Inject constructor(
                         }
                     }
                 }
+                sortByDescending { it.id }
             }
-            sortByDescending { it.id }
         }
+        return if (isHome) list.distinctBy { it.id }.toMutableList() else list
     }
 
     override suspend fun getTweet(context: Context, id: Long?): Tweet? {

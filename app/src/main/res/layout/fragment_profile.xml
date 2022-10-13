@@ -1,13 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-    <TextView
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="id.hizari.soundtweet.ui.profile.ProfileViewModel" />
+
+        <variable
+            name="adapter"
+            type="com.mikepenz.fastadapter.adapters.FastItemAdapter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clRoot"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Profile Fragment" />
+        android:background="@color/dawn_pink">
 
-</FrameLayout>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:animateLayoutChanges="true"
+            android:background="@color/white"
+            android:contentInsetStart="0dp"
+            android:contentInsetLeft="0dp"
+            android:contentInsetEnd="0dp"
+            android:contentInsetRight="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@{viewModel.isSeeOtherUser ? `@null` : @drawable/ic_left_arrow}"
+            app:navigationOnClickListener="@{viewModel.isSeeOtherUser ? `@null` : viewModel::onNavigationBackClick}"
+            app:title="@string/profile"
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/TextPrimaryLargerBold">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/logout"
+                android:onClick="@{viewModel::onClickLogout}"
+                android:padding="4dp"
+                android:src="@drawable/ic_logout"
+                android:visibility="@{viewModel.isSeeOtherUser ? View.GONE : View.VISIBLE}" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:onRefreshListener="@{() -> viewModel.onRefresh(context)}"
+            app:refreshing="@{viewModel.isRefreshing}">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <View
+                    android:id="@+id/vBackground"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@color/white"
+                    app:layout_constraintBottom_toTopOf="@id/rvTweet"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cvProfilePicture"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginStart="16dp"
+                    app:cardCornerRadius="32dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@{viewModel.userResource.data.name}"
+                        app:imageUrl="@{viewModel.userResource.data.imgUrl}"
+                        tools:src="@tools:sample/avatars" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/mbEditProfile"
+                    style="@style/ButtonOutlineThin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:onClick="@{viewModel::onClickEditProfile}"
+                    android:text="@string/edit_profile"
+                    app:layout_constraintBottom_toBottomOf="@id/cvProfilePicture"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/cvProfilePicture" />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    style="@style/TextPrimaryLargeBold"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    android:minHeight="18dp"
+                    android:text="@{viewModel.userResource.data.name}"
+                    app:isAnimateLoading="@{viewModel.userResource.loading}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cvProfilePicture"
+                    tools:text="Hudio Hizari" />
+
+                <TextView
+                    android:id="@+id/tvUsername"
+                    style="@style/TextSecondarySmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="4dp"
+                    android:minHeight="14dp"
+                    android:text="@{viewModel.userResource.data.userName}"
+                    app:isAnimateLoading="@{viewModel.userResource.loading}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvName"
+                    tools:text="@hhizari" />
+
+                <View
+                    android:id="@+id/vLineUsername"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvUsername" />
+
+                <TextView
+                    android:id="@+id/tvBio"
+                    style="@style/TextPrimaryRegular"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:minHeight="18dp"
+                    android:text="@{viewModel.userResource.data.bio}"
+                    android:visibility="@{viewModel.userResource.data.bio == null || viewModel.userResource.data.bio.isEmpty ? View.GONE : View.VISIBLE}"
+                    app:isAnimateLoading="@{viewModel.userResource.loading}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/vLineUsername"
+                    tools:text="@tools:sample/lorem/random" />
+
+                <TextView
+                    android:id="@+id/tvJoined"
+                    style="@style/TextSecondaryRegular"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="4dp"
+                    android:drawablePadding="4dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
+                    android:text="@{String.format(@string/joined_date_format, viewModel.userResource.data.joined)}"
+                    app:drawableStartCompat="@drawable/ic_calendar"
+                    app:isAnimateLoading="@{viewModel.userResource.loading}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvBio"
+                    tools:text="Joined April 2022" />
+
+                <TextView
+                    android:id="@+id/tvFollowing"
+                    style="@style/TextSecondaryRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:drawablePadding="4dp"
+                    android:minWidth="64dp"
+                    android:minHeight="16dp"
+                    app:isAnimateLoading="@{viewModel.userResource.loading}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvJoined"
+                    tools:text="321 Following" />
+
+                <TextView
+                    android:id="@+id/tvFollower"
+                    style="@style/TextSecondaryRegular"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="16dp"
+                    android:drawablePadding="4dp"
+                    android:minWidth="64dp"
+                    android:minHeight="16dp"
+                    app:isAnimateLoading="@{viewModel.userResource.loading}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tvFollowing"
+                    app:layout_constraintTop_toBottomOf="@id/tvJoined"
+                    tools:text="513 Follower" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTweet"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="20dp"
+                    android:clipToPadding="false"
+                    android:paddingBottom="96dp"
+                    app:adapter="@{adapter}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvFollower"
+                    tools:itemCount="6"
+                    tools:listitem="@layout/list_item_tweet" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

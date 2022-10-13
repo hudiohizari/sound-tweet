@@ -24,6 +24,9 @@ class DataStore @Inject constructor(
         private val USER_NAME = stringPreferencesKey("user_name")
         private val USER_USERNAME = stringPreferencesKey("user_userName")
         private val USER_BIO = stringPreferencesKey("user_bio")
+        private val USER_JOINED = stringPreferencesKey("user_joined")
+        private val USER_FOLLOWER = stringPreferencesKey("user_followed")
+        private val USER_FOLLOWING = stringPreferencesKey("user_following")
         private val USER_FOLLOWING_USERNAME = stringPreferencesKey("user_following_username")
     }
 
@@ -46,6 +49,9 @@ class DataStore @Inject constructor(
             preferences[USER_NAME] = user?.name ?: ""
             preferences[USER_USERNAME] = user?.userName ?: ""
             preferences[USER_BIO] = user?.bio ?: ""
+            preferences[USER_JOINED] = user?.joined ?: ""
+            preferences[USER_FOLLOWER] = user?.follower ?: ""
+            preferences[USER_FOLLOWING]  = user?.following ?: ""
             preferences[USER_FOLLOWING_USERNAME] = Gson().toJson(user?.userFollowingUsername)
         }
     }
@@ -59,13 +65,22 @@ class DataStore @Inject constructor(
                 preferences[USER_NAME],
                 preferences[USER_USERNAME],
                 preferences[USER_BIO],
+                preferences[USER_JOINED],
                 false,
+                preferences[USER_FOLLOWER],
+                preferences[USER_FOLLOWING],
                 preferences[USER_FOLLOWING_USERNAME]?.let {
                     Gson().fromJson<MutableList<String?>>(it, MutableList::class.java)
                 } ?: mutableListOf()
             )
         }.catch { e ->
             STLog.e("Error = ${e.message}")
+        }
+    }
+
+    suspend fun clear() {
+        context.dataStore.edit { preferences ->
+            preferences.clear()
         }
     }
 

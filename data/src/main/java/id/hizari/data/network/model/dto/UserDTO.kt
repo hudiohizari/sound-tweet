@@ -1,6 +1,8 @@
 package id.hizari.data.network.model.dto
 
+import id.hizari.common.extension.toCompactFormat
 import id.hizari.common.util.Constant
+import id.hizari.common.util.DateUtil
 import id.hizari.data.network.model.base.BaseDTO
 import id.hizari.domain.model.User
 
@@ -34,7 +36,10 @@ data class UserDTO(
             nickname,
             "@%1s".format(username),
             bio,
+            DateUtil.changeDateFormat(createdAt, newFormat = DateUtil.PRINT_MONTH_YEAR),
             isFollowed(loggedInId),
+            (userFollower?.size ?: 0).toCompactFormat(),
+            (userFollowing?.size ?: 0).toCompactFormat(),
             userFollowing?.map { it?.username }?.toMutableList()
         )
     }

@@ -3,6 +3,7 @@
 
     <!--Common-->
     <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
 
     <!--Navigation-->
     <string name="register">Register</string>
@@ -34,6 +35,8 @@
     <string name="empty_home_caption">Please start follow another user then see their post here!</string>
 
     <!--Tweet-->
+    <string name="empty_tweet">Tweet is empty</string>
+    <string name="empty_tweet_caption">Please posting tweet then see your tweet here!</string>
     <string name="user_post_list_format">%1s %2s ·%3s</string>
     <string name="post_like_format">%1s Like</string>
     <string name="post_likes_format">%1s Likes</string>
@@ -49,8 +52,10 @@
     <string name="tweet_posted">Tweet posted</string>
     <string name="comment">Comment</string>
     <string name="like">Like</string>
+    <string name="cancel_post_tweet_rationale">Cancel posting tweet?</string>
+    <string name="cancel_post_tweet_rationale_caption">The data that you\'ve input will be deleted.</string>
 
-    <!--User-->
+    <!--Search-->
     <string name="empty_user">No User Found</string>
     <string name="empty_user_caption">It seems like there’s the user your searched is not in our system</string>
     <string name="following">Following</string>
@@ -67,5 +72,15 @@
         In case you missed %1s’s post a Voice with caption:
         \n%2s
     </string>
+
+    <!--Profile-->
+    <string name="logout">Logout</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="joined_date_format">Joined %1s</string>
+    <string name="following_format">%1s Following</string>
+    <string name="follower_format">%1s Follower</string>
+    <string name="followers_format">%1s Followers</string>
+    <string name="logout_rationale">Do want to logout?</string>
+    <string name="logout_rationale_caption">You will be redirected to login page after logout.</string>
 
 </resources>

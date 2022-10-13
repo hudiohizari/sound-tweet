@@ -32,7 +32,7 @@ class SearchViewModel @Inject constructor(
     val isSearchFocused = MutableLiveData<Boolean>()
     val query = MutableLiveData<String>()
     val usersResource = MutableLiveData<Resources<MutableList<User>?>>()
-    val userResourse = MutableLiveData<Resources<User?>>()
+    val userResource = MutableLiveData<Resources<User?>>()
 
     fun searchUser() {
         getSearchUserUseCase(query.value).onEach {
@@ -42,7 +42,7 @@ class SearchViewModel @Inject constructor(
 
     fun followUser(userId: Long?) {
         postFollowUserUseCase(userId).onEach {
-            userResourse.postValue(it)
+            userResource.postValue(it)
         }.launchIn(viewModelScope)
     }
 

@@ -13,6 +13,7 @@
     <string name="second_ago">%1ds</string>
     <string name="minute_ago">%1dm</string>
     <string name="hour_ago">%1dh</string>
+    <string name="failed_to_show_message">Failed to show message</string>
 
     <!--List-->
     <string name="default_empty_list_label">Oops</string>

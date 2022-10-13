@@ -4,9 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import id.hizari.domain.repository.TweetRepository
 import id.hizari.domain.repository.UserRepository
-import id.hizari.domain.usecase.tweet.GetTweetsUseCase
 import id.hizari.domain.usecase.user.*
 
 /**
@@ -39,6 +37,16 @@ object UserModule {
     @Provides
     fun provideGetIsLoggedInLiveUseCase(userRepository: UserRepository): GetIsLoggedInLiveUseCase {
         return GetIsLoggedInLiveUseCase(userRepository)
+    }
+
+    @Provides
+    fun provideGetLoggedInUserLiveUseCase(userRepository: UserRepository): GetLoggedInUserLiveUseCase {
+        return GetLoggedInUserLiveUseCase(userRepository)
+    }
+
+    @Provides
+    fun providePostLogoutUseCase(userRepository: UserRepository): PostLogoutUseCase {
+        return PostLogoutUseCase(userRepository)
     }
 
     @Provides

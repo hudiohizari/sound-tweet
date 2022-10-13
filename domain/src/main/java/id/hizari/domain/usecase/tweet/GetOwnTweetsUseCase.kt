@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.flow
  *
  */
 
-class GetTweetsUseCase(
+class GetOwnTweetsUseCase(
     private val tweetRepository: TweetRepository
 ) {
 

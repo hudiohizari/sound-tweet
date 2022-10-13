@@ -40,12 +40,12 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:onRefreshListener="@{() -> viewModel.onRefresh(context)}"
-            app:refreshing="@{viewModel.isRefreshing}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:onRefreshListener="@{() -> viewModel.onRefresh(context)}"
+            app:refreshing="@{viewModel.isRefreshing}">
 
             <ScrollView
                 android:layout_width="0dp"
@@ -106,6 +106,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginEnd="16dp"
                         android:ellipsize="end"
                         android:maxLines="2"

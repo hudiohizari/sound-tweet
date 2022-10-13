@@ -9,4 +9,7 @@
     <color name="cinder">#141619</color>
     <color name="pale_sky">#687684</color>
     <color name="deep_rose">#CE395F</color>
+
+    <!--color state-->
+    <color name="disabled">@color/dawn_pink</color>
 </resources>

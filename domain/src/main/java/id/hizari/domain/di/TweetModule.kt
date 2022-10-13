@@ -25,8 +25,8 @@ object TweetModule {
     }
 
     @Provides
-    fun provideGetTweetsUseCase(tweetRepository: TweetRepository): GetTweetsUseCase {
-        return GetTweetsUseCase(tweetRepository)
+    fun provideGetOwnTweetsUseCase(tweetRepository: TweetRepository): GetOwnTweetsUseCase {
+        return GetOwnTweetsUseCase(tweetRepository)
     }
 
     @Provides

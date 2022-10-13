@@ -2,10 +2,14 @@ package id.hizari.soundtweet.ui.navigation
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.hizari.common.util.Resources
 import id.hizari.domain.usecase.user.GetIsLoggedInLiveUseCase
 import id.hizari.soundtweet.R
 import id.hizari.soundtweet.base.BaseViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 /**
@@ -20,11 +24,16 @@ import javax.inject.Inject
 class NavigationViewModel @Inject constructor(
     private val getIsLoggedInLiveUseCase: GetIsLoggedInLiveUseCase
 ): BaseViewModel() {
+
+    val isLoggedInResource = MutableLiveData<Resources<Boolean?>>()
     val navigateTo = MutableLiveData<Int>()
-    val isLoggedIn = MutableLiveData(false)
     val isShowFab = MutableLiveData(true)
 
-    fun checkIsLoggedIn() = getIsLoggedInLiveUseCase()
+    fun checkIsLoggedIn() {
+        getIsLoggedInLiveUseCase().onEach {
+            isLoggedInResource.postValue(it)
+        }.launchIn(viewModelScope)
+    }
 
     @Suppress("unused")
     fun View.onClickPostTweet() {

@@ -13,14 +13,11 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Text Input Style style. -->
         <item name="textInputStyle">@style/TextInputLayoutStyle</item>
-        <!-- Button style. -->
-        <item name="materialButtonStyle">@style/ButtonTheme</item>
         <!-- Customize your theme here. -->
     </style>
 
     <!-- TextInputLayout. -->
-    <style name="TextInputLayoutStyle"
-        parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeWidth">1dp</item>
         <item name="boxCornerRadiusTopStart">8dp</item>
         <item name="boxCornerRadiusTopEnd">8dp</item>
@@ -29,7 +26,7 @@
     </style>
 
     <!-- Button. -->
-    <style name="ButtonTheme" parent="Widget.MaterialComponents.Button">
+    <style name="ButtonFill" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="textAllCaps">false</item>
@@ -39,8 +36,10 @@
         <item name="android:textColor">@color/selector_button_text</item>
         <item name="android:backgroundTint">@color/selector_button</item>
         <item name="rippleColor">@color/white</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
-    <style name="ButtonThinTheme" parent="Widget.MaterialComponents.Button">
+
+    <style name="ButtonFillThin" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
@@ -49,10 +48,37 @@
         <item name="android:insetBottom">0dp</item>
         <item name="android:minHeight">0dp</item>
         <item name="android:minWidth">0dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingTop">8dp</item>
         <item name="cornerRadius">16dp</item>
         <item name="android:textColor">@color/selector_button_text</item>
         <item name="android:backgroundTint">@color/selector_button</item>
         <item name="rippleColor">@color/white</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="ButtonOutlineThin" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/sf_pro_text_regular</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="android:textColor">@color/selector_button_outline_text</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="strokeColor">@color/selector_button_outline</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="rippleColor">@color/cornflower_blue</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <!-- Text Style. -->
@@ -61,18 +87,21 @@
         <item name="android:textColor">@color/cinder</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextPrimaryLargerBold">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/cinder</item>
         <item name="android:fontFamily">@font/sf_pro_text_bold</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextPrimaryLargeBold">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/cinder</item>
         <item name="android:fontFamily">@font/sf_pro_text_bold</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextPrimaryLargeSemiBold">
@@ -80,12 +109,14 @@
         <item name="android:textColor">@color/cinder</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextPrimaryLarge">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/cinder</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextPrimarySemiBold">
@@ -93,18 +124,21 @@
         <item name="android:textColor">@color/cinder</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextPrimaryLargeRegular">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/cinder</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextPrimaryRegular">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/cinder</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextSecondaryExtraLargeSemiBold">
@@ -112,6 +146,7 @@
         <item name="android:textColor">@color/pale_sky</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextSecondaryLargeSemiBold">
@@ -119,6 +154,7 @@
         <item name="android:textColor">@color/pale_sky</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextSecondarySemiBold">
@@ -126,24 +162,28 @@
         <item name="android:textColor">@color/pale_sky</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextSecondaryLargeRegular">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/pale_sky</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextSecondaryRegular">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/pale_sky</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextSecondarySmall">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/pale_sky</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
 </resources>

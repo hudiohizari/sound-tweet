@@ -57,11 +57,11 @@ class HomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initApiCall()
+        initCall()
         initObserver()
     }
 
-    private fun initApiCall() {
+    private fun initCall() {
         viewModel.getTweets(requireContext())
     }
 

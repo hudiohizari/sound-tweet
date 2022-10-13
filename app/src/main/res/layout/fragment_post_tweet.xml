@@ -42,7 +42,7 @@
                     android:enabled="@{!viewModel.uploadedFileResource.loading &amp;&amp; !viewModel.tweetResource.loading}"
                     android:onClick="@{viewModel::onClickCancel}"
                     android:text="@string/cancel"
-                    android:textColor="@{viewModel.uploadedFileResource.loading || viewModel.tweetResource.loading ? @color/dawn_pink : @color/cornflower_blue}"
+                    android:textColor="@{viewModel.uploadedFileResource.loading || viewModel.tweetResource.loading ? @color/disabled : @color/cornflower_blue}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -50,7 +50,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnPost"
-                    style="@style/ButtonThinTheme"
+                    style="@style/ButtonFillThin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:enabled="@{viewModel.recordingStatus == viewModel.RECORDING_STATUS_PAUSE &amp;&amp; viewModel.caption != null &amp;&amp; !viewModel.uploadedFileResource.loading &amp;&amp; !viewModel.tweetResource.loading}"

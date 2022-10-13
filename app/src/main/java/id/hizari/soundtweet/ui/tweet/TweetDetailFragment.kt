@@ -112,7 +112,7 @@ class TweetDetailFragment : BaseFragment() {
                         STLog.d("Success")
                         it.data?.likes?.let { likes ->
                             val originText = getString(
-                                if (likes == "1") R.string.post_like_format else {
+                                if (likes == "0" || likes == "1") R.string.post_like_format else {
                                     R.string.post_likes_format
                                 },
                                 likes

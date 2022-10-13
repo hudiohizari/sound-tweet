@@ -85,7 +85,7 @@ class SearchFragment : BaseFragment() {
                 else -> STLog.e("Unhandled resource")
             }
         }
-        viewModel.userResourse.observe(viewLifecycleOwner) {
+        viewModel.userResource.observe(viewLifecycleOwner) {
             when (it) {
                 is Resources.Loading -> STLog.d("Loading")
                 is Resources.Success -> viewModel.onRefresh()

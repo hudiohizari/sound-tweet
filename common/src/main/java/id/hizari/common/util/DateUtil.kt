@@ -20,6 +20,7 @@ object DateUtil {
     private const val SERVER_DATE_TIME = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
 
     private const val PRINT_TIME_DATE = "HH:mm ·dd/MM/yyyy"
+    const val PRINT_MONTH_YEAR = "MMMM yyyy"
 
     fun changeDateFormat(
         date: String?,
