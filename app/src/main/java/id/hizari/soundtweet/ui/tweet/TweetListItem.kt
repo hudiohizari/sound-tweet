@@ -60,11 +60,13 @@ class TweetListItem(
 
         binding.onClick = View.OnClickListener { listener.onClick(model) }
         binding.onClickLike = View.OnClickListener { listener.onClickLike(model) }
+        binding.onClickPlay = View.OnClickListener { listener.onClickPlay(model) }
     }
 
     interface Listener {
         fun onClick(item: Tweet)
         fun onClickLike(item: Tweet)
+        fun onClickPlay(item: Tweet)
     }
 
 }
