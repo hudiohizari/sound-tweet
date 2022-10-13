@@ -121,7 +121,6 @@ abstract class BaseTweetListFragment : BaseFragment() {
         mediaPlayer.apply {
             if (isPlaying) {
                 stop()
-                lastTweet = null
                 lastPlayPosition = currentPosition
                 STLog.d("Audio stopped")
             } else STLog.d("Audio not played")

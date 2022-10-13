@@ -137,8 +137,8 @@ class ProfileFragment : BaseTweetListFragment() {
     }
 
     private fun processSuccessGetTweet(list: MutableList<Tweet>?) {
-        val items: MutableList<UnspecifiedTypeItem> = mutableListOf()
         lastList = list ?: mutableListOf()
+        val items: MutableList<UnspecifiedTypeItem> = mutableListOf()
         if (list.isNotNullOrEmpty()) {
             list?.forEach {
                 items.add(TweetListItem(it, object : TweetListItem.Listener {
