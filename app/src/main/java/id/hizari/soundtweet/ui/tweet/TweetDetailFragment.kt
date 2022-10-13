@@ -81,7 +81,7 @@ class TweetDetailFragment : BaseFragment() {
 
     private fun initArgument() {
         args.tweet?.let {
-            viewModel.tweetResource.postValue(Resources.Success(it))
+            viewModel.tweet.postValue(it)
             viewModel.lastId = it.id
         }
     }
@@ -90,14 +90,21 @@ class TweetDetailFragment : BaseFragment() {
         viewModel.apply {
             setListener(object : TweetDetailViewModel.Listener {
                 override fun toggleMedia() {
-                    tweetResource.value?.data?.let {
-                        toggleAudio(it)
-                    } ?: STLog.e("Tweet is null")
+                    tweet.value?.let { toggleAudio(it) } ?: STLog.e("Tweet is null")
                 }
             })
             tweetResource.observe(viewLifecycleOwner) {
                 when (it) {
-                    is Resources.Loading -> STLog.d("Loading")
+                    is Resources.Success -> lastPlayPosition = 0
+                    else -> STLog.e("Unhandled resource = $it")
+                }
+            }
+            tweetResource.observe(viewLifecycleOwner) {
+                when (it) {
+                    is Resources.Loading -> {
+                        STLog.d("Loading")
+                        stopAudio()
+                    }
                     is Resources.Success -> {
                         STLog.d("Success")
                         it.data?.likes?.let { likes ->
@@ -122,18 +129,18 @@ class TweetDetailFragment : BaseFragment() {
         mediaPlayer.apply {
             setOnBufferingUpdateListener { _, percentage ->
                 STLog.d("Buffering = $percentage")
-                viewModel.tweetResource.value?.data?.let {
-                    viewModel.tweetResource.postValue(Resources.Success(it.apply {
+                viewModel.tweet.value?.let {
+                    viewModel.tweet.postValue(it.apply {
                         isBuffering = percentage < 100
-                    }))
+                    })
                 }
             }
             setOnCompletionListener {
                 STLog.d("Audio completed")
-                viewModel.tweetResource.value?.data?.let {
-                    viewModel.tweetResource.postValue(Resources.Success(it.apply {
+                viewModel.tweet.value?.let {
+                    viewModel.tweet.postValue(it.apply {
                         isPLaying = false
-                    }))
+                    })
                 }
                 lastPlayPosition = 0
             }
@@ -145,7 +152,7 @@ class TweetDetailFragment : BaseFragment() {
     }
 
     private fun toggleAudio(item: Tweet) {
-        viewModel.tweetResource.postValue(Resources.Success(
+        viewModel.tweet.postValue(
             item.apply {
                 isPLaying = !(isPLaying ?: false)
                 when (isPLaying) {
@@ -169,7 +176,7 @@ class TweetDetailFragment : BaseFragment() {
                     else -> STLog.e("isPlaying is empty")
                 }
             }
-        ))
+        )
     }
 
     private fun stopAudio() {

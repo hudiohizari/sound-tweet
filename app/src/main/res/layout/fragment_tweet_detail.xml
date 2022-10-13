@@ -76,8 +76,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:adjustViewBounds="true"
-                            android:contentDescription="@{viewModel.tweetResource.data.user.name}"
-                            app:imageUrl="@{viewModel.tweetResource.data.user.imgUrl}"
+                            android:contentDescription="@{viewModel.tweet.user.name}"
+                            app:imageUrl="@{viewModel.tweet.user.imgUrl}"
                             tools:src="@tools:sample/avatars" />
 
                     </com.google.android.material.card.MaterialCardView>
@@ -91,7 +91,7 @@
                         android:layout_marginEnd="16dp"
                         android:ellipsize="end"
                         android:maxLines="2"
-                        android:text="@{viewModel.tweetResource.data.user.name}"
+                        android:text="@{viewModel.tweet.user.name}"
                         app:isAnimateLoading="@{viewModel.tweetResource.loading}"
                         app:layout_constraintBottom_toTopOf="@id/tvUsername"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -110,7 +110,7 @@
                         android:layout_marginEnd="16dp"
                         android:ellipsize="end"
                         android:maxLines="2"
-                        android:text="@{viewModel.tweetResource.data.user.username}"
+                        android:text="@{viewModel.tweet.user.username}"
                         app:isAnimateLoading="@{viewModel.tweetResource.loading}"
                         app:layout_constraintBottom_toBottomOf="@id/cvProfilePicture"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -136,7 +136,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
                         android:layout_marginTop="12dp"
-                        android:text="@{viewModel.tweetResource.data.caption}"
+                        android:text="@{viewModel.tweet.caption}"
                         app:isAnimateLoading="@{viewModel.tweetResource.loading}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -203,7 +203,7 @@
                                     android:layout_height="match_parent"
                                     android:padding="6dp"
                                     android:progressTint="@color/white"
-                                    android:visibility="@{viewModel.tweetResource.data.isBuffering ? View.VISIBLE : View.GONE}"
+                                    android:visibility="@{viewModel.tweet.isBuffering ? View.VISIBLE : View.GONE}"
                                     tools:visibility="gone" />
 
                                 <ImageView
@@ -211,7 +211,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:padding="6dp"
-                                    android:src="@{viewModel.tweetResource.data.isBuffering ? null : viewModel.tweetResource.data.isPLaying ? @drawable/ic_pause : @drawable/ic_play_filled}"
+                                    android:src="@{viewModel.tweet.isBuffering ? null : viewModel.tweet.isPLaying ? @drawable/ic_pause : @drawable/ic_play_filled}"
                                     tools:ignore="ContentDescription"
                                     tools:src="@drawable/ic_play_filled" />
 
@@ -230,7 +230,7 @@
                         android:layout_marginTop="12dp"
                         android:ellipsize="end"
                         android:maxLines="10"
-                        android:text="@{viewModel.tweetResource.data.timeAndDate}"
+                        android:text="@{viewModel.tweet.timeAndDate}"
                         app:isAnimateLoading="@{viewModel.tweetResource.loading}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

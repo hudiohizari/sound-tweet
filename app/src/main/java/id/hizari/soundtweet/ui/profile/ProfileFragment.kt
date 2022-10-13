@@ -116,7 +116,10 @@ class ProfileFragment : BaseTweetListFragment() {
             }
             tweetsResource.observe(viewLifecycleOwner) {
                 when (it) {
-                    is Resources.Loading -> processLoadingGetTweet()
+                    is Resources.Loading -> {
+                        processLoadingGetTweet()
+                        stopAudio()
+                    }
                     is Resources.Success -> {
                         processSuccessGetTweet(it.data)
                         stopAudio()

@@ -117,8 +117,14 @@ class UserProfileFragment : BaseTweetListFragment() {
             }
             tweetsResource.observe(viewLifecycleOwner) {
                 when (it) {
-                    is Resources.Loading -> processLoadingGetTweet()
-                    is Resources.Success -> processSuccessGetTweet(it.data)
+                    is Resources.Loading -> {
+                        processLoadingGetTweet()
+                        stopAudio()
+                    }
+                    is Resources.Success -> {
+                        processSuccessGetTweet(it.data)
+                        stopAudio()
+                    }
                     is Resources.Error -> processFailedGetTweet()
                     else -> STLog.e("Unhandled resource")
                 }

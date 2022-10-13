@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import id.hizari.common.extension.isNotNullOrEmpty
 import id.hizari.common.extension.toast
 import id.hizari.common.util.Resources
+import id.hizari.common.util.STLog
 import id.hizari.domain.model.Tweet
 import id.hizari.domain.usecase.tweet.GetTweetUseCase
 import id.hizari.domain.usecase.tweet.PostLikeTweetUseCase
@@ -35,11 +36,13 @@ class TweetDetailViewModel @Inject constructor(
     var lastId: Long? = -1
 
     val isRefreshing = MutableLiveData<Boolean>()
+    val tweet = MutableLiveData<Tweet?>()
     val tweetResource = MutableLiveData<Resources<Tweet?>>()
 
     private fun getTweet(context: Context, id: Long?) {
         lastId = id
         getTweetUseCase(context, id).onEach {
+            if (it is Resources.Success) tweet.postValue(it.data)
             tweetResource.postValue(it)
         }.launchIn(viewModelScope)
     }
@@ -72,7 +75,7 @@ class TweetDetailViewModel @Inject constructor(
 
     @Suppress("unused")
     fun View.onClickMedia() {
-        if (tweetResource.value?.data?.postUrl.isNotNullOrEmpty()) {
+        if (tweet.value?.postUrl.isNotNullOrEmpty()) {
             listener?.toggleMedia()
         }
     }
@@ -85,7 +88,10 @@ class TweetDetailViewModel @Inject constructor(
     @Suppress("unused")
     fun View.onClickLike() {
         postLikeTweetUseCase(context, tweetResource.value?.data?.id).onEach {
-            tweetResource.postValue(it)
+            when (it) {
+                is Resources.Success -> tweetResource.postValue(it)
+                else -> STLog.e("Unhandled resource type = $it")
+            }
         }.launchIn(viewModelScope)
     }
 

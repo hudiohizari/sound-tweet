@@ -76,30 +76,32 @@ abstract class BaseTweetListFragment : BaseFragment() {
                 lastTweet = item
                 lastPlayPosition = 0
             }
-            item.apply {
-                isPLaying = !(isPLaying ?: false)
-                when (isPLaying) {
-                    true -> {
-                        STLog.d("Play audio")
-                        postUrl?.let {
-                            try {
-                                mediaPlayer.apply {
-                                    reset()
-                                    setDataSource(it)
-                                    prepareAsync()
-                                    isBuffering = true
+            updateAudioItem(
+                item.apply {
+                    isPLaying = !(isPLaying ?: false)
+                    when (isPLaying) {
+                        true -> {
+                            STLog.d("Play audio")
+                            postUrl?.let {
+                                try {
+                                    mediaPlayer.apply {
+                                        reset()
+                                        setDataSource(it)
+                                        prepareAsync()
+                                        isBuffering = true
+                                    }
+                                } catch (e: Exception) {
+                                    STLog.e("${e.message}")
+                                    mediaPlayer.reset()
                                 }
-                            } catch (e: Exception) {
-                                STLog.e("${e.message}")
-                                mediaPlayer.reset()
-                            }
-                        } ?: STLog.e("URL is null")
+                            } ?: STLog.e("URL is null")
+                        }
+                        false -> stopAudio()
+                        else -> STLog.e("isPlaying is empty")
                     }
-                    false -> stopAudio()
-                    else -> STLog.e("isPlaying is empty")
-                }
-                updateAudioItem(this, list)
-            }
+                },
+                list
+            )
         } else STLog.e("List is empty")
     }
 
