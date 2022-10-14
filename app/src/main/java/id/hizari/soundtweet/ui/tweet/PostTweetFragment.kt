@@ -12,7 +12,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.google.auth.oauth2.GoogleCredentials
+import com.google.cloud.speech.v1p1beta1.*
+import com.google.protobuf.ByteString
 import dagger.hilt.android.AndroidEntryPoint
 import id.hizari.common.extension.toast
 import id.hizari.common.util.Resources
@@ -24,6 +28,7 @@ import id.hizari.soundtweet.base.BaseFragment
 import id.hizari.soundtweet.base.BaseViewModel
 import id.hizari.soundtweet.databinding.FragmentPostTweetBinding
 import id.hizari.soundtweet.extention.handleGeneralError
+import kotlinx.coroutines.launch
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -78,6 +83,16 @@ class PostTweetFragment : BaseFragment() {
         }
     }
 
+    private val speechClient: SpeechClient by lazy {
+        requireContext().resources.openRawResource(R.raw.credential).use {
+            SpeechClient.create(
+                SpeechSettings.newBuilder()
+                    .setCredentialsProvider { GoogleCredentials.fromStream(it) }
+                    .build()
+            )
+        }
+    }
+
     private val dirPath by lazy {
         "${requireActivity().externalCacheDir?.absolutePath}/"
     }
@@ -109,6 +124,7 @@ class PostTweetFragment : BaseFragment() {
 
         super.onDestroy()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -138,45 +154,71 @@ class PostTweetFragment : BaseFragment() {
     }
 
     private fun initObserver() {
-        viewModel.setListener(object : PostTweetViewModel.Listener {
-            override fun requestAudioPermission() {
-                checkAudioPermission()
-            }
+        viewModel.apply {
+            setListener(object : PostTweetViewModel.Listener {
+                override fun requestAudioPermission() {
+                    checkAudioPermission()
+                }
 
-            override fun getFile(): File {
-                return File("$dirPath$fileName")
-            }
-        })
-        viewModel.recordingStatus.observe(viewLifecycleOwner) {
-            when (it) {
-                PostTweetViewModel.RECORDING_STATUS_FIRST_TIME -> startRecord()
-                PostTweetViewModel.RECORDING_STATUS_RESUME -> resumeRecord()
-                PostTweetViewModel.RECORDING_STATUS_PAUSE -> pauseRecord()
-                PostTweetViewModel.RECORDING_STATUS_STOP -> stopRecord()
-                else -> STLog.e("Unhandled recordingStatus = $it")
-            }
-        }
-        viewModel.uploadedFileResource.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resources.Loading -> STLog.d("Loading")
-                is Resources.Success -> {
-                    STLog.d("Success = ${it.data?.url}")
-                    viewModel.postTweet(requireContext(), it.data?.url)
+                override fun getFile(): File {
+                    return File("$dirPath$fileName")
                 }
-                is Resources.Error -> it.throwable?.handleGeneralError(binding.clRoot)
-                else -> STLog.e("Unhandled resource")
-            }
-        }
-        viewModel.tweetResource.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resources.Loading -> STLog.d("Loading")
-                is Resources.Success -> {
-                    STLog.d("Success = ${it.data?.caption}")
-                    toast(getString(R.string.tweet_posted_successfully))
-                    navigateUp()
+
+                override fun transcribe() {
+                    transcribing.postValue(true)
+                    var text = ""
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        val request = RecognizeRequest.newBuilder().apply {
+                            config = RecognitionConfig.newBuilder().apply {
+                                encoding = RecognitionConfig.AudioEncoding.MP3
+                                sampleRateHertz = 16000
+                                languageCode = "en-US"
+                            }.build()
+                            audio = RecognitionAudio.newBuilder().apply {
+                                content = ByteString.copyFrom(File("$dirPath$fileName").readBytes())
+                            }.build()
+                        }.build()
+                        try {
+                            val response = speechClient.recognize(request)
+                            for (result in response.resultsList) {
+                                for (alternative in result.alternativesList) {
+                                    val transcript = alternative.transcript
+                                    STLog.d("transcript = $transcript")
+                                    text = transcript
+                                }
+                            }
+                        } catch (e: Exception) {
+                            STLog.e("Error = ${e.message}")
+                        }
+                        transcribing.postValue(false)
+                        if (text.isEmpty()) toast(getString(R.string.failed_to_transcribe_speech))
+                        viewModel.postFile(requireContext(), text)
+                    }
                 }
-                is Resources.Error -> it.throwable?.handleGeneralError(binding.clRoot)
-                else -> STLog.e("Unhandled resource")
+            })
+            recordingStatus.observe(viewLifecycleOwner) {
+                when (it) {
+                    PostTweetViewModel.RECORDING_STATUS_FIRST_TIME -> startRecord()
+                    PostTweetViewModel.RECORDING_STATUS_RESUME -> resumeRecord()
+                    PostTweetViewModel.RECORDING_STATUS_PAUSE -> pauseRecord()
+                    PostTweetViewModel.RECORDING_STATUS_STOP -> stopRecord()
+                    else -> STLog.e("Unhandled recordingStatus = $it")
+                }
+            }
+            uploadedFileResource.observe(viewLifecycleOwner) {
+                if (it is Resources.Error) it.throwable?.handleGeneralError(binding.clRoot)
+            }
+            tweetResource.observe(viewLifecycleOwner) {
+                when (it) {
+                    is Resources.Loading -> STLog.d("Loading")
+                    is Resources.Success -> {
+                        STLog.d("Success = ${it.data?.caption}")
+                        toast(getString(R.string.tweet_posted_successfully))
+                        navigateUp()
+                    }
+                    is Resources.Error -> it.throwable?.handleGeneralError(binding.clRoot)
+                    else -> STLog.e("Unhandled resource")
+                }
             }
         }
     }

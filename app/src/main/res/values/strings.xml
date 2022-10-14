@@ -45,6 +45,7 @@
     <string name="post_like_format">%1s Like</string>
     <string name="post_likes_format">%1s Likes</string>
     <string name="detail_tweet">Detail Tweet</string>
+    <string name="failed_to_transcribe_speech">Failed to transcribe text</string>
     <string name="post">Post</string>
     <string name="insert_a_caption">Insert a caption</string>
     <string name="press_this_button_to_start_recording">Press this button to start recording &#9654;</string>

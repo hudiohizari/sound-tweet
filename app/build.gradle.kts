@@ -41,6 +41,13 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    packagingOptions {
+        resources {
+            excludes.add("META-INF/INDEX.LIST")
+            excludes.add("META-INF/DEPENDENCIES")
+        }
+    }
 }
 
 dependencies {
@@ -59,4 +66,7 @@ dependencies {
     hilt()
     navigation()
     fastAdapter()
+
+    implementation("io.grpc:grpc-okhttp:1.41.0")
+    implementation("com.google.cloud:google-cloud-speech:1.29.1")
 }

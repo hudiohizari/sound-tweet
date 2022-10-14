@@ -47,16 +47,25 @@ class PostTweetViewModel @Inject constructor(
     val recordDuration = MutableLiveData<String>()
     val recordingStatus = MutableLiveData<Int>()
 
+    val transcribing = MutableLiveData<Boolean>()
     val uploadedFileResource = MutableLiveData<Resources<UploadedFile?>>()
     val tweetResource = MutableLiveData<Resources<Tweet?>>()
 
-    fun postTweet(context: Context, url: String?) {
+    fun postFile(context: Context, text: String?) {
+        recordingStatus.postValue(RECORDING_STATUS_STOP)
+        postFileUseCase(listener?.getFile()).onEach {
+            uploadedFileResource.postValue(it)
+            if (it is Resources.Success) postTweet(context, it.data?.url, text)
+        }.launchIn(viewModelScope)
+    }
+
+    private fun postTweet(context: Context, url: String?, text: String?) {
         if (replyingTweetId.value == null){
             postTweetUseCase(
                 context,
                 caption.value,
                 url,
-                ""
+                text
             )
         } else {
             postReplyTweetUseCase(
@@ -64,7 +73,7 @@ class PostTweetViewModel @Inject constructor(
                 replyingTweetId.value,
                 caption.value,
                 url,
-                ""
+                text
             )
         }.onEach {
             tweetResource.postValue(it)
@@ -90,10 +99,7 @@ class PostTweetViewModel @Inject constructor(
 
     @Suppress("unused")
     fun View.onClickPost() {
-        recordingStatus.postValue(RECORDING_STATUS_STOP)
-        postFileUseCase(listener?.getFile()).onEach {
-            uploadedFileResource.postValue(it)
-        }.launchIn(viewModelScope)
+        listener?.transcribe()
     }
 
     @Suppress("unused")
@@ -115,6 +121,7 @@ class PostTweetViewModel @Inject constructor(
     interface Listener {
         fun requestAudioPermission()
         fun getFile(): File
+        fun transcribe()
     }
 
 }
