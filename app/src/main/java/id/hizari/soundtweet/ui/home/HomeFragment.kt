@@ -22,6 +22,7 @@ import id.hizari.soundtweet.R
 import id.hizari.soundtweet.base.BaseTweetListFragment
 import id.hizari.soundtweet.base.BaseViewModel
 import id.hizari.soundtweet.databinding.FragmentHomeBinding
+import id.hizari.soundtweet.ui.tweet.EditCaptionBottomSheet
 import id.hizari.soundtweet.ui.tweet.TweetListItem
 import id.hizari.soundtweet.ui.tweet.TweetListItemLoading
 
@@ -119,7 +120,9 @@ class HomeFragment : BaseTweetListFragment() {
                     }
 
                     override fun onClickMenu(item: Tweet, selectedMenu: Int) {
-                        toast("Edit")
+                        EditCaptionBottomSheet.newInstance(item.id, item.caption).also { d ->
+                            d.show(childFragmentManager, d.tag)
+                        }
                     }
 
                     override fun onClickLike(item: Tweet) {

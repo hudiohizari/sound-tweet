@@ -92,6 +92,12 @@ class TweetDetailFragment : BaseFragment() {
                 override fun toggleMedia() {
                     tweet.value?.let { toggleAudio(it) } ?: STLog.e("Tweet is null")
                 }
+
+                override fun editCaption(tweet: Tweet?) {
+                    EditCaptionBottomSheet.newInstance(tweet?.id, tweet?.caption).also { d ->
+                        d.show(childFragmentManager, d.tag)
+                    }
+                }
             })
             tweet.observe(viewLifecycleOwner) {
                 it?.let { setLikesText(it) }

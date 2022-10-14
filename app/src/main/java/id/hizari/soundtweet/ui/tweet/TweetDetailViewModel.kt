@@ -61,7 +61,7 @@ class TweetDetailViewModel @Inject constructor(
     fun View.onClickTweetMenu() {
         showPopupMenu(R.menu.tweet_list_item_menu) {
             when (it) {
-                R.id.menuEdit -> "navigate()"
+                R.id.menuEdit -> listener?.editCaption(tweet.value)
                 else -> STLog.e("Unhandled menu = $it")
             }
         }
@@ -119,6 +119,7 @@ class TweetDetailViewModel @Inject constructor(
 
     interface Listener {
         fun toggleMedia()
+        fun editCaption(tweet: Tweet?)
     }
 
 }

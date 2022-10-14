@@ -12,7 +12,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import id.hizari.common.extension.addDividerItem
 import id.hizari.common.extension.isNotNullOrEmpty
 import id.hizari.common.extension.setupHighlightedText
-import id.hizari.common.extension.toast
 import id.hizari.common.list.UnspecifiedTypeItem
 import id.hizari.common.list.item.DefaultEmptyListItem
 import id.hizari.common.list.item.DefaultReloadListItem
@@ -25,6 +24,7 @@ import id.hizari.soundtweet.base.BaseTweetListFragment
 import id.hizari.soundtweet.base.BaseViewModel
 import id.hizari.soundtweet.databinding.FragmentUserProfileBinding
 import id.hizari.soundtweet.extention.handleGeneralError
+import id.hizari.soundtweet.ui.tweet.EditCaptionBottomSheet
 import id.hizari.soundtweet.ui.tweet.TweetListItem
 import id.hizari.soundtweet.ui.tweet.TweetListItemLoading
 
@@ -159,7 +159,9 @@ class UserProfileFragment : BaseTweetListFragment() {
                     }
 
                     override fun onClickMenu(item: Tweet, selectedMenu: Int) {
-                        toast("Edit")
+                        EditCaptionBottomSheet.newInstance(item.id, item.caption).also { d ->
+                            d.show(childFragmentManager, d.tag)
+                        }
                     }
 
                     override fun onClickLike(item: Tweet) {

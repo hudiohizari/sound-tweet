@@ -13,6 +13,8 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Text Input Style style. -->
         <item name="textInputStyle">@style/TextInputLayoutStyle</item>
+        <!-- Bottom sheet dialog theme. -->
+        <item name="bottomSheetDialogTheme">@style/BottomSheetTheme</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -184,6 +186,37 @@
         <item name="android:textColor">@color/pale_sky</item>
         <item name="android:fontFamily">@font/sf_pro_text_regular</item>
         <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!--Bottom Sheet.-->
+    <style name="BottomSheetTheme" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <!-- Bottom sheet style. -->
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/cornflower_blue</item>
+        <item name="colorPrimaryVariant">@color/cornflower_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/tropical_blue</item>
+        <item name="colorSecondaryVariant">@color/tropical_blue</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Text Input Style style. -->
+        <item name="textInputStyle">@style/TextInputLayoutStyle</item>
+    </style>
+
+    <style name="BottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceBottomSheetDialog</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
+    <style name="ShapeAppearanceBottomSheetDialog" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">32dp</item>
+        <item name="cornerSizeTopLeft">32dp</item>
     </style>
 
 </resources>

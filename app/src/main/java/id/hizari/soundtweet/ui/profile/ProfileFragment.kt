@@ -24,6 +24,7 @@ import id.hizari.soundtweet.base.BaseTweetListFragment
 import id.hizari.soundtweet.base.BaseViewModel
 import id.hizari.soundtweet.databinding.FragmentProfileBinding
 import id.hizari.soundtweet.extention.handleGeneralError
+import id.hizari.soundtweet.ui.tweet.EditCaptionBottomSheet
 import id.hizari.soundtweet.ui.tweet.TweetListItem
 import id.hizari.soundtweet.ui.tweet.TweetListItemLoading
 
@@ -158,7 +159,9 @@ class ProfileFragment : BaseTweetListFragment() {
                     }
 
                     override fun onClickMenu(item: Tweet, selectedMenu: Int) {
-                        toast("Edit")
+                        EditCaptionBottomSheet.newInstance(item.id, item.caption).also { d ->
+                            d.show(childFragmentManager, d.tag)
+                        }
                     }
 
                     override fun onClickLike(item: Tweet) {
