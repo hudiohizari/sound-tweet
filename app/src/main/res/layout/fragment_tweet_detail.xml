@@ -222,7 +222,6 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:padding="6dp"
-                                    android:progressTint="@color/white"
                                     android:visibility="@{viewModel.tweet.isBuffering ? View.VISIBLE : View.GONE}"
                                     tools:visibility="gone" />
 

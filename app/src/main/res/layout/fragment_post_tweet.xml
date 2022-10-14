@@ -48,6 +48,16 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:textColor="@color/cornflower_blue" />
 
+                <ProgressBar
+                    android:id="@+id/pbLoading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:indeterminateTint="@color/cornflower_blue"
+                    android:visibility="@{viewModel.uploadedFileResource.loading || viewModel.tweetResource.loading  ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="@id/btnPost"
+                    app:layout_constraintEnd_toStartOf="@id/btnPost"
+                    app:layout_constraintTop_toTopOf="@id/btnPost" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnPost"
                     style="@style/ButtonFillThin"
