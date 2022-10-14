@@ -57,6 +57,8 @@
     <string name="like">Like</string>
     <string name="cancel_post_tweet_rationale">Cancel posting tweet?</string>
     <string name="cancel_post_tweet_rationale_caption">The data that you\'ve input will be deleted.</string>
+    <string name="edit_tweet">Edit tweet</string>
+    <string name="tweet_menu">Tweet\'s menu</string>
 
     <!--Search-->
     <string name="empty_user">No User Found</string>

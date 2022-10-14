@@ -16,6 +16,10 @@
             type="android.view.View.OnClickListener" />
 
         <variable
+            name="onClickMenu"
+            type="android.view.View.OnClickListener" />
+
+        <variable
             name="onClickLike"
             type="android.view.View.OnClickListener" />
 
@@ -85,6 +89,22 @@
         <!--            app:layout_constraintTop_toTopOf="parent"-->
         <!--            tools:text="Saya and Dia liked" />-->
 
+        <ImageView
+            android:id="@+id/ivMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/tweet_menu"
+            android:onClick="@{onClickMenu}"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:src="@drawable/ic_vertical_dots"
+            android:visibility="@{item.isOwnTweet ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@id/tvName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvName" />
+
         <TextView
             android:id="@+id/tvName"
             style="@style/TextSecondaryLargeRegular"
@@ -95,7 +115,7 @@
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:maxLines="2"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivMenu"
             app:layout_constraintStart_toEndOf="@id/cvProfilePicture"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="John Lennon" />

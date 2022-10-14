@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.hizari.common.extension.isNotNullOrEmpty
+import id.hizari.common.extension.showPopupMenu
 import id.hizari.common.extension.toast
 import id.hizari.common.util.Resources
 import id.hizari.common.util.STLog
@@ -13,6 +14,7 @@ import id.hizari.domain.model.Tweet
 import id.hizari.domain.usecase.tweet.GetTweetUseCase
 import id.hizari.domain.usecase.tweet.PostLikeTweetUseCase
 import id.hizari.domain.usecase.user.GetIsLoggedInUserUseCase
+import id.hizari.soundtweet.R
 import id.hizari.soundtweet.base.BaseViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -56,6 +58,15 @@ class TweetDetailViewModel @Inject constructor(
         getTweet(context, lastId)
     }
 
+    fun View.onClickTweetMenu() {
+        showPopupMenu(R.menu.tweet_list_item_menu) {
+            when (it) {
+                R.id.menuEdit -> "navigate()"
+                else -> STLog.e("Unhandled menu = $it")
+            }
+        }
+    }
+
     @Suppress("unused")
     fun View.onClickUser() {
         getLoggedInUserUserUseCase().onEach { res ->
@@ -85,11 +96,11 @@ class TweetDetailViewModel @Inject constructor(
         navigateBack()
     }
 
-    @Suppress("unused")
     fun View.onClickLike() {
-        postLikeTweetUseCase(context, tweetResource.value?.data?.id).onEach {
+        postLikeTweetUseCase(context, tweet.value?.id).onEach {
             when (it) {
                 is Resources.Success -> tweetResource.postValue(it)
+                is Resources.Error -> STLog.e("Error = ${it.throwable?.message}")
                 else -> STLog.e("Unhandled resource type = $it")
             }
         }.launchIn(viewModelScope)

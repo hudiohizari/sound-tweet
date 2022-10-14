@@ -24,5 +24,6 @@ data class Tweet(
     val isLiked: Boolean?,
     var isPLaying: Boolean?,
     var isBuffering: Boolean?,
+    var isOwnTweet: Boolean?,
     val user: User?
 ): Parcelable

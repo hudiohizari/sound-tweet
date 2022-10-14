@@ -10,6 +10,7 @@ import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import id.hizari.common.extension.addDividerItem
 import id.hizari.common.extension.isNotNullOrEmpty
+import id.hizari.common.extension.toast
 import id.hizari.common.list.UnspecifiedTypeItem
 import id.hizari.common.list.item.DefaultEmptyListItem
 import id.hizari.common.list.item.DefaultReloadListItem
@@ -115,6 +116,10 @@ class HomeFragment : BaseTweetListFragment() {
                                 isBuffering = false
                             }
                         ))
+                    }
+
+                    override fun onClickMenu(item: Tweet, selectedMenu: Int) {
+                        toast("Edit")
                     }
 
                     override fun onClickLike(item: Tweet) {

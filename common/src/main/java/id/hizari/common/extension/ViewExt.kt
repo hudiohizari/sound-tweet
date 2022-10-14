@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.PopupMenu
 import androidx.databinding.BindingAdapter
 import com.google.android.material.snackbar.Snackbar
 import id.hizari.common.R
@@ -65,10 +66,19 @@ fun View.animateLoading(isAnimateLoading: Boolean?) {
     isAnimateLoading?.let { if (it) loadingAnimation() else stopLoadingAnimation() }
 }
 
-fun View?.hideKeyboard() {
-    if (this != null) {
-        clearFocus()
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(windowToken, 0)
+fun View.hideKeyboard() {
+    clearFocus()
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
+}
+
+fun View.showPopupMenu(menuRes: Int, onClickMenu: (itemId: Int) -> Unit) {
+    PopupMenu(context, this).apply {
+        inflate(menuRes)
+        setOnMenuItemClickListener {
+            onClickMenu(it.itemId)
+            true
+        }
+        show()
     }
 }

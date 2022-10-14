@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import id.hizari.common.extension.addDividerItem
 import id.hizari.common.extension.isNotNullOrEmpty
 import id.hizari.common.extension.setupHighlightedText
+import id.hizari.common.extension.toast
 import id.hizari.common.list.UnspecifiedTypeItem
 import id.hizari.common.list.item.DefaultEmptyListItem
 import id.hizari.common.list.item.DefaultReloadListItem
@@ -155,6 +156,10 @@ class UserProfileFragment : BaseTweetListFragment() {
                                 }
                             )
                         )
+                    }
+
+                    override fun onClickMenu(item: Tweet, selectedMenu: Int) {
+                        toast("Edit")
                     }
 
                     override fun onClickLike(item: Tweet) {

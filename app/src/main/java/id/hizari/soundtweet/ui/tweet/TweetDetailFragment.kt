@@ -93,33 +93,19 @@ class TweetDetailFragment : BaseFragment() {
                     tweet.value?.let { toggleAudio(it) } ?: STLog.e("Tweet is null")
                 }
             })
-            tweetResource.observe(viewLifecycleOwner) {
-                when (it) {
-                    is Resources.Success -> lastPlayPosition = 0
-                    else -> STLog.e("Unhandled resource = $it")
-                }
+            tweet.observe(viewLifecycleOwner) {
+                it?.let { setLikesText(it) }
             }
             tweetResource.observe(viewLifecycleOwner) {
                 when (it) {
                     is Resources.Loading -> {
                         STLog.d("Loading")
                         stopAudio()
+                        lastPlayPosition = 0
                     }
                     is Resources.Success -> {
                         STLog.d("Success")
-                        it.data?.likes?.let { likes ->
-                            val originText = getString(
-                                if (likes == "0" || likes == "1") R.string.post_like_format else {
-                                    R.string.post_likes_format
-                                },
-                                likes
-                            )
-                            val highlightedTexts = arrayOf(likes as String?)
-                            val highlightedColors = arrayOf(R.color.cinder as Int?)
-                            binding.tvLikes.setupHighlightedText(
-                                originText, highlightedTexts, highlightedColors, isBold = true
-                            )
-                        }
+                        setLikesText(it.data)
                     }
                     is Resources.Error -> it.throwable?.handleGeneralError(binding.clRoot)
                     else -> STLog.e("Unhandled resource")
@@ -148,6 +134,22 @@ class TweetDetailFragment : BaseFragment() {
                 start()
                 seekTo(lastPlayPosition)
             }
+        }
+    }
+
+    private fun setLikesText(tweet: Tweet?) {
+        tweet?.likes?.let { likes ->
+            val originText = getString(
+                if (likes == "0" || likes == "1") R.string.post_like_format else {
+                    R.string.post_likes_format
+                },
+                likes
+            )
+            val highlightedTexts = arrayOf(likes as String?)
+            val highlightedColors = arrayOf(R.color.cinder as Int?)
+            binding.tvLikes.setupHighlightedText(
+                originText, highlightedTexts, highlightedColors, isBold = true
+            )
         }
     }
 

@@ -57,6 +57,7 @@ class ProfileViewModel @Inject constructor(
         postLikeTweetUseCase(context, id).onEach {
             when (it) {
                 is Resources.Success -> getTweets(context, false)
+                is Resources.Error -> STLog.e("Error = ${it.throwable?.message}")
                 else -> STLog.e("Unhandled resource type = $it")
             }
         }.launchIn(viewModelScope)

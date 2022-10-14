@@ -29,6 +29,7 @@ data class TweetDTO(
             isLiked = false,
             isPLaying = false,
             isBuffering = false,
+            isOwnTweet = user?.id == loggedInId,
             user = user?.toDomain(loggedInId)
         )
     }
