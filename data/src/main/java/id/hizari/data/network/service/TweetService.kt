@@ -41,6 +41,12 @@ interface TweetService {
         @Body body: PostTweetRequest
     ): Response<TweetDTO>
 
+    @POST("reply/{id}")
+    suspend fun postReplyTweet(
+        @Path("id") id: Long?,
+        @Body body: PostTweetRequest
+    ): Response<TweetDTO>
+
     @POST("like/{id}")
     suspend fun postLikeTweet(
         @Path("id") id: Long?

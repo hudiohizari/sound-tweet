@@ -31,9 +31,12 @@ abstract class BaseTweetListFragment : BaseFragment() {
 
     private var lastTweet: Tweet? = null
     private var lastPlayPosition: Int = 0
+    private var isParentAddedToList = false
     protected var lastList = mutableListOf<Tweet>()
 
     abstract fun getTweetAdapter(): FastItemAdapter<UnspecifiedTypeItem>
+
+    open fun ontItemChanged(position: Int, item: Tweet) { }
 
     override fun onPause() {
         super.onPause()
@@ -67,12 +70,23 @@ abstract class BaseTweetListFragment : BaseFragment() {
         }
     }
 
+    protected fun addParentTweetToList(item: Tweet?) {
+        item?.let {
+            lastList.add(0, it)
+            isParentAddedToList = true
+        } ?: STLog.e("item is null")
+    }
+
     protected fun toggleAudio(item: Tweet, list: MutableList<Tweet>) {
         if (list.isNotEmpty()) {
             if (lastTweet != item) {
-                if (lastTweet?.isPLaying == true) {
-                    updateAudioItem(lastTweet?.apply { isPLaying = !(isPLaying ?: false) }, list)
-                }
+                updateAudioItem(
+                    lastTweet?.apply {
+                        isPLaying = false
+                        isBuffering = false
+                    },
+                    list
+                )
                 lastTweet = item
                 lastPlayPosition = 0
             }
@@ -111,7 +125,8 @@ abstract class BaseTweetListFragment : BaseFragment() {
                 if (list[i].id == tweet.id) {
                     list.removeAt(i)
                     list.add(i, tweet)
-                    getTweetAdapter().notifyAdapterItemChanged(i)
+                    getTweetAdapter().notifyAdapterItemChanged(if (isParentAddedToList) i - 1 else i)
+                    ontItemChanged(i, item)
                     break
                 }
             }

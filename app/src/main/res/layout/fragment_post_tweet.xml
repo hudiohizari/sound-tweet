@@ -55,10 +55,11 @@
                     android:layout_height="wrap_content"
                     android:enabled="@{viewModel.recordingStatus == viewModel.RECORDING_STATUS_PAUSE &amp;&amp; viewModel.caption != null &amp;&amp; !viewModel.uploadedFileResource.loading &amp;&amp; !viewModel.tweetResource.loading}"
                     android:onClick="@{viewModel::onClickPost}"
-                    android:text="@string/post"
+                    android:text="@{viewModel.replyingTweetId == null ? @string/post :@string/comment}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/post" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

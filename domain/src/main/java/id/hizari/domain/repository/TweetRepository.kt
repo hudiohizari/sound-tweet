@@ -23,6 +23,13 @@ interface TweetRepository {
         postUrl: String?,
         text: String?
     ): Tweet?
+    suspend fun postReplyTweet(
+        context: Context,
+        id: Long?,
+        caption: String?,
+        postUrl: String?,
+        text: String?
+    ): Tweet?
     suspend fun postLikeTweets(context: Context, id: Long?): Tweet?
 
 }

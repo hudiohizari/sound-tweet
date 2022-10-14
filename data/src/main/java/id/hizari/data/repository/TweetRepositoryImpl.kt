@@ -70,6 +70,18 @@ class TweetRepositoryImpl @Inject constructor(
         return response?.toDomain(context, dataStore.getLoggedInUser().first()?.id)
     }
 
+    override suspend fun postReplyTweet(
+        context: Context,
+        id: Long?,
+        caption: String?,
+        postUrl: String?,
+        text: String?
+    ): Tweet? {
+        val request = PostTweetRequest(caption, postUrl, text)
+        val response = apiRequest { tweetService.postReplyTweet(id, request) }
+        return response?.toDomain(context, dataStore.getLoggedInUser().first()?.id)
+    }
+
     override suspend fun postLikeTweets(context: Context, id: Long?): Tweet? {
         val response = apiRequest { tweetService.postLikeTweet(id) }
         return response?.toDomain(context, dataStore.getLoggedInUser().first()?.id)

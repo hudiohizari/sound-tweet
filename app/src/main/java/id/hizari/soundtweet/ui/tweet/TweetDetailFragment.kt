@@ -1,7 +1,5 @@
 package id.hizari.soundtweet.ui.tweet
 
-import android.media.AudioAttributes
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +7,19 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import id.hizari.common.extension.addDividerItem
+import id.hizari.common.extension.isNotNullOrEmpty
 import id.hizari.common.extension.setupHighlightedText
+import id.hizari.common.list.UnspecifiedTypeItem
+import id.hizari.common.list.item.DefaultEmptyListItem
+import id.hizari.common.list.performUpdates
 import id.hizari.common.util.Resources
 import id.hizari.common.util.STLog
 import id.hizari.domain.model.Tweet
 import id.hizari.soundtweet.R
-import id.hizari.soundtweet.base.BaseFragment
+import id.hizari.soundtweet.base.BaseTweetListFragment
 import id.hizari.soundtweet.base.BaseViewModel
 import id.hizari.soundtweet.databinding.FragmentTweetDetailBinding
 import id.hizari.soundtweet.extention.handleGeneralError
@@ -30,30 +34,22 @@ import id.hizari.soundtweet.extention.handleGeneralError
 
 
 @AndroidEntryPoint
-class TweetDetailFragment : BaseFragment() {
+class TweetDetailFragment : BaseTweetListFragment() {
 
     private lateinit var binding: FragmentTweetDetailBinding
     private val viewModel: TweetDetailViewModel by viewModels()
     private val args: TweetDetailFragmentArgs by navArgs()
 
-    private val mediaPlayer by lazy {
-        MediaPlayer().apply {
-            setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .build()
-            )
-        }
-    }
-
-    private var lastPlayPosition: Int = 0
-
     override fun getViewModel(): BaseViewModel = viewModel
 
-    override fun onPause() {
-        super.onPause()
+    override fun getTweetAdapter(): FastItemAdapter<UnspecifiedTypeItem> {
+        if (binding.adapter == null) {
+            binding.adapter = FastItemAdapter()
+            binding.rvTweet.addDividerItem()
+            binding.rvTweet.itemAnimator = null
+        }
 
-        stopAudio()
+        return binding.adapter as FastItemAdapter
     }
 
     override fun onCreateView(
@@ -81,36 +77,35 @@ class TweetDetailFragment : BaseFragment() {
 
     private fun initArgument() {
         args.tweet?.let {
-            viewModel.tweet.postValue(it)
-            viewModel.lastId = it.id
-        }
+            viewModel.getTweet(requireContext(), it.id)
+        } ?: STLog.e("Args tweet is null")
     }
 
     private fun initObserver() {
         viewModel.apply {
             setListener(object : TweetDetailViewModel.Listener {
-                override fun toggleMedia() {
-                    tweet.value?.let { toggleAudio(it) } ?: STLog.e("Tweet is null")
+                override fun toggleMedia(tweet: Tweet) {
+                    toggleAudio(tweet, lastList)
                 }
 
-                override fun editCaption(tweet: Tweet?) {
-                    EditCaptionBottomSheet.newInstance(tweet?.id, tweet?.caption).also { d ->
+                override fun editCaption(tweet: Tweet) {
+                    EditCaptionBottomSheet.newInstance(tweet.id, tweet.caption).also { d ->
                         d.show(childFragmentManager, d.tag)
                     }
                 }
             })
-            tweet.observe(viewLifecycleOwner) {
-                it?.let { setLikesText(it) }
-            }
             tweetResource.observe(viewLifecycleOwner) {
                 when (it) {
                     is Resources.Loading -> {
                         STLog.d("Loading")
+                        processLoadingGetTweet()
                         stopAudio()
-                        lastPlayPosition = 0
                     }
                     is Resources.Success -> {
                         STLog.d("Success")
+                        processSuccessGetTweet(it.data?.tweetReplies)
+                        addParentTweetToList(it.data)
+                        stopAudio()
                         setLikesText(it.data)
                     }
                     is Resources.Error -> it.throwable?.handleGeneralError(binding.clRoot)
@@ -118,29 +113,63 @@ class TweetDetailFragment : BaseFragment() {
                 }
             }
         }
-        mediaPlayer.apply {
-            setOnBufferingUpdateListener { _, percentage ->
-                STLog.d("Buffering = $percentage")
-                viewModel.tweet.value?.let {
-                    viewModel.tweet.postValue(it.apply {
-                        isBuffering = percentage < 100
-                    })
-                }
-            }
-            setOnCompletionListener {
-                STLog.d("Audio completed")
-                viewModel.tweet.value?.let {
-                    viewModel.tweet.postValue(it.apply {
-                        isPLaying = false
-                    })
-                }
-                lastPlayPosition = 0
-            }
-            setOnPreparedListener {
-                start()
-                seekTo(lastPlayPosition)
-            }
+    }
+
+    override fun ontItemChanged(position: Int, item: Tweet) {
+        STLog.d("Position = $position")
+        STLog.d("isPLaying = ${item.isPLaying}")
+        STLog.d("isBuffering = ${item.isBuffering}")
+        if (position == 0) viewModel.tweet.postValue(item)
+    }
+
+    private fun processLoadingGetTweet() {
+        val items: MutableList<UnspecifiedTypeItem> = mutableListOf()
+        for (i in 1..5) {
+            items.add(TweetListItemLoading())
         }
+        getTweetAdapter().performUpdates(items)
+    }
+
+    private fun processSuccessGetTweet(list: MutableList<Tweet>?) {
+        lastList = list ?: mutableListOf()
+        val items: MutableList<UnspecifiedTypeItem> = mutableListOf()
+        if (list.isNotNullOrEmpty()) {
+            list?.forEach {
+                items.add(TweetListItem(it, object : TweetListItem.Listener {
+                    override fun onClick(item: Tweet) {
+                        navigate(
+                            TweetDetailFragmentDirections.actionTweetDetailFragmentToTweetDetailFragment(
+                                item.apply {
+                                    isPLaying = false
+                                    isBuffering = false
+                                }
+                            )
+                        )
+                    }
+
+                    override fun onClickMenu(item: Tweet, selectedMenu: Int) {
+                        EditCaptionBottomSheet.newInstance(item.id, item.caption).also { d ->
+                            d.show(childFragmentManager, d.tag)
+                        }
+                    }
+
+                    override fun onClickLike(item: Tweet) {
+                        viewModel.postLikeTweet(requireContext(), item.id)
+                    }
+
+                    override fun onClickPlay(item: Tweet) {
+                        toggleAudio(item, list)
+                    }
+                }))
+            }
+        } else {
+            items.add(
+                DefaultEmptyListItem(
+                    getString(R.string.empty_reply), getString(R.string.empty_reply_caption)
+                )
+            )
+        }
+        getTweetAdapter().performUpdates(items)
     }
 
     private fun setLikesText(tweet: Tweet?) {
@@ -156,45 +185,6 @@ class TweetDetailFragment : BaseFragment() {
             binding.tvLikes.setupHighlightedText(
                 originText, highlightedTexts, highlightedColors, isBold = true
             )
-        }
-    }
-
-    private fun toggleAudio(item: Tweet) {
-        viewModel.tweet.postValue(
-            item.apply {
-                isPLaying = !(isPLaying ?: false)
-                when (isPLaying) {
-                    true -> {
-                        STLog.d("Play audio")
-                        postUrl?.let {
-                            try {
-                                mediaPlayer.apply {
-                                    reset()
-                                    setDataSource(it)
-                                    prepareAsync()
-                                    isBuffering = true
-                                }
-                            } catch (e: Exception) {
-                                STLog.e("${e.message}")
-                                mediaPlayer.reset()
-                            }
-                        } ?: STLog.e("URL is null")
-                    }
-                    false -> stopAudio()
-                    else -> STLog.e("isPlaying is empty")
-                }
-            }
-        )
-    }
-
-    private fun stopAudio() {
-        STLog.d("Stop audio")
-        mediaPlayer.apply {
-            if (isPlaying) {
-                stop()
-                lastPlayPosition = currentPosition
-                STLog.d("Audio stopped")
-            } else STLog.d("Audio not played")
         }
     }
 

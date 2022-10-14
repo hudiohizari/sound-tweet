@@ -88,7 +88,9 @@ class NavigationActivity : AppCompatActivity() {
         navController.apply {
             addOnDestinationChangedListener { _, destination, _ ->
                 STLog.d("destination.id = ${destination.id}")
-                viewModel.isShowFab.postValue(destination.id != R.id.postTweetFragment)
+                viewModel.isShowFab.postValue(
+                    destination.id != R.id.postTweetFragment && destination.id != R.id.tweetDetailFragment
+                )
             }
         }
 

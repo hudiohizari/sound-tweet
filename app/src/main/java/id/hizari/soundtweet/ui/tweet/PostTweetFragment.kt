@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import id.hizari.common.extension.toast
 import id.hizari.common.util.Resources
@@ -39,8 +40,8 @@ import java.util.*
 class PostTweetFragment : BaseFragment() {
 
     private lateinit var binding: FragmentPostTweetBinding
-
     private val viewModel: PostTweetViewModel by viewModels()
+    private val args: PostTweetFragmentArgs by navArgs()
 
     private val timer by lazy {
         Timer(object : Timer.Listener {
@@ -127,7 +128,13 @@ class PostTweetFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initArgs()
         initObserver()
+    }
+
+    private fun initArgs() {
+        STLog.d("args.tweetId = ${args.tweetId}")
+        viewModel.replyingTweetId.postValue(if (args.tweetId == -1L) null else args.tweetId)
     }
 
     private fun initObserver() {

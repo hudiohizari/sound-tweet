@@ -5,9 +5,7 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.hizari.common.extension.isNotNullOrEmpty
 import id.hizari.common.extension.showPopupMenu
-import id.hizari.common.extension.toast
 import id.hizari.common.util.Resources
 import id.hizari.common.util.STLog
 import id.hizari.domain.model.Tweet
@@ -35,17 +33,27 @@ class TweetDetailViewModel @Inject constructor(
     private val getLoggedInUserUserUseCase: GetIsLoggedInUserUseCase
 ) : BaseViewModel() {
 
-    var lastId: Long? = -1
-
     val isRefreshing = MutableLiveData<Boolean>()
     val tweet = MutableLiveData<Tweet?>()
     val tweetResource = MutableLiveData<Resources<Tweet?>>()
 
-    private fun getTweet(context: Context, id: Long?) {
+    private var lastId: Long? = null
+
+    fun getTweet(context: Context, id: Long?) {
         lastId = id
         getTweetUseCase(context, id).onEach {
             if (it is Resources.Success) tweet.postValue(it.data)
             tweetResource.postValue(it)
+        }.launchIn(viewModelScope)
+    }
+
+    fun postLikeTweet(context: Context, id: Long?) {
+        postLikeTweetUseCase(context, id).onEach {
+            when (it) {
+                is Resources.Success -> getTweet(context, lastId)
+                is Resources.Error -> STLog.e("Error = ${it.throwable?.message}")
+                else -> STLog.e("Unhandled resource type = $it")
+            }
         }.launchIn(viewModelScope)
     }
 
@@ -61,7 +69,9 @@ class TweetDetailViewModel @Inject constructor(
     fun View.onClickTweetMenu() {
         showPopupMenu(R.menu.tweet_list_item_menu) {
             when (it) {
-                R.id.menuEdit -> listener?.editCaption(tweet.value)
+                R.id.menuEdit -> tweet.value?.let { tweet ->
+                    listener?.editCaption(tweet)
+                } ?: STLog.e("tweetResource.data is null")
                 else -> STLog.e("Unhandled menu = $it")
             }
         }
@@ -71,7 +81,7 @@ class TweetDetailViewModel @Inject constructor(
     fun View.onClickUser() {
         getLoggedInUserUserUseCase().onEach { res ->
             if (res is Resources.Success) {
-                tweetResource.value?.data?.user?.let {
+                tweet.value?.user?.let {
                     if (it.username != res.data?.username) {
                         navigate(
                             TweetDetailFragmentDirections
@@ -86,24 +96,22 @@ class TweetDetailViewModel @Inject constructor(
 
     @Suppress("unused")
     fun View.onClickMedia() {
-        if (tweet.value?.postUrl.isNotNullOrEmpty()) {
-            listener?.toggleMedia()
-        }
+        tweet.value?.let {
+            listener?.toggleMedia(it)
+        } ?: STLog.e("tweetResource.data is null")
     }
 
+    @Suppress("unused")
     fun View.onClickComment() {
-        context.toast("onClickComment")
-        navigateBack()
+        navigate(
+            TweetDetailFragmentDirections
+                .actionTweetDetailFragmentToPostTweetFragment()
+                    .setTweetId(tweet.value?.id ?: -1)
+        )
     }
 
     fun View.onClickLike() {
-        postLikeTweetUseCase(context, tweet.value?.id).onEach {
-            when (it) {
-                is Resources.Success -> tweetResource.postValue(it)
-                is Resources.Error -> STLog.e("Error = ${it.throwable?.message}")
-                else -> STLog.e("Unhandled resource type = $it")
-            }
-        }.launchIn(viewModelScope)
+        postLikeTweet(context, lastId)
     }
 
     fun onRefresh(context: Context) {
@@ -118,8 +126,8 @@ class TweetDetailViewModel @Inject constructor(
     }
 
     interface Listener {
-        fun toggleMedia()
-        fun editCaption(tweet: Tweet?)
+        fun toggleMedia(tweet: Tweet)
+        fun editCaption(tweet: Tweet)
     }
 
 }

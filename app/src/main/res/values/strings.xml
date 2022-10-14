@@ -40,7 +40,7 @@
 
     <!--Tweet-->
     <string name="empty_tweet">Tweet is empty</string>
-    <string name="empty_tweet_caption">Please post a tweet then see your tweet here!</string>
+    <string name="empty_tweet_caption">Please post a tweet then see your post here!</string>
     <string name="user_post_list_format">%1s %2s ·%3s</string>
     <string name="post_like_format">%1s Like</string>
     <string name="post_likes_format">%1s Likes</string>
@@ -60,6 +60,8 @@
     <string name="edit_caption">Edit caption</string>
     <string name="tweet_menu">Tweet\'s menu</string>
     <string name="tweet_caption_edited">Tweet\'s caption edited</string>
+    <string name="empty_reply">Reply is empty</string>
+    <string name="empty_reply_caption">Please post a comment then see your post here!</string>
 
     <!--Search-->
     <string name="empty_user">No User Found</string>

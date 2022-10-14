@@ -72,7 +72,14 @@
         android:id="@+id/postTweetFragment"
         android:name="id.hizari.soundtweet.ui.tweet.PostTweetFragment"
         android:label="@string/post_tweet"
-        tools:layout="@layout/fragment_post_tweet" />
+        tools:layout="@layout/fragment_post_tweet">
+
+        <argument
+            android:name="tweetId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/tweetDetailFragment"
@@ -88,6 +95,14 @@
         <action
             android:id="@+id/action_tweetDetailFragment_to_userProfileFragment"
             app:destination="@id/userProfileFragment" />
+
+        <action
+            android:id="@+id/action_tweetDetailFragment_to_postTweetFragment"
+            app:destination="@id/postTweetFragment" />
+
+        <action
+            android:id="@+id/action_tweetDetailFragment_to_tweetDetailFragment"
+            app:destination="@id/tweetDetailFragment" />
 
     </fragment>
 

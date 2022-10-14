@@ -11,6 +11,7 @@ import id.hizari.common.util.Resources
 import id.hizari.domain.model.Tweet
 import id.hizari.domain.model.UploadedFile
 import id.hizari.domain.usecase.filestack.PostFileUseCase
+import id.hizari.domain.usecase.tweet.PostReplyTweetUseCase
 import id.hizari.domain.usecase.tweet.PostTweetUseCase
 import id.hizari.soundtweet.R
 import id.hizari.soundtweet.base.BaseViewModel
@@ -30,7 +31,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PostTweetViewModel @Inject constructor(
     private val postFileUseCase: PostFileUseCase,
-    private val postTweetUseCase: PostTweetUseCase
+    private val postTweetUseCase: PostTweetUseCase,
+    private val postReplyTweetUseCase: PostReplyTweetUseCase
 ) : BaseViewModel() {
 
     companion object {
@@ -40,6 +42,7 @@ class PostTweetViewModel @Inject constructor(
         const val RECORDING_STATUS_STOP = 3
     }
 
+    val replyingTweetId = MutableLiveData<Long>()
     val caption = MutableLiveData<String>()
     val recordDuration = MutableLiveData<String>()
     val recordingStatus = MutableLiveData<Int>()
@@ -48,12 +51,22 @@ class PostTweetViewModel @Inject constructor(
     val tweetResource = MutableLiveData<Resources<Tweet?>>()
 
     fun postTweet(context: Context, url: String?) {
-        postTweetUseCase(
-            context,
-            caption.value,
-            url,
-            ""
-        ).onEach {
+        if (replyingTweetId.value == null){
+            postTweetUseCase(
+                context,
+                caption.value,
+                url,
+                ""
+            )
+        } else {
+            postReplyTweetUseCase(
+                context,
+                replyingTweetId.value,
+                caption.value,
+                url,
+                ""
+            )
+        }.onEach {
             tweetResource.postValue(it)
         }.launchIn(viewModelScope)
     }

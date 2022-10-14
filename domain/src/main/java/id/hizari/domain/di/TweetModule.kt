@@ -45,6 +45,11 @@ object TweetModule {
     }
 
     @Provides
+    fun providePostReplyTweetUseCase(tweetRepository: TweetRepository): PostReplyTweetUseCase {
+        return PostReplyTweetUseCase(tweetRepository)
+    }
+
+    @Provides
     fun providePostLikeTweetUseCase(tweetRepository: TweetRepository): PostLikeTweetUseCase {
         return PostLikeTweetUseCase(tweetRepository)
     }
