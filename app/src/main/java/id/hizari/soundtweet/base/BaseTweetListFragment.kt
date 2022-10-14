@@ -59,7 +59,10 @@ abstract class BaseTweetListFragment : BaseFragment() {
             }
             setOnCompletionListener {
                 STLog.d("Audio completed")
-                lastTweet = lastTweet?.apply { isPLaying = false }
+                lastTweet = lastTweet?.apply {
+                    isPLaying = false
+                    isBuffering = false
+                }
                 updateAudioItem(lastTweet, lastList)
                 lastPlayPosition = 0
             }
