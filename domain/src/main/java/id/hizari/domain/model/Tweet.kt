@@ -14,6 +14,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Tweet(
     val caption: String?,
+    val text: String?,
     val postedTimeAgo: String?,
     val timeAndDate: String?,
     val id: Long?,

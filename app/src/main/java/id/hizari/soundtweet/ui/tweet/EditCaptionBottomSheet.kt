@@ -22,9 +22,6 @@ import id.hizari.soundtweet.databinding.BottomSheetEditCaptionBinding
 @AndroidEntryPoint
 class EditCaptionBottomSheet : BaseBottomSheetFragment(), EditCaptionViewModel.Listener {
 
-    private lateinit var binding: BottomSheetEditCaptionBinding
-    private val viewModel: EditCaptionViewModel by viewModels()
-
     companion object {
         const val TWEET_ID = "tweetId_editCaptionBottomSheet"
         const val EXISTING_CAPTION = "existingCaption_editCaptionBottomSheet"
@@ -41,6 +38,9 @@ class EditCaptionBottomSheet : BaseBottomSheetFragment(), EditCaptionViewModel.L
             }
         }
     }
+
+    private lateinit var binding: BottomSheetEditCaptionBinding
+    private val viewModel: EditCaptionViewModel by viewModels()
 
     private val tweetId by lazy { arguments?.getLong(TWEET_ID) }
     private val existingCaption by lazy { arguments?.getString(EXISTING_CAPTION, null) }

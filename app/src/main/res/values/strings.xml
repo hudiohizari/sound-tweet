@@ -63,6 +63,8 @@
     <string name="tweet_caption_edited">Tweet\'s caption edited</string>
     <string name="empty_reply">Reply is empty</string>
     <string name="empty_reply_caption">Please post a comment then see your post here!</string>
+    <string name="see_audio_as_text">See audio as text</string>
+    <string name="audio_as_text_failed">The post\'s audio is failed to be transcribe as text</string>
 
     <!--Search-->
     <string name="empty_user">No User Found</string>

@@ -7,6 +7,7 @@ import id.hizari.domain.model.Tweet
 
 data class TweetDTO(
     val caption: String?,
+    val text: String?,
     val createdAt: String?,
     val id: Long?,
     val likes: Long?,
@@ -19,6 +20,7 @@ data class TweetDTO(
     fun toDomain(context: Context, loggedInId: Long?): Tweet {
         return Tweet(
             caption,
+            text,
             DateUtil.getTimeAgo(context, createdAt),
             DateUtil.changeDateFormat(createdAt),
             id,

@@ -114,6 +114,13 @@ class TweetDetailViewModel @Inject constructor(
         postLikeTweet(context, lastId)
     }
 
+    @Suppress("unused")
+    fun View.onClickSeeAsText() {
+        tweet.value?.let {
+            listener?.openAsText(it)
+        } ?: STLog.e("tweetResource.data is null")
+    }
+
     fun onRefresh(context: Context) {
         getTweet(context, lastId)
         isRefreshing.postValue(false)
@@ -128,6 +135,7 @@ class TweetDetailViewModel @Inject constructor(
     interface Listener {
         fun toggleMedia(tweet: Tweet)
         fun editCaption(tweet: Tweet)
+        fun openAsText(tweet: Tweet)
     }
 
 }

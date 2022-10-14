@@ -93,16 +93,20 @@ class TweetDetailFragment : BaseTweetListFragment() {
                         d.show(childFragmentManager, d.tag)
                     }
                 }
+
+                override fun openAsText(tweet: Tweet) {
+                    SeeVoiceAsTextBottomSheet.newInstance(tweet.text).also { d ->
+                        d.show(childFragmentManager, d.tag)
+                    }
+                }
             })
             tweetResource.observe(viewLifecycleOwner) {
                 when (it) {
                     is Resources.Loading -> {
-                        STLog.d("Loading")
                         processLoadingGetTweet()
                         stopAudio()
                     }
                     is Resources.Success -> {
-                        STLog.d("Success")
                         processSuccessGetTweet(it.data?.tweetReplies)
                         addParentTweetToList(it.data)
                         stopAudio()
@@ -116,9 +120,6 @@ class TweetDetailFragment : BaseTweetListFragment() {
     }
 
     override fun ontItemChanged(position: Int, item: Tweet) {
-        STLog.d("Position = $position")
-        STLog.d("isPLaying = ${item.isPLaying}")
-        STLog.d("isBuffering = ${item.isBuffering}")
         if (position == 0) viewModel.tweet.postValue(item)
     }
 
