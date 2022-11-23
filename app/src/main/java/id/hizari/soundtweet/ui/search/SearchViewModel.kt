@@ -42,10 +42,11 @@ class SearchViewModel @Inject constructor(
     }
 
     fun followUser(userId: Long?) {
-        postFollowUserUseCase(userId).onEach {when (it) {
-            is Resources.Success -> searchUser(false)
-            else -> STLog.e("Unhandled resource type = $it")
-        }
+        postFollowUserUseCase(userId).onEach {
+            when (it) {
+                is Resources.Success -> searchUser(false)
+                else -> STLog.e("Unhandled resource type = $it")
+            }
         }.launchIn(viewModelScope)
     }
 
